@@ -1,0 +1,33 @@
+<h2 mat-dialog-title>CAMBIO DE CONTRASEÑA</h2>
+
+
+<mat-dialog-content [formGroup]="modificaContrasena" name="modificaContrasena" class="modifica-container">
+
+  <h3>Recuerde que la contraseña debe tener como máximo 10 caracteres</h3>
+  <mat-divider class="mb-4"></mat-divider>
+
+  <mat-form-field>
+    <input type="password" matInput placeholder="Ingrese Contraseña Actual" maxlength="10" [formControl]="contrasenaActual"  required>
+    <mat-error *ngIf="contrasenaActual.invalid">{{getErrorMessage('contrasenaActual')}}</mat-error>
+    <pre  *ngIf="!existeContrasenaActual">{{mensajeErrorContrasenaActual}}</pre>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input type="password" matInput placeholder="Ingrese Contraseña" maxlength="10" [formControl]="contrasena"  required>
+    <mat-error *ngIf="contrasena.invalid">{{getErrorMessage('contrasena')}}</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput type="password" placeholder="Repetir contraseña" maxlength="10" [formControl]="contrasena2"  required>
+    <mat-error *ngIf="contrasena2.invalid">{{getErrorMessage('contrasena2')}}</mat-error>
+    <mat-error *ngIf="checarSiSonIguales()"></mat-error>
+    <pre  *ngIf="checarSiSonIguales()">Las contraseñas no coinciden</pre>
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <button class="colorFondoBoton" mat-raised-button  (click)="enviar()"   [disabled]="modificaContrasena.invalid">ACEPTAR</button>
+    </div>
+  </div>
+</mat-dialog-actions>

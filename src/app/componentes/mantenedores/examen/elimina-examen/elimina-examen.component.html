@@ -1,0 +1,30 @@
+<h2 mat-dialog-title>ELIMINA EXÁMEN</h2>
+
+<mat-dialog-content name="elimina" class="elimina-container">
+
+  <mat-form-field color="accent">
+    <input matInput placeholder="Código Exámen"  value="{{datoPar.codigoExamen}}" disabled='true' >
+  </mat-form-field>
+
+  <mat-form-field color="accent">
+    <input matInput placeholder="Nombre"  value="{{datoPar.nombre}}" disabled='true' >
+  </mat-form-field>
+
+  <mat-form-field>
+      <input matInput placeholder="Sigla" value="{{datoPar.sigla}}" disabled='true'>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Precio" value="{{datoPar.precio}}" disabled='true'>
+  </mat-form-field>
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <div class="col-md-6">
+      <button mat-raised-button color="warn" (click)="cerrar()" mat-dialog-close  [disabled]=false>Cerrar</button>
+    </div>
+    <div class="col-md-6">
+      <button class="colorFondoBoton" mat-raised-button  (click)="enviar()"  mat-dialog-close >ELIMINA</button>
+    </div>
+</mat-dialog-actions>

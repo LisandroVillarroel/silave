@@ -1,0 +1,35 @@
+<h3 class=" text-center">CAMBIO DE CONTRASEÑA</h3>
+
+<div *ngIf="validaToken==1">
+  <mat-dialog-content [formGroup]="resetContrasena" name="resetContrasena" class="modifica-container">
+
+    <h4>Recuerde que la contraseña debe tener como máximo 10 caracteres</h4>
+    <mat-divider class="mb-4"></mat-divider>
+
+
+    <mat-form-field>
+      <input type="password" matInput placeholder="Ingrese Contraseña" maxlength="10" [formControl]="contrasena"  required>
+      <mat-error *ngIf="contrasena.invalid">{{getErrorMessage('contrasena')}}</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type="password" placeholder="Repetir contraseña" maxlength="10" [formControl]="contrasena2"  required>
+      <mat-error *ngIf="contrasena2.invalid">{{getErrorMessage('contrasena2')}}</mat-error>
+      <mat-error *ngIf="checarSiSonIguales()"></mat-error>
+      <pre  *ngIf="checarSiSonIguales()">Las contraseñas no coinciden</pre>
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <button class="colorFondoBoton" mat-raised-button  (click)="enviar()"   [disabled]="resetContrasena.invalid">ACEPTAR</button>
+      </div>
+    </div>
+  </mat-dialog-actions>
+</div>
+
+<div class=" text-center" *ngIf="validaToken==2">
+  <img class=" text-center" src="./../../../../assets/imagenes/error.jpg">
+  <h1 class=" text-center">Este enlace está caducado</h1>
+  <h4 class=" text-center">Vuelva a solicitar contraseña</h4>
+</div>

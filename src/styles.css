@@ -1,1 +1,133 @@
 /* You can add global styles to this file, and also import other style files */
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+/*Ventanad modal AngularMaterial*/
+mat-dialog-container {
+    padding:0!important;
+  }
+  mat-toolbar{
+    color: rgb(255, 102, 0) !important;
+    background-color: black !important;
+  }
+  .mat-button .mat-button-wrapper>*, .mat-fab .mat-button-wrapper>*, .mat-flat-button .mat-button-wrapper>*, .mat-icon-button .mat-button-wrapper>*, .mat-mini-fab .mat-button-wrapper>*, .mat-raised-button .mat-button-wrapper>*, .mat-stroked-button .mat-button-wrapper>* {
+    vertical-align: baseline !important;
+  }
+
+  /*Fin Ventanad modal AngularMaterial*/
+
+  /* Mantenedores Material*/
+    /* Titulos Mantenedores*/
+  .mat-dialog-title{
+    color: black !important;
+    background-color: #118383 !important;
+    font-size: 14px!important;
+    text-align: center;
+  }
+  /* Fin Titulos Mantenedores*/
+
+  td.mat-cell:last-of-type{
+    padding-right: 0px;
+  }
+
+  th.mat-cell:last-of-type{
+    padding-right: 0px;
+  }
+  tr.mat-header-row {
+    height: 45px !important;
+  }
+  /*Cambia color cabecera table*/
+    th.mat-header-cell,mat-header-cell{
+      color: black !important;
+      background-color: #118383 !important;
+      font-size: 10px!important;
+
+    }
+
+    tr.example-element-row:hover {
+      background: hsla(24, 96%, 49%, 0.733);
+    }
+
+    tr.example-element-row:active {
+      background: #2904f8;
+    }
+
+    tr.mat-footer-row, tr.mat-row {
+      height: 30px !important;
+  }
+
+  .mat-cell, .mat-footer-cell {
+      font-size: 11px;
+  }
+
+
+  .material-icons {
+
+    font-size: 18px !important;
+
+  }
+/*iconos*/
+  button.mat-accent{
+    color:#dced4f !important;;
+  }
+  button.mat-accent:hover{
+    color:black !important;
+  }
+  button.mat-accent.nuevo:hover{
+    color:white !important;
+  }
+  /* Fin Mantenedores Material*/
+
+  /*Agregar Material*/
+  .mat-toolbar-row, .mat-toolbar-single-row {
+    height: 45px !important;;
+}
+/*Agregar Material*/
+
+/*Botones*/
+.mat-raised-button.mat-primary {
+  background-color: black;
+  color:rgb(255, 102, 0);
+}
+/* Fin Botones*/
+/*input*/
+.example-full-width {
+  width: 100%;
+}
+
+example-margin {
+  margin: 0 10px;
+}
+
+.mat-form-field {
+  font-size: 12px !important;
+  font-family: Roboto,"Helvetica Neue",sans-serif;
+}
+.form-control {
+height: calc(.5em + .75rem + 2px) !important; /*tamaño height de inpul*/
+}
+/*Fin input*/
+/*Despliega*/
+.colorNombre{
+  background-color: #74ac7d;
+  font-size: 14px;
+ }
+
+ .colorCampo{
+   background-color: #c8cac9;
+   font-size: 14px;
+  }
+/*Fin Despliega*/
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+.mat-drawer-inner-container {
+  overflow: revert !important;
+
+}
+
+/*Icono ordena tabla*/
+.mat-sort-header-arrow {
+  color: #dced4f;
+}

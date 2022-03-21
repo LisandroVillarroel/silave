@@ -1,0 +1,46 @@
+.consulta-container {
+  display: flex;
+  flex-direction: column;
+  padding: 0 10%;
+}
+
+.consulta-container > * {
+  width: 95%;
+}
+
+.colorFondoBoton {
+  color: white;
+  background-color: black;
+}
+
+.mat-raised-button {
+  min-width: 100%;
+}
+
+.mat-dialog-container {
+  padding: 50px !important;
+
+}
+
+.mat-dialog-content{
+  margin: 0;
+}
+
+.mat-input-element:disabled, .mat-form-field-type-mat-native-select.mat-form-field-disabled .mat-form-field-infix::after {
+  color: rgb(255, 102, 0) !important;
+}
+
+::ng-deep .mat-form-field-appearance-legacy .mat-form-field-label {
+  color: #000000;
+}
+
+.color{
+  color: rgba(20, 20, 20, 0.548);
+}
+
+.alinearDerecha{
+  text-align: right;
+  align-content:flex-end;
+  align-items:flex-end;
+  align-self:flex-end;
+}

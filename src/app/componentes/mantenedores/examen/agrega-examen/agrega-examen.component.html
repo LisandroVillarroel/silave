@@ -1,0 +1,39 @@
+<h2 mat-dialog-title>AGREGA EXÁMEN</h2>
+
+<mat-dialog-content [formGroup]="agregaExamen" name="agregaExamen" class="agrega-container">
+  <mat-form-field>
+    <input matInput placeholder="Ingrese Código" [formControl]="codigoExamen" >
+    <mat-error *ngIf="codigoExamen.invalid">{{getErrorMessage('codigoExamen')}}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Ingrese Código Interno" [formControl]="codigoInterno" >
+    <mat-error *ngIf="codigoInterno.invalid">{{getErrorMessage('codigoInterno')}}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Ingrese Nombre" [formControl]="nombre"  required>
+    <mat-error *ngIf="nombre.invalid">{{getErrorMessage('nombre')}}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+      <input matInput placeholder="Ingrese Sigla" [formControl]="sigla" required>
+      <mat-error *ngIf="sigla.invalid">{{getErrorMessage('Sigla')}}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Ingrese Precio" [formControl]="precio" required>
+    <mat-error *ngIf="precio.invalid">{{getErrorMessage('precio')}}</mat-error>
+  </mat-form-field>
+
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <div class="col-md-6">
+      <button mat-raised-button color="warn" (click)="cerrar()" mat-dialog-close  [disabled]=false>Cerrar</button>
+    </div>
+    <div class="col-md-6">
+      <button class="colorFondoBoton" mat-raised-button  (click)="enviar()" [disabled]="agregaExamen.invalid">ENVIAR</button>
+    </div>
+</mat-dialog-actions>

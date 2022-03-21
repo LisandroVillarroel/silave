@@ -1,0 +1,451 @@
+<div id="htmlData">
+  <div class="margen-container margen-imprimir m-top-1">
+    <div class="text-end">
+
+      <img class="spacerDerecha" src="./../../../../../../assets/imagenes/mcvet.png" width="250px" height="150px">
+    </div>
+
+    <h2 mat-dialog-title>HEMOGRAMA</h2>
+
+    <app-imprime-ficha-cabecera [datoFichaRecibeFicha]="datoFichaRecibe"></app-imprime-ficha-cabecera>
+
+    <div id="cuerpoExamen">
+      <div id="serieRoja">
+          <h4>SERIE ROJA</h4>
+
+          <div class="row anchoTitulo">
+            <div  class="col-md-2 border border-dark alineaVertical border-end-0 destacado">
+              PARÁMETRO
+            </div>
+            <div class="col-md-2 border border-dark border-left-0 border-end-0 alineaVertical destacado">
+              RESULTADO
+            </div>
+            <div class="col-md-2 border border-dark border-left-0 border-end-0 alineaVertical destacado" >
+              UNIDAD
+            </div>
+            <div class="col-md-6 border border-dark border-left-0 " >
+              <div class="row ">
+                <div class="col-md-12  border-dark border-bottom alineaVertical destacado">
+                  VALORES DE REFERENCIA
+                </div>
+              </div>
+              <div class="row ">
+                <div class="col-md-6 border-dark border-top-0 border-left-0 border-bottom-0 alineaVertical destacado">
+                  Caninos
+                </div>
+                <div class="col-md-6 border-dark  border-0 alineaVertical destacado">
+                  Felinos
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="row" >
+            <div class="col-md-2 border border-dark border-top-0  border-end-0 alineaV destacado">
+              {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieRoja.IHemogramaSerieRoja[0].parametro}} <!--Hematocrito-->
+            </div>
+            <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical" [ngStyle]="{'font-weight':srHematocritoFlag==true?'bold':'normal'}">
+            {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieRoja.IHemogramaSerieRoja[0].resultado}}
+            </div>
+            <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+              {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieRoja.IHemogramaSerieRoja[0].unidad}}
+            </div>
+            <div class="col-md-3 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical " >
+              {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieRoja.IHemogramaSerieRoja[0].caninos}}
+            </div>
+            <div class="col-md-3 border border-dark border-left-0 border-top-0 alineaVertical" >
+              {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieRoja.IHemogramaSerieRoja[0].felinos}}
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-2 border border-dark border-top-0 border-end-0 alineaV destacado">
+              {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieRoja.IHemogramaSerieRoja[1].parametro}} <!--Eritrocitos-->
+            </div>
+            <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical" [ngStyle]="{'font-weight':srEritrocitosFlag==true?'bold':'normal'}">
+              {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieRoja.IHemogramaSerieRoja[1].resultado}}
+            </div>
+            <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+              {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieRoja.IHemogramaSerieRoja[1].unidad}}
+            </div>
+            <div class="col-md-3 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+              {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieRoja.IHemogramaSerieRoja[1].caninos}}
+            </div>
+            <div class="col-md-3 border border-dark border-left-0 border-top-0 alineaVertical">
+              {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieRoja.IHemogramaSerieRoja[1].felinos}}
+            </div>
+
+          </div>
+
+          <div class="row">
+            <div class="col-md-2 border border-dark border-top-0 border-end-0 alineaV destacado">
+              {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieRoja.IHemogramaSerieRoja[2].parametro}} <!--Hemoglobina-->
+            </div>
+            <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical" [ngStyle]="{'font-weight':srHemoglobinaFlag==true?'bold':'normal'}">
+              {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieRoja.IHemogramaSerieRoja[2].resultado}}
+            </div>
+            <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+              {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieRoja.IHemogramaSerieRoja[2].unidad}}
+            </div>
+            <div class="col-md-3 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+              {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieRoja.IHemogramaSerieRoja[2].caninos}}
+            </div>
+            <div class="col-md-3 border border-dark border-left-0 border-top-0 alineaVertical">
+              {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieRoja.IHemogramaSerieRoja[2].felinos}}
+            </div>
+
+          </div>
+
+          <div class="row">
+            <div class="col-md-2 border border-dark border-top-0 border-end-0 alineaV destacado">
+              {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieRoja.IHemogramaSerieRoja[3].parametro}} <!--VCM-->
+            </div>
+            <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical" [ngStyle]="{'font-weight':srVcmFlag==true?'bold':'normal'}">
+              {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieRoja.IHemogramaSerieRoja[3].resultado}}
+
+            </div>
+            <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+              {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieRoja.IHemogramaSerieRoja[3].unidad}}
+            </div>
+            <div class="col-md-3 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+              {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieRoja.IHemogramaSerieRoja[3].caninos}}
+            </div>
+            <div class="col-md-3 border border-dark border-left-0 border-top-0 alineaVertical">
+              {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieRoja.IHemogramaSerieRoja[3].felinos}}
+            </div>
+
+          </div>
+
+          <div class="row">
+            <div class="col-md-2 border border-dark border-top-0 border-end-0 alineaV destacado">
+              {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieRoja.IHemogramaSerieRoja[4].parametro}} <!--CHCM-->
+            </div>
+            <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical" [ngStyle]="{'font-weight':srChcmFlag==true?'bold':'normal'}">
+              {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieRoja.IHemogramaSerieRoja[4].resultado}}
+
+            </div>
+            <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+              {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieRoja.IHemogramaSerieRoja[4].unidad}}
+            </div>
+            <div class="col-md-3 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+              {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieRoja.IHemogramaSerieRoja[4].caninos}}
+            </div>
+            <div class="col-md-3 border border-dark border-left-0 border-top-0 alineaVertical">
+              {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieRoja.IHemogramaSerieRoja[4].felinos}}
+            </div>
+
+          </div>
+
+          <div class="row">
+            <div class="col-md-2 border border-dark border-top-0 border-end-0 alineaV destacado">
+              {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieRoja.IHemogramaSerieRoja[5].parametro}} <!--HCM-->
+            </div>
+            <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical" [ngStyle]="{'font-weight':srHcmFlag==true?'bold':'normal'}">
+              {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieRoja.IHemogramaSerieRoja[5].resultado}}
+            </div>
+            <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+              {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieRoja.IHemogramaSerieRoja[5].unidad}}
+            </div>
+            <div class="col-md-3 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+              {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieRoja.IHemogramaSerieRoja[5].caninos}}
+            </div>
+            <div class="col-md-3 border border-dark border-left-0 border-top-0 alineaVertical">
+              {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieRoja.IHemogramaSerieRoja[5].felinos}}
+            </div>
+
+          </div>
+
+          <div class="row">
+            <div class="col-md-2 border border-dark border-top-0 border-end-0 alineaV destacado">
+              {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieRoja.IHemogramaSerieRoja[6].parametro}} <!--Reticulocitos-->
+            </div>
+            <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical" [ngStyle]="{'font-weight':srReticulocitosFlag==true?'bold':'normal'}">
+              {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieRoja.IHemogramaSerieRoja[6].resultado}}
+            </div>
+            <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+              {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieRoja.IHemogramaSerieRoja[6].unidad}}
+            </div>
+            <div class="col-md-3 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+              {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieRoja.IHemogramaSerieRoja[6].caninos}}
+            </div>
+            <div class="col-md-3 border border-dark border-left-0 border-top-0 alineaVertical">
+              {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieRoja.IHemogramaSerieRoja[6].felinos}}
+            </div>
+
+          </div>
+
+          <div class="row">
+            <div class="col-md-2 border border-dark border-top-0 border-end-0 alineaV destacado">
+              {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieRoja.IHemogramaSerieRoja[7].parametro}} <!--Plaquetas-->
+            </div>
+            <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical" [ngStyle]="{'font-weight':srPlaquetasFlag==true?'bold':'normal'}">
+              {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieRoja.IHemogramaSerieRoja[7].resultado}}
+            </div>
+            <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+              {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieRoja.IHemogramaSerieRoja[7].unidad}}
+            </div>
+            <div class="col-md-3 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+              {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieRoja.IHemogramaSerieRoja[7].caninos}}
+            </div>
+            <div class="col-md-3 border border-dark border-left-0 border-top-0 alineaVertical">
+              {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieRoja.IHemogramaSerieRoja[7].felinos}}
+            </div>
+
+          </div>
+      <!--
+          <div class="row">
+            <div class="col-md-2 border border-dark border-top-0 alineaVertical font-weight-bold">
+              TOTAL
+            </div>
+            <div class="col-md-2 border border-dark border-left-0 border-top-0 alineaVertical">
+              {{srTotal}}
+            </div>
+            <div class="col-md-2 border border-dark border-left-0 border-top-0 alineaVertical">
+
+            </div>
+            <div class="col-md-3 border border-dark border-left-0 border-top-0 alineaVertical">
+
+            </div>
+            <div class="col-md-3 border border-dark border-left-0 border-top-0 alineaVertical">
+
+            </div>
+
+          </div>
+          -->
+      </div>
+
+      <br>
+      <div id="serieBlanca">
+
+        <h4>SERIE BLANCA</h4>
+
+        <div class="row anchoTitulo">
+          <div  class="col-md-2 border border-dark alineaVertical border-end-0 destacado">
+            PARÁMETRO
+          </div>
+          <div class="col-md-4 border border-dark border-left-0 border-end-0" >
+            <div class="row ">
+              <div class="col-md-12 border-bottom border-dark  alineaVertical font-weight-bold">
+                RESULTADOS
+              </div>
+            </div>
+            <div class="row ">
+              <div class="col-md-6 border-dark border-top-0 border-left-0 border-bottom-0 alineaVertical font-weight-bold">
+                %
+              </div>
+              <div class="col-md-6 border-dark  border-0 alineaVertical font-weight-bold">
+                nº/µl
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-end-0" >
+
+            <div class="row ">
+              <div class="col-md-12 border-bottom border-dark  alineaVertical font-weight-bold">
+                CANINOS
+              </div>
+            </div>
+            <div class="row ">
+              <div class="col-md-12 border-dark border-0 alineaVertical font-weight-bold">
+                nº/µl
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 border border-dark border-left-0" >
+            <div class="row ">
+              <div class="col-md-12 border-bottom border-dark  alineaVertical font-weight-bold">
+                REFERENCIA FELINOS
+              </div>
+            </div>
+            <div class="row ">
+              <div class="col-md-12 border-dark border-0 alineaVertical font-weight-bold">
+                nº/µl
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" >
+          <div class="col-md-2 border border-dark border-top-0 border-end-0 alineaV destacado">
+
+            {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieBlanca.IHemogramaSerieBlanca[0].parametro}} <!--Leucocitos-->
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0">
+
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieBlanca.IHemogramaSerieBlanca[0].resultadoNum}}
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical " >
+            {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieBlanca.IHemogramaSerieBlanca[0].caninos}}
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 alineaVertical" >
+            {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieBlanca.IHemogramaSerieBlanca[0].felinos}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2 border border-dark border-top-0 border-end-0 alineaV destacado">
+            {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieBlanca.IHemogramaSerieBlanca[1].parametro}} <!--Neutrófilos-->
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieBlanca.IHemogramaSerieBlanca[1].resultadoPrc}}
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical" [ngStyle]="{'font-weight':sbNeutrofilosFlag==true?'bold':'normal'}">
+            {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieBlanca.IHemogramaSerieBlanca[1].resultadoNum}}
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieBlanca.IHemogramaSerieBlanca[1].caninos}}
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 alineaVertical">
+            {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieBlanca.IHemogramaSerieBlanca[1].felinos}}
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="col-md-2 border border-dark border-top-0 border-end-0 alineaV destacado">
+            {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieBlanca.IHemogramaSerieBlanca[2].parametro}} <!--Linfocitos-->
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieBlanca.IHemogramaSerieBlanca[2].resultadoPrc}}
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical" [ngStyle]="{'font-weight':sbLinfocitosFlag==true?'bold':'normal'}">
+            {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieBlanca.IHemogramaSerieBlanca[2].resultadoNum}}
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieBlanca.IHemogramaSerieBlanca[2].caninos}}
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 alineaVertical">
+            {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieBlanca.IHemogramaSerieBlanca[2].felinos}}
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="col-md-2 border border-dark border-top-0 border-end-0 alineaV destacado">
+            {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieBlanca.IHemogramaSerieBlanca[3].parametro}} <!--Monocitos-->
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieBlanca.IHemogramaSerieBlanca[3].resultadoPrc}}
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical" [ngStyle]="{'font-weight':sbMonocitosFlag==true?'bold':'normal'}">
+            {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieBlanca.IHemogramaSerieBlanca[3].resultadoNum}}
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieBlanca.IHemogramaSerieBlanca[3].caninos}}
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 alineaVertical">
+            {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieBlanca.IHemogramaSerieBlanca[3].felinos}}
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="col-md-2 border border-dark border-top-0 border-end-0 alineaV destacado">
+            {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieBlanca.IHemogramaSerieBlanca[4].parametro}} <!--Eosinófilos-->
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieBlanca.IHemogramaSerieBlanca[4].resultadoPrc}}
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical" [ngStyle]="{'font-weight':sbEosinofilosFlag==true?'bold':'normal'}">
+            {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieBlanca.IHemogramaSerieBlanca[4].resultadoNum}}
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieBlanca.IHemogramaSerieBlanca[4].caninos}}
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 alineaVertical">
+            {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieBlanca.IHemogramaSerieBlanca[4].felinos}}
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="col-md-2 border border-dark border-top-0 border-end-0 alineaV destacado">
+            {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieBlanca.IHemogramaSerieBlanca[5].parametro}} <!--Basófilos-->
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieBlanca.IHemogramaSerieBlanca[5].resultadoPrc}}
+
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical" [ngStyle]="{'font-weight':sbBasofilosFlag==true?'bold':'normal'}">
+            {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieBlanca.IHemogramaSerieBlanca[5].resultadoNum}}
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieBlanca.IHemogramaSerieBlanca[5].caninos}}
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0  alineaVertical">
+            {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieBlanca.IHemogramaSerieBlanca[5].felinos}}
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="col-md-2 border border-dark border-top-0 border-end-0 alineaV destacado">
+            {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieBlanca.IHemogramaSerieBlanca[6].parametro}} <!--Baciliformes-->
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieBlanca.IHemogramaSerieBlanca[6].resultadoPrc}}
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical" [ngStyle]="{'font-weight':sbBaciliformesFlag==true?'bold':'normal'}">
+            {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieBlanca.IHemogramaSerieBlanca[6].resultadoNum}}
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieBlanca.IHemogramaSerieBlanca[6].caninos}}
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 alineaVertical">
+            {{this.datoFichaRecibe.formatoResultado?.hemograma?.serieBlanca.IHemogramaSerieBlanca[6].felinos}}
+          </div>
+
+        </div>
+
+        <div class="row" >
+          <div class="col-md-2 border border-dark border-top-0 border-end-0 alineaVertical destacado">
+            TOTAL
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical destacado">
+            {{this.datoFichaRecibe.formatoResultado?.hemograma?.total}}
+          </div>
+         <div class="col-md-2 border border-dark border-left-0 border-top-0 border-bottom-0 border-end-0 alineaVertical">
+
+        </div>
+      <!--    <div class="col-md-3 border border-dark border-left-0 border-top-0 alineaVertical">
+
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 alineaVertical">
+
+          </div>
+    -->
+        </div>
+      </div>
+
+      <br>
+
+      <h4>OBSERVACIONES:</h4>
+      <div id="observaciones">
+        <div class="row">
+          <div class="col-md-2 border border-dark border-end-0 alineaV destacado">ERITROCITOS:</div>
+          <div class="col-md-3 border border-dark border-left-0 ">
+            {{this.datoFichaRecibe.formatoResultado?.hemograma?.eritrocitos}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2 border border-dark border-top-0 border-end-0 alineaV destacado">LEUCOCITOS:</div>
+          <div class="col-md-3 border border-dark border-top-0 border-left-0 alineaVertical ">
+            {{this.datoFichaRecibe.formatoResultado?.hemograma?.leucocitos}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2 border border-dark border-top-0 border-end-0 alineaV destacado">PLAQUETAS:</div>
+          <div class="col-md-3 border border-dark border-top-0 border-left-0 alineaVertical">
+            {{this.datoFichaRecibe.formatoResultado?.hemograma?.plaquetas}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="text-end" id="footerFirma">
+        <img  src="./../../../../../../assets/imagenes/firmaRobertoEspinoza.png" width="250px" height="150px">
+    </div>
+  </div>
+</div>

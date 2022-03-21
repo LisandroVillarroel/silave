@@ -1,0 +1,13 @@
+.color-fondo-barra-menu{
+    background-color: black;
+    color: rgb(255, 102, 0) !important;
+}
+
+
+.bodebotom{
+    border-bottom-color:rgb(255, 102, 0) !important;
+     border-bottom-style:solid;
+     border-bottom-width:2px;
+}
+
+

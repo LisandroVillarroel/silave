@@ -1,0 +1,48 @@
+<h2 mat-dialog-title>AGREGA CLIENTE</h2>
+
+<mat-dialog-content [formGroup]="agregaCliente" name="agregaCliente" class="agrega-container">
+  <mat-form-field>
+    <input matInput class="input-rut rut" placeholder="Ingrese Rut" [formControl]="rutCliente" oninput="this.value = this.value.toUpperCase()" (blur)="onBlurRutCliente($event)" validaRut  required>
+    <mat-error *ngIf="rutCliente.invalid">{{getErrorMessage('rutCliente')}}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Ingrese Razón Social" [formControl]="razonSocial"  required>
+    <mat-error *ngIf="razonSocial.invalid">{{getErrorMessage('razonSocial')}}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+      <input matInput placeholder="Ingrese Nombre de Fantasía" [formControl]="nombreFantasia" required>
+      <mat-error *ngIf="nombreFantasia.invalid">{{getErrorMessage('nombreFantasia')}}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Ingrese Dirección " [formControl]="direccion" required>
+    <mat-error *ngIf="direccion.invalid">{{getErrorMessage('direccion')}}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Ingrese teléfono " [formControl]="telefono" required>
+    <mat-error *ngIf="direccion.invalid">{{getErrorMessage('telefono')}}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Ingrese Email " [formControl]="email" required>
+    <mat-error *ngIf="email.invalid">{{getErrorMessage('email')}}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Ingrese Nombre Contacto " [formControl]="nombreContacto" required>
+    <mat-error *ngIf="nombreContacto.invalid">{{getErrorMessage('nombreContacto')}}</mat-error>
+  </mat-form-field>
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <div class="col-md-6">
+      <button mat-raised-button color="warn" (click)="cerrar()" mat-dialog-close  [disabled]=false>Cerrar</button>
+    </div>
+    <div class="col-md-6">
+      <button class="colorFondoBoton" mat-raised-button  (click)="enviar()"  [disabled]="agregaCliente.invalid">ENVIAR</button>
+    </div>
+</mat-dialog-actions>

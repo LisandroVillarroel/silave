@@ -1,0 +1,20 @@
+<h2 mat-dialog-title>AGREGA ESPECIE</h2>
+
+<mat-dialog-content [formGroup]="agregaEspecie" name="agregaEspecie" class="agrega-container">
+
+  <mat-form-field>
+    <input matInput placeholder="Ingrese Nombre" [formControl]="nombre"  required>
+    <mat-error *ngIf="nombre.invalid">{{getErrorMessage('nombre')}}</mat-error>
+  </mat-form-field>
+
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <div class="col-md-6">
+      <button mat-raised-button color="warn" (click)="cerrar()" mat-dialog-close  [disabled]=false>Cerrar</button>
+    </div>
+    <div class="col-md-6">
+      <button class="colorFondoBoton" mat-raised-button  (click)="enviar()"  [disabled]="agregaEspecie.invalid">ENVIAR</button>
+    </div>
+</mat-dialog-actions>

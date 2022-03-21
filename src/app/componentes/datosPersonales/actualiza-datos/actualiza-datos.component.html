@@ -1,0 +1,45 @@
+<h2 mat-dialog-title>MIS DATOS</h2>
+
+<mat-dialog-content [formGroup]="modificaUsuario" name="modificaUsuario" class="modifica-container">
+  <ng-template matStepLabel>Datos Usuario Laboratorio</ng-template>
+  <mat-form-field>
+    <input matInput class="input-rut rut" placeholder="Ingrese Rut" [formControl]="rutUsuario" oninput="this.value = this.value.toUpperCase()" (blur)="onBlurRutUsuario($event)" validaRut  required>
+    <mat-error *ngIf="rutUsuario.invalid">{{getErrorMessage('rutCliente')}}</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Ingrese Nombres " [formControl]="nombres" required>
+    <mat-error *ngIf="nombres.invalid">{{getErrorMessage('nombres')}}</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Ingrese Apellido Paterno" [formControl]="apellidoPaterno"  required>
+    <mat-error *ngIf="apellidoPaterno.invalid">{{getErrorMessage('apellidoPaterno')}}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+      <input matInput placeholder="Ingrese Apellido Materno" [formControl]="apellidoMaterno" required>
+      <mat-error *ngIf="apellidoMaterno.invalid">{{getErrorMessage('apellidoMaterno')}}</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Ingrese teléfono " [formControl]="telefono" required>
+    <mat-error *ngIf="direccion.invalid">{{getErrorMessage('telefono')}}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Ingrese Email " [formControl]="email" required>
+    <mat-error *ngIf="email.invalid">{{getErrorMessage('email')}}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Ingrese Dirección " [formControl]="direccion" required>
+    <mat-error *ngIf="direccion.invalid">{{getErrorMessage('direccion')}}</mat-error>
+  </mat-form-field>
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <button class="colorFondoBoton" mat-raised-button  (click)="enviar()"  [disabled]="modificaUsuario.invalid">ACEPTAR</button>
+    </div>
+  </div>
+</mat-dialog-actions>

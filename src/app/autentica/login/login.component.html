@@ -1,0 +1,22 @@
+<div class="login">
+  <!--<form class="custom-form" method="post">-->
+    <form class="custom-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <h1>Login</h1>
+    <input type="text" formControlName="usuario" class="form-control" placeholder="usuario" [ngClass]="{ 'is-invalid': submitted && usuario.errors }" />
+              <div *ngIf="submitted && usuario.errors" class="invalid-feedback">
+                  <div *ngIf="usuario">Usuario es requerido</div>
+              </div>
+    <input type="password" formControlName="contrasena" class="form-control" placeholder="contraseña" [ngClass]="{ 'is-invalid': submitted && contrasena.errors }" />
+              <div *ngIf="submitted && contrasena.errors" class="invalid-feedback">
+                  <div *ngIf="contrasena">Contraseña es requerido</div>
+              </div>
+              <button [disabled]="loading" class="btn float-right login_btn">Ingresar <img *ngIf="loading" class="pl-3" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /></button>
+              <alert></alert>
+              <div class="card-footer">
+                <div class="d-flex justify-content-center links">
+                     <a (click)="restContrasena()">Olvidaste tu contraseña?</a>
+                </div>
+              </div>
+  </form>
+
+</div>

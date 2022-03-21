@@ -1,0 +1,24 @@
+<a mat-list-item [ngStyle]="{'padding-left': (depth * 12) + 'px'}"
+   [ngClass]="{ 'expanded': expanded}"
+   class="menu-list-item">
+
+  <div class="Menu" *ngIf="item.route == undefined"><strong>{{item.displayName}}</strong></div>
+  <div *ngIf="item.displayName == 'cerrar'"><strong>{{item.displayName}}</strong></div>
+  <!--<div class="subMenu" *ngIf="item.route!=undefined && item.displayName != 'cerrar'">{{item.displayName}}</div>-->
+  <mat-checkbox [(ngModel)]="item.selected"
+  color="primary"
+  (ngModelChange)="updateAllComplete()">
+{{item.displayName}}
+</mat-checkbox>
+
+  <span fxFlex *ngIf="item.children && item.children.length">
+    <span fxFlex></span>
+    <mat-icon [@indicatorRotate]="expanded ? 'expanded': 'collapsed'">
+      expand_more
+    </mat-icon>
+  </span>
+</a>
+<div *ngIf="expanded">
+  <app-menu-list-item-perfil *ngFor="let child of getMenuChildren()" [item]="child"  [depth]="depth+1">
+  </app-menu-list-item-perfil>
+</div>

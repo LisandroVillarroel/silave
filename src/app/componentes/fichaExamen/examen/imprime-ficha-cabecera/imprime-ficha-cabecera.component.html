@@ -1,0 +1,77 @@
+<div class="margen-imprimir">
+  <div class="row align-items-center">
+    <div class="col-md-2 border border-dark border-end-0 alineaV destacado">
+      Propietario
+    </div>
+    <div class="col-md-6 border border-dark border-end-0 alineaV">
+      {{this.datoFichaRecibeFicha.fichaC.nombrePropietario}}
+    </div>
+    <div class="col-md-2 border border-dark border-end-0 alineaV destacado">
+      Fecha
+    </div>
+    <div class="col-md-2 border border-dark  alineaVertical destacado">
+      {{this.datoFichaRecibeFicha?.fechaHora_envia_modifica | date:'dd-MM-yyyy'}}
+    </div>
+  </div>
+
+  <div class="row align-items-center">
+    <div class="col-md-2 border border-dark border-end-0 border-top-0 alineaV destacado">
+      Paciente
+    </div>
+    <div class="col-md-2 border border-dark border-end-0 border-top-0 alineaV">
+      {{this.datoFichaRecibeFicha.fichaC.nombrePaciente}}
+    </div>
+    <div class="col-md-2 border border-dark alineaV border-end-0 border-top-0 destacado">
+      Especie
+    </div>
+    <div class="col-md-2 border border-dark border-end-0 border-top-0 alineaV">
+      {{this.datoFichaRecibeFicha.fichaC.especie.nombre}}
+    </div>
+
+    <div class="col-md-2 border border-dark alineaV border-end-0 border-top-0 destacado">
+      Raza
+    </div>
+    <div class="col-md-2 border border-dark border-top-0 alineaV">
+      {{this.datoFichaRecibeFicha.fichaC.raza.nombre}}
+    </div>
+  </div>
+
+  <div class="row align-items-center">
+    <div class="col-md-2 border border-dark border-end-0 border-top-0 alineaV destacado">
+      Edad
+    </div>
+    <div class="col-md-2 border border-dark border-end-0 border-top-0 alineaV">
+      {{this.datoFichaRecibeFicha.fichaC.edadPaciente}}
+    </div>
+    <div class="col-md-2 border border-dark border-end-0 border-top-0 alineaV destacado">
+      Sexo
+    </div>
+    <div class="col-md-2 border border-dark border-end-0 border-top-0 alineaV">
+      {{this.datoFichaRecibeFicha.fichaC.sexo}}
+    </div>
+
+    <div class="col-md-2 border border-dark alineaV border-end-0 border-top-0 destacado">
+      ID
+    </div>
+    <div class="col-md-2 border border-dark border-top-0 alineaVertical destacado">
+      {{this.datoFichaRecibeFicha.fichaC.numeroFicha}}
+    </div>
+  </div>
+
+  <div class="row align-items-center">
+    <div class="col-md-2 border border-dark border-end-0 border-top-0 alineaV destacado">
+      Veterinaria
+    </div>
+    <div class="col-md-10 border border-dark border-top-0 alineaVertical destacado">
+      {{this.datoFichaRecibeFicha.fichaC.cliente.nombreFantasia}}
+    </div>
+  </div>
+  <div class="row align-items-center">
+    <div class="col-md-2 border border-dark border-end-0 border-top-0 alineaV destacado">
+      Dr. Solicitante
+    </div>
+    <div class="col-md-10 border border-dark border-top-0 alineaVertical destacado">
+      {{this.datoFichaRecibeFicha.fichaC.doctorSolicitante.nombreDoctorSolicitante}}
+    </div>
+  </div>
+</div>

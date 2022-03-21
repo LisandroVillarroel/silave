@@ -1,0 +1,39 @@
+<h2 mat-dialog-title>CONSULTA PROPIETARIO</h2>
+
+<mat-dialog-content  name="consulta" class="consulta-container">
+
+  <mat-form-field color="accent">
+    <input matInput placeholder="Rut"  value="{{datoPar.rutPropietario}}" disabled='true' >
+  </mat-form-field>
+
+  <mat-form-field color="accent">
+    <input matInput placeholder="Nombres"  value="{{datoPar.nombres}}" disabled='true' >
+  </mat-form-field>
+
+  <mat-form-field>
+      <input matInput placeholder="Apellido Paterno" value="{{datoPar.apellidoPaterno}}" disabled='true'>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Apellido Materno" value="{{datoPar.apellidoMaterno}}" disabled='true'>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Dirección" value="{{datoPar.direccion}}" disabled='true'>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Teléfono" value="{{datoPar.telefono}}" disabled='true'>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Email" value="{{datoPar.email}}" disabled='true'>
+  </mat-form-field>
+
+</mat-dialog-content>
+
+<mat-dialog-actions class="justify-content-center">
+    <div class="col-md-6">
+      <button mat-raised-button color="warn" (click)="cerrar()" mat-dialog-close  [disabled]=false>Cerrar</button>
+    </div>
+</mat-dialog-actions>

@@ -1,0 +1,37 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  outline: none;
+  width: 100%;
+}
+.mat-list-item {
+  padding: 8px 0;
+  display: flex;
+  width: auto;
+}
+.mat-list-item .routeIcon {
+  margin-right: 40px;
+}
+
+.subMenu{
+  font-size: 12px;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: left;
+}
+
+.Menu{
+  font-size: 14px;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: left;
+}
+
+.mat-list-item[_ngcontent-qks-c64] .routeIcon[_ngcontent-qks-c64] {
+  margin-right: 5px !important;
+}
+
+
+.mat-list-base .mat-list-item .mat-list-item-content {
+
+  padding: 0 1px !important;
+
+}

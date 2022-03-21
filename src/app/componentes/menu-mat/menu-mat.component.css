@@ -1,0 +1,178 @@
+/*.mat-menu-item {
+    text-align: center !important;
+}
+
+.color-boton-menu{
+    color: rgb(255, 102, 0) !important;
+  }
+
+a{
+    color: #000000 !important;
+}
+button .mat-icon-button mat-icon{
+    color: rgb(255, 102, 0) !important;
+}
+
+.mat-menu-item-highlighted:not([disabled]), .mat-menu-item.cdk-keyboard-focused:not([disabled]), .mat-menu-item.cdk-program-focused:not([disabled]), .mat-menu-item:hover:not([disabled]) {
+
+    background-color:hsla(24, 98%, 51%, 0.199) !important;
+    color: rgb(255, 102, 0) !important;
+}
+
+.active-link {
+    color:rgb(255, 102, 0) !important;
+  }
+
+  .nav-link {
+     padding: 0 0 0 0;
+}
+
+.mat-menu-item {
+
+line-height: 0 !important;
+height: 30px !important;
+padding: 0 5px !important;
+
+
+}
+*/
+.bodebotom{
+  border-bottom-color:rgb(255, 102, 0) !important;
+   border-bottom-style:solid;
+   border-bottom-width:2px;
+}
+
+.tamañoLetra{
+  font-size: 12px;
+}
+
+.mat-toolbar-row, .mat-toolbar-single-row {
+  height: 35px!important;
+}
+
+mat-divider[_ngcontent-mwk-c65] {
+  margin-top: 11px !important;
+  margin-bottom: 1px !important;
+  background-color: #ffffff80;
+}
+
+.example-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.example-is-mobile .example-toolbar {
+  position: fixed;
+  /* Make sure the toolbar will stay on top of the content as it scrolls past. */
+  z-index: 2;
+}
+
+h1.example-app-name {
+  margin-left: 8px;
+}
+
+.example-sidenav-container {
+  /* When the sidenav is not fixed, stretch the sidenav container to fill the available space. This
+     causes `<mat-sidenav-content>` to act as our scrolling element for desktop layouts. */
+  flex: 1;
+}
+
+.example-is-mobile .example-sidenav-container {
+  /* When the sidenav is fixed, don't constrain the height of the sidenav container. This allows the
+     `<body>` to be our scrolling element for mobile layouts. */
+  flex: 1 0 auto;
+}
+
+.spacerDerecha {
+  flex: 1 1 auto;
+}
+
+.iconMuestra {
+  transform: scale(1.5);
+  color:black;
+}
+
+/*Menu*/
+
+mat-toolbar {
+  background: #004a9f;
+  color: white;
+}
+
+mat-sidenav {
+  margin: 16px;
+  width: 15%;
+  border-right: none;
+  background: #118383;
+  color: white;
+  border-radius: 10px;
+  padding: 1px;
+  text-align: center;
+}
+
+.content {
+  min-height: calc(100vh - 98px); /* largo de pantalla*/
+
+  border-radius: 10px;
+  margin: 16px;
+  margin-left: 32px;
+  /*display: flex;*/
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  color: rgb(61, 61, 61);
+  padding: 0 1px !important;
+}
+
+mat-sidenav-container {
+  height: calc(100vh - 65px);
+}
+
+.menu-button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 1rem;
+}
+
+.menu-button mat-icon {
+  margin-right: 8px;
+}
+.avatar {
+  margin-top: 16px;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+.name {
+  margin-top: 8px;
+  font-weight: normal;
+}
+.designation {
+  margin-top: 2px;
+  font-size: 0.7rem;
+  color: lightgrey;
+}
+mat-divider {
+  margin-top: 16px;
+  margin-bottom: 16px;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+
+.cerrar{
+  font-size: 14px;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: left;
+}
+
+.padingLateral{
+  padding:0 !important;
+  min-width:0 !important;
+}

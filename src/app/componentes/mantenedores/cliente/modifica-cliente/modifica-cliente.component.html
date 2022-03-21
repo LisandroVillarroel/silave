@@ -1,0 +1,43 @@
+<h2 mat-dialog-title>MODIFICA CLIENTE - {{datoClientePar.rutCliente}}</h2>
+
+<mat-dialog-content [formGroup]="modificaCliente" name="modificaCliente" class="modifica-container">
+
+  <mat-form-field>
+    <input matInput placeholder="Ingrese Razón Social" [formControl]="razonSocial" oninput="this.value = this.value.toUpperCase()" required>
+    <mat-error *ngIf="razonSocial.invalid">{{getErrorMessage()}}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+      <input matInput placeholder="Ingrese Nombre de Fantasía" [formControl]="nombreFantasia" required>
+      <mat-error *ngIf="nombreFantasia.invalid">{{getErrorMessage()}}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Ingrese Dirección " [formControl]="direccion" required>
+    <mat-error *ngIf="direccion.invalid">{{getErrorMessage()}}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Ingrese Teléfono " [formControl]="telefono" required>
+    <mat-error *ngIf="telefono.invalid">{{getErrorMessage()}}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Ingrese email " [formControl]="email" required>
+    <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Ingrese Nombre Contacto " [formControl]="nombreContacto" required>
+    <mat-error *ngIf="nombreContacto.invalid">{{getErrorMessage()}}</mat-error>
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <div class="col-md-6">
+      <button mat-raised-button color="warn" (click)="cerrar()" mat-dialog-close  [disabled]=false>Cerrar</button>
+    </div>
+    <div class="col-md-6">
+      <button class="colorFondoBoton" mat-raised-button  (click)="enviar()"  mat-dialog-close [disabled]="modificaCliente.invalid">ACEPTAR</button>
+    </div>
+</mat-dialog-actions>

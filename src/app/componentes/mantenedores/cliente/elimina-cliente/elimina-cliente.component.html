@@ -1,0 +1,42 @@
+<h2 mat-dialog-title>ELIMINA CLIENTE</h2>
+
+<mat-dialog-content name="emina" class="elimina-container">
+
+  <mat-form-field color="accent">
+    <input matInput placeholder="Rut"  value="{{datoClientePar.rutCliente}}" disabled='true' >
+  </mat-form-field>
+
+  <mat-form-field color="accent">
+    <input matInput placeholder="Razón Social"  value="{{datoClientePar.razonSocial}}" disabled='true' >
+  </mat-form-field>
+
+  <mat-form-field>
+      <input matInput placeholder="Nombre de Fantasía" value="{{datoClientePar.nombreFantasia}}" disabled='true'>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Dirección " value="{{datoClientePar.direccion}}" disabled='true'>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Teléfono " value="{{datoClientePar.telefono}}" disabled='true'>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Email" value="{{datoClientePar.email}}" disabled='true'>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Nombre Contacto " value="{{datoClientePar.nombreContacto}}" disabled='true'>
+  </mat-form-field>
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <div class="col-md-6">
+      <button mat-raised-button color="warn" (click)="cerrar()" mat-dialog-close  [disabled]=false>Cerrar</button>
+    </div>
+    <div class="col-md-6">
+      <button class="colorFondoBoton" mat-raised-button  (click)="enviar()"  mat-dialog-close >ELIMINA</button>
+    </div>
+</mat-dialog-actions>

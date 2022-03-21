@@ -1,0 +1,52 @@
+<h2 mat-dialog-title>MODIFICA PROPIETARIO</h2>
+
+<mat-dialog-content [formGroup]="modificaPropietario" name="modificaPropietario" class="modifica-container">
+
+  <mat-form-field>
+    <input matInput class="input-rut rut" placeholder="Ingrese Rut" [formControl]="rutPropietario" oninput="this.value = this.value.toUpperCase()" (blur)="onBlurRut($event)" validaRut  required>
+    <mat-error *ngIf="rutPropietario.invalid">{{getErrorMessage()}}</mat-error>
+  </mat-form-field>
+
+
+
+  <mat-form-field>
+    <input matInput placeholder="Ingrese Nombres" [formControl]="nombres" oninput="this.value = this.value.toUpperCase()" required>
+    <mat-error *ngIf="nombres.invalid">{{getErrorMessage()}}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+      <input matInput placeholder="Ingrese Apellido Paterno" [formControl]="apellidoPaterno" required>
+      <mat-error *ngIf="apellidoPaterno.invalid">{{getErrorMessage()}}</mat-error>
+  </mat-form-field>
+
+
+  <mat-form-field>
+    <input matInput placeholder="Ingrese Apellido Materno" [formControl]="apellidoMaterno" required>
+    <mat-error *ngIf="apellidoMaterno.invalid">{{getErrorMessage()}}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Ingrese Dirección " [formControl]="direccion" required>
+    <mat-error *ngIf="direccion.invalid">{{getErrorMessage()}}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Ingrese Teléfono " [formControl]="telefono" required>
+    <mat-error *ngIf="telefono.invalid">{{getErrorMessage()}}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Ingrese email " [formControl]="email" required>
+    <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+  </mat-form-field>
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <div class="col-md-6">
+      <button mat-raised-button color="warn" (click)="cerrar()" mat-dialog-close  [disabled]=false>Cerrar</button>
+    </div>
+    <div class="col-md-6">
+      <button class="colorFondoBoton" mat-raised-button  (click)="enviar()"  mat-dialog-close [disabled]="modificaPropietario.invalid">ACEPTAR</button>
+    </div>
+</mat-dialog-actions>

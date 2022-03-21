@@ -1,0 +1,122 @@
+
+<h2 mat-dialog-title>INGRESO USUARIO</h2>
+<div class="row justify-content-end">
+  <div class="col-md-2 ">
+    <button mat-raised-button  class="btn btn-block" mat-dialog-close>Cerrar</button>
+  </div>
+</div>
+<mat-stepper linear #stepper>
+  <mat-step [stepControl]="agregaUsuario" >
+    <mat-dialog-content [formGroup]="agregaUsuario" name="agregaUsuario" class="agrega-container">
+      <ng-template matStepLabel>Ingreso de Datos Usuario Laboratorio</ng-template>
+      <mat-form-field>
+        <input matInput placeholder="Usuario" [formControl]="usuario"  required>
+        <mat-error *ngIf="usuario.invalid">{{getErrorMessage('usuario')}}</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input type="password" matInput placeholder="Ingrese Contraseña" [formControl]="contrasena"  required>
+        <mat-error *ngIf="contrasena.invalid">{{getErrorMessage('contrasena')}}</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput type="password" placeholder="Repetir contraseña" [formControl]="contrasena2"  required>
+        <mat-error *ngIf="contrasena2.invalid">{{getErrorMessage('contrasena2')}}</mat-error>
+        <mat-error *ngIf="checarSiSonIguales()"></mat-error>
+        <pre  *ngIf="checarSiSonIguales()">Las contraseñas no coinciden</pre>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput class="input-rut rut" placeholder="Ingrese Rut" [formControl]="rutUsuario" oninput="this.value = this.value.toUpperCase()" (blur)="onBlurRutUsuario($event)" validaRut  required>
+        <mat-error *ngIf="rutUsuario.invalid">{{getErrorMessage('rutCliente')}}</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Ingrese Nombres " [formControl]="nombres" required>
+        <mat-error *ngIf="nombres.invalid">{{getErrorMessage('nombres')}}</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Ingrese Apellido Paterno" [formControl]="apellidoPaterno"  required>
+        <mat-error *ngIf="apellidoPaterno.invalid">{{getErrorMessage('apellidoPaterno')}}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+          <input matInput placeholder="Ingrese Apellido Materno" [formControl]="apellidoMaterno" required>
+          <mat-error *ngIf="apellidoMaterno.invalid">{{getErrorMessage('apellidoMaterno')}}</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Ingrese teléfono " [formControl]="telefono" required>
+        <mat-error *ngIf="direccion.invalid">{{getErrorMessage('telefono')}}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Ingrese Email " [formControl]="email" required>
+        <mat-error *ngIf="email.invalid">{{getErrorMessage('email')}}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Ingrese Dirección " [formControl]="direccion" required>
+        <mat-error *ngIf="direccion.invalid">{{getErrorMessage('direccion')}}</mat-error>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperNext>Siguiente<mat-icon pt-1>arrow_forward_ios</mat-icon></button>
+      </div>
+    </mat-dialog-content>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup">
+    <form [formGroup]="secondFormGroup">
+      <ng-template matStepLabel>Accesos</ng-template>
+      <!--Tree-->
+    <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="example-tree">
+      <!-- This is the tree node template for leaf nodes -->
+      <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
+        <li class="mat-tree-node">
+          <!-- use a disabled button to provide padding for tree leaf -->
+          <button mat-icon-button disabled></button>
+              <mat-checkbox class="checklist-leaf-node" (change)="todoItemSelectionToggle($event.checked,node)" [checked]="node.selected"
+    >{{node.displayName}}</mat-checkbox>
+    <mat-form-field *ngIf="node.tipoPermiso!=undefined" appearance="fill">
+      <mat-select  #itemValue placeholder="Seleccione Tipo Permiso"  [value]="node.tipoPermiso" (selectionChange)="grabaTipoPermiso(itemValue.value,node)" required>
+        <mat-option *ngFor="let _tipoPermiso of selectTipoPermiso" [value]="_tipoPermiso.value">
+          {{_tipoPermiso.nombre}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+        </li>
+      </mat-tree-node>
+      <!-- This is the tree node template for expandable nodes -->
+      <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
+        <li>
+          <div class="mat-tree-node">
+            <button mat-icon-button matTreeNodeToggle
+                    [attr.aria-label]="'toggle ' + node.displayName">
+              <mat-icon class="mat-icon-rtl-mirror">
+                {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+              </mat-icon>
+            </button>
+                <mat-checkbox [checked]="node.selected"
+                      [indeterminate]="node.indeterminate && !node.selected"
+                      (change)="todoItemSelectionToggle($event.checked,node)">{{node.displayName}}</mat-checkbox>
+
+
+          </div>
+          <ul [class.example-tree-invisible]="!treeControl.isExpanded(node)">
+            <ng-container matTreeNodeOutlet></ng-container>
+          </ul>
+        </li>
+      </mat-nested-tree-node>
+    </mat-tree>
+    <!--<button mat-button (click)="submit()">submit</button>-->
+ <!--Fin Tree-->
+      <div>
+        <button mat-button matStepperPrevious><mat-icon>arrow_back_ios</mat-icon>Anterior</button>
+      </div>
+      <mat-dialog-actions>
+        <div class="col-md-6">
+          <button mat-raised-button color="warn" (click)="cerrar()" mat-dialog-close  [disabled]=false>Cerrar</button>
+        </div>
+        <div class="col-md-6">
+          <button class="colorFondoBoton" mat-raised-button  (click)="enviar()"  [disabled]="agregaUsuario.invalid">ENVIAR</button>
+        </div>
+    </mat-dialog-actions>
+    </form>
+  </mat-step>
+
+</mat-stepper>
