@@ -17,6 +17,7 @@ import { RegisterComponent } from './autentica/register';
 
 //import { RutModule } from 'rut-chileno'; // <- aqui debes importarlo
 import { Ng2Rut, RutValidator } from 'ng2-rut';
+import { ImageUploadModule } from "angular2-image-upload";
 
 
 import { HomeComponent } from './home';
@@ -103,6 +104,19 @@ import { MenuListItemPerfilComponent } from './componentes/administracion/perfil
 import { ActualizaDatosComponent } from './componentes/datosPersonales/actualiza-datos/actualiza-datos.component';
 import { CambioContrasenaComponent } from './componentes/datosPersonales/cambio-contrasena/cambio-contrasena.component';
 import { ResetContrasenaComponent } from './componentes/administracion/reset-contrasena/reset-contrasena.component';
+import { DatosEmpresaComponent } from './componentes/administracion/ADM/datos-empresa/datos-empresa.component';
+import { AgregaDatosEmpresaComponent } from './componentes/administracion/ADM/datos-empresa/agrega-datos-empresa/agrega-datos-empresa.component';
+import { ModificaDatosEmpresaComponent } from './componentes/administracion/ADM/datos-empresa/modifica-datos-empresa/modifica-datos-empresa.component';
+import { ConsultaDatosEmpresaComponent } from './componentes/administracion/ADM/datos-empresa/consulta-datos-empresa/consulta-datos-empresa.component';
+import { EliminaDatosEmpresaComponent } from './componentes/administracion/ADM/datos-empresa/elimina-datos-empresa/elimina-datos-empresa.component';
+import { UsuariosEmpresaComponent } from './componentes/administracion/ADM/usuarios-empresa/usuarios-empresa.component';
+import { AgregaUsuariosEmpresaComponent } from './componentes/administracion/ADM/usuarios-empresa/agrega-usuarios-empresa/agrega-usuarios-empresa.component';
+import { ModificaUsuariosEmpresaComponent } from './componentes/administracion/ADM/usuarios-empresa/modifica-usuarios-empresa/modifica-usuarios-empresa.component';
+import { ConsultaUsuariosEmpresaComponent } from './componentes/administracion/ADM/usuarios-empresa/consulta-usuarios-empresa/consulta-usuarios-empresa.component';
+import { EliminaUsuariosEmpresaComponent } from './componentes/administracion/ADM/usuarios-empresa/elimina-usuarios-empresa/elimina-usuarios-empresa.component';
+import { PerfilEmpresaComponent } from './componentes/administracion/perfil-empresa/perfil-empresa.component';
+import { HeaderComponent } from './componentes/fichaExamen/examen/header/header.component';
+import { FooterComponent } from './componentes/fichaExamen/examen/footer/footer.component';
 
 registerLocaleData(localeFr, 'es', localeFrExtra);
 
@@ -180,7 +194,20 @@ registerLocaleData(localeFr, 'es', localeFrExtra);
         MenuListItemPerfilComponent,
         ActualizaDatosComponent,
         CambioContrasenaComponent,
-        ResetContrasenaComponent
+        ResetContrasenaComponent,
+        DatosEmpresaComponent,
+        AgregaDatosEmpresaComponent,
+        ModificaDatosEmpresaComponent,
+        ConsultaDatosEmpresaComponent,
+        EliminaDatosEmpresaComponent,
+        UsuariosEmpresaComponent,
+        AgregaUsuariosEmpresaComponent,
+        ModificaUsuariosEmpresaComponent,
+        ConsultaUsuariosEmpresaComponent,
+        EliminaUsuariosEmpresaComponent,
+        PerfilEmpresaComponent,
+        HeaderComponent,
+        FooterComponent
     ],
     imports: [
         BrowserModule,
@@ -193,6 +220,7 @@ registerLocaleData(localeFr, 'es', localeFrExtra);
         Ng2Rut,
    //     routing,
         //
+        ImageUploadModule.forRoot(),
         MaterialModule
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],

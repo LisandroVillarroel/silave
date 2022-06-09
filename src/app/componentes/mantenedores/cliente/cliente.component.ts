@@ -30,13 +30,14 @@ export class ClienteComponent implements OnInit {
  // id: string;
 
   // tslint:disable-next-line:max-line-length
-  displayedColumns: string[] = ['index', 'rutCliente', 'razonSocial', 'nombreFantasia', 'direccion', 'telefono', 'email', 'nombreContacto', 'opciones'];
+  displayedColumns: string[] = ['index', 'rutCliente', 'razonSocial', 'nombreFantasia', 'direccion', 'telefono', 'email', 'nombreContacto', 'emailEnvioExamenCliente', 'opciones'];
   dataSource: MatTableDataSource<ICliente>;
 
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
+  show:boolean=true;
 
 constructor(private clienteService: ClienteService,
             public httpClient: HttpClient,
@@ -58,12 +59,12 @@ ngOnInit() {
   }
 
 getListCliente(): void {
-    console.log('pasa emp 2');
+    console.log('pasa emp 2:',this.currentUsuario.usuarioDato.empresa.empresa_Id);
     this.clienteService
       .getDataCliente(this.currentUsuario.usuarioDato.empresa.empresa_Id)
       .subscribe((res) => {
         console.log('cliente: ', res);
-       // this.dataSource.data = res['data'] as ICliente[];
+        this.dataSource.data = res['data'] as ICliente[];
       },
       // console.log('yo:', res as PerfilI[]),
       error => {
@@ -120,7 +121,7 @@ agregaNuevo() {
     );
   }
 
-actualizaCliente(id: string, rutCliente: string, razonSocial: string, nombreFantasia: string, direccion: string, telefono: string, email: string, nombreContacto: string): void {
+actualizaCliente(id: string, rutCliente: string, razonSocial: string, nombreFantasia: string, direccion: string, telefono: string, email: string, nombreContacto: string, emailEnvioExamenCliente: string): void {
     this.datoClientePar = {
       _id: id,
       rutCliente,
@@ -130,6 +131,7 @@ actualizaCliente(id: string, rutCliente: string, razonSocial: string, nombreFant
       telefono,
       email,
       nombreContacto,
+      emailEnvioExamenCliente,
      // usuarioCrea_id: this.currentUsuario.usuarioDato.id,
       usuarioModifica_id: this.currentUsuario.usuarioDato._id
     };
@@ -156,7 +158,7 @@ actualizaCliente(id: string, rutCliente: string, razonSocial: string, nombreFant
   }
 
 consultaCliente(id: string, rutCliente: string, razonSocial: string, nombreFantasia: string, direccion: string,
-                telefono: string, email: string, nombreContacto: string) {
+                telefono: string, email: string, nombreContacto: string, emailEnvioExamenCliente: string) {
     this.datoClientePar = {
       _id: id,
       rutCliente,
@@ -166,6 +168,7 @@ consultaCliente(id: string, rutCliente: string, razonSocial: string, nombreFanta
       telefono,
       email,
       nombreContacto,
+      emailEnvioExamenCliente,
       usuarioCrea_id: this.currentUsuario.usuarioDato._id,
       usuarioModifica_id: this.currentUsuario.usuarioDato._id
     };
@@ -190,7 +193,7 @@ consultaCliente(id: string, rutCliente: string, razonSocial: string, nombreFanta
  }
 
 eliminaCliente(id: string, rutCliente: string, razonSocial: string, nombreFantasia: string, direccion: string,
-               telefono: string, email: string, nombreContacto: string) {
+               telefono: string, email: string, nombreContacto: string, emailEnvioExamenCliente: string) {
     this.datoClientePar = {
       _id: id,
       rutCliente,
@@ -200,6 +203,7 @@ eliminaCliente(id: string, rutCliente: string, razonSocial: string, nombreFantas
       telefono,
       email,
       nombreContacto,
+      emailEnvioExamenCliente,
      // usuarioCrea_id: this.currentUsuario.usuarioDato.id
       usuarioModifica_id: this.currentUsuario.usuarioDato._id
     };

@@ -6,14 +6,17 @@ export interface IEmpresa {
   direccion: string;
   nombreContacto: string;
   telefono:string;
+  tipoEmpresa:string;   //Administrador-Laboratorio-Cliente
+  menu_Id: string;
   email:string;
-  envioCorreo?:ICorreo;
+  envioEmail?:IEmail;
+  nombreLogo?:string;
   usuarioCrea_id?: string;
   usuarioModifica_id: string;
   estado?: string;
 }
 
-export interface ICorreo {
+export interface IEmail {
   emailEnvio?: string;
   password?:string;
   nombreDesde?:string;

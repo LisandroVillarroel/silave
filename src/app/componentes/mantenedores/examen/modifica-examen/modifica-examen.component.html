@@ -23,13 +23,29 @@
     <mat-error *ngIf="precio.invalid">{{getErrorMessage('precio')}}</mat-error>
   </mat-form-field>
 
+  <image-upload class="customClass"
+  (removed)="onRemoved($event)"
+  (uploadFinished)="onUploadFinished($event)"
+  (uploadStateChanged)="onUploadStateChanged($event)"
+  buttonCaption="Presione para Seleccionar"
+  dropBoxMessage="!Suelta tu imágen aquí!"
+  clearButtonCaption="Eliminar Imágen"
+  [extensions]="['jpeg','png','jpg','svg']"
+  [max]="1"
+  >
+  </image-upload>
+  <mat-card mat-card style="cursor: pointer"  class="example-card mb-2 mt-4 ml-2  align-content-center align-items-center align-self-center text-center" >
+    <a class="colorAmarillo" >
+      <img class="m-0" mat-card-image  [src]="imagen" >
+    </a>
+  </mat-card>
 </mat-dialog-content>
 
 <mat-dialog-actions>
     <div class="col-md-6">
-      <button mat-raised-button color="warn" (click)="cerrar()" mat-dialog-close  [disabled]=false>Cerrar</button>
+      <button mat-raised-button color="warn"  mat-dialog-close  [disabled]=false>Cerrar</button>
     </div>
     <div class="col-md-6">
-      <button class="colorFondoBoton" mat-raised-button  (click)="enviar()"  mat-dialog-close [disabled]="modifica.invalid">ACEPTAR</button>
+      <button class="colorFondoBoton" mat-raised-button  (click)="enviar()"  [disabled]="modifica.invalid">ACEPTAR</button>
     </div>
 </mat-dialog-actions>

@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { AuthenticationService } from './autentica/_services';
 
 import { JwtResponseI } from './autentica/_models';
-import { EmpresaService } from './servicios/empresa.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -19,8 +18,7 @@ export class AppComponent implements OnInit {
   currentUsuario!: JwtResponseI;
     constructor(
         private router: Router,
-        private authenticationService: AuthenticationService,
-        private empresaService: EmpresaService
+        private authenticationService: AuthenticationService
     ) {
         this.authenticationService.currentUsuario.subscribe(x => this.currentUsuario = x);
 

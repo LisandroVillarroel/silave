@@ -1,3 +1,5 @@
+import { IUsuarioCliente, IUsuarioEmpresa } from "@app/modelo/usuario-interface";
+
 export interface JwtResponseI {
   usuarioDato: {
     _id: string,
@@ -7,12 +9,8 @@ export interface JwtResponseI {
     apellidoPaterno: string,
     apellidoMaterno: string,
     empresa:IUsuarioEmpresa,
+    cliente?: IUsuarioCliente;
     accessToken: string
   };
 }
 
-
-export interface IUsuarioEmpresa {
-  empresa_Id:string,
-  rutEmpresa: string
-}

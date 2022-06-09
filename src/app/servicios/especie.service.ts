@@ -56,8 +56,18 @@ export class EspecieService {
     );
   }
 
-  getDataEspecie(empresaId: string): Observable<any> {
+  getDataEspecieTodo(empresaId: string): Observable<any> {
     return this.http.get(`${environment.apiUrl}/especieTodo/${empresaId}`, { headers: this.headers })
+    .pipe(
+      retry(1),
+      catchError(this.errorHandl)
+    );
+  }
+
+  getDataEmpresaTodo():Observable<any> {
+
+    console.log('dirección:',`${environment.apiUrl}/empresaTodo`,this.headers )
+    return this.http.get(`${environment.apiUrl}/empresaTodo/`, { headers: this.headers })
     .pipe(
       retry(1),
       catchError(this.errorHandl)

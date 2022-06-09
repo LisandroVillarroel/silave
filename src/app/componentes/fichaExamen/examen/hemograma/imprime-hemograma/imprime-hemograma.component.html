@@ -1,9 +1,6 @@
 <div id="htmlData">
   <div class="margen-container margen-imprimir m-top-1">
-    <div class="text-end">
-
-      <img class="spacerDerecha" src="./../../../../../../assets/imagenes/mcvet.png" width="250px" height="150px">
-    </div>
+    <app-header [datoFichaRecibeFicha]="datoFichaRecibe"></app-header>
 
     <h2 mat-dialog-title>HEMOGRAMA</h2>
 
@@ -426,7 +423,7 @@
       <div id="observaciones">
         <div class="row">
           <div class="col-md-2 border border-dark border-end-0 alineaV destacado">ERITROCITOS:</div>
-          <div class="col-md-3 border border-dark border-left-0 ">
+          <div class="col-md-3 border border-dark border-left-0 alineaVertical">
             {{this.datoFichaRecibe.formatoResultado?.hemograma?.eritrocitos}}
           </div>
         </div>
@@ -444,8 +441,7 @@
         </div>
       </div>
     </div>
-    <div class="text-end" id="footerFirma">
-        <img  src="./../../../../../../assets/imagenes/firmaRobertoEspinoza.png" width="250px" height="150px">
-    </div>
+    <app-footer [datoFichaRecibeFicha]="datoFichaRecibe"></app-footer>
+
   </div>
 </div>

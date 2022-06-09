@@ -132,7 +132,7 @@ export class AgregaFormato1Component implements OnInit {
 
   cargaExamen(){
     this.servicioService
-      .getDataExamen(this.data.empresa_Id)
+      .getDataExamenTodo(this.data.empresa_Id)
       .subscribe(res => {
         console.log('rescata examen todo: ', res['data']);
         this.datoExamen = res['data'];

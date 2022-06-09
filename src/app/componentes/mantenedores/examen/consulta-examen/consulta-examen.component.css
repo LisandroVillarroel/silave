@@ -33,3 +33,15 @@
 ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-label {
   color: #000000;
 }
+
+
+.mat-card-image {
+  height: 100px;
+  width: 100%;
+  text-align: center;
+}
+
+.mat-card{
+  border: 1px solid #807d7d;
+  border-radius: 10px !important;
+}

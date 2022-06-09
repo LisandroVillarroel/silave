@@ -27,9 +27,10 @@ export class ExamenComponent implements OnInit {
   datoPar!: IExamen;
   currentUsuario!: JwtResponseI;
  // id: string;
-
+  visible:boolean=true;
+  show:boolean=true;
   // tslint:disable-next-line:max-line-length
-  displayedColumns: string[] = ['index', 'codigoExamen', 'nombre', 'sigla', 'precio','opciones'];
+  displayedColumns: string[] = ['index', 'codigoExamen','nombre', 'sigla', 'precio', 'codigoInterno','nombreExamen','opciones'];
   dataSource: MatTableDataSource<IExamen>;
 
   @ViewChild(MatPaginator ) paginator!: MatPaginator;
@@ -51,13 +52,16 @@ ngOnInit() {
     if (this.authenticationService.getCurrentUser() != null) {
       this.currentUsuario.usuarioDato = this.authenticationService.getCurrentUser() ;
     }
+    if(this.currentUsuario.usuarioDato.empresa.tipoEmpresa?.toUpperCase()=="Laboratorio".toUpperCase()){
+      this.visible=false;
+  }
     this.getList();
   }
 
 getList(): void {
     console.log('pasa exámen 1');
     this.servicioService
-      .getDataExamen(this.currentUsuario.usuarioDato.empresa.empresa_Id)
+      .getDataExamenTodo(this.currentUsuario.usuarioDato.empresa.empresa_Id)
       .subscribe(res => {
         console.log('pasa exámen 2', res);
         this.dataSource.data = res['data'] as IExamen[];
@@ -116,13 +120,15 @@ agregaNuevo() {
     );
   }
 
-actualiza(id: string, codigoExamen: string, nombre: string, sigla: string, precio: number) {
+actualiza(id: string, codigoExamen: string, nombre: string, sigla: string, precio: number,codigoInterno: number,nombreExamen:string) {
     this.datoPar = {
       _id: id,
       codigoExamen,
       nombre,
       sigla,
       precio,
+      codigoInterno,
+      nombreExamen,
       empresa_Id: this.currentUsuario.usuarioDato.empresa.empresa_Id,
       usuarioModifica_id: this.currentUsuario.usuarioDato._id
     };
@@ -147,13 +153,14 @@ actualiza(id: string, codigoExamen: string, nombre: string, sigla: string, preci
     );
   }
 
-consulta(id: string, codigoExamen: string, nombre: string, sigla: string, precio: number) {
+consulta(id: string, codigoExamen: string, nombre: string, sigla: string, precio: number,nombreExamen:string) {
     this.datoPar = {
       _id: id,
       codigoExamen,
       nombre,
       sigla,
       precio,
+      nombreExamen,
       usuarioCrea_id: this.currentUsuario.usuarioDato._id,
       usuarioModifica_id: this.currentUsuario.usuarioDato._id
     };
@@ -177,13 +184,14 @@ consulta(id: string, codigoExamen: string, nombre: string, sigla: string, precio
     );
  }
 
-elimina(id: string,  codigoExamen: string, nombre: string, sigla: string, precio: number) {
+elimina(id: string,  codigoExamen: string, nombre: string, sigla: string, precio: number,nombreExamen:string) {
     this.datoPar = {
       _id: id,
       codigoExamen,
       nombre,
       sigla,
       precio,
+      nombreExamen,
      // usuarioCrea_id: this.currentUsuario.usuarioDato.id
       usuarioModifica_id: this.currentUsuario.usuarioDato._id
     };

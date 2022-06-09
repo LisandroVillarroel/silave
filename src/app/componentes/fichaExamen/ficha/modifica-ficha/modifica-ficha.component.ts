@@ -147,7 +147,7 @@ export class ModificaFichaComponent implements OnInit {
 
     cargaExamen(){
       this.examenService
-      .getDataExamen(this.data.empresa.empresa_Id)
+      .getDataExamenTodo(this.data.empresa.empresa_Id)
       .subscribe(res => {
         console.log('examen:', res['data']);
         this.datoExamen = res['data'] as any[] ;
@@ -169,7 +169,7 @@ export class ModificaFichaComponent implements OnInit {
 
     cargaUsuario(){
       this.usuarioLabService
-      .getDataUsuario(this.data.empresa.empresa_Id)
+      .getDataUsuario(this.data.empresa.empresa_Id,'Laboratorio')
       .subscribe(res => {
         console.log('usuario:', res['data']);
         this.datoUsuario = res['data'] as any[];
@@ -208,7 +208,7 @@ export class ModificaFichaComponent implements OnInit {
 
     cargaEspecie(){
       this.especieService
-      .getDataEspecie(this.data.empresa.empresa_Id)
+      .getDataEspecieTodo(this.data.empresa.empresa_Id)
       .subscribe(res => {
         console.log('especie:', res['data'])
         this.datoEspecie = res['data'] ;
@@ -260,7 +260,7 @@ export class ModificaFichaComponent implements OnInit {
 
     cargaRaza(){
       this.razaService
-      .getDataRaza(this.data.empresa.empresa_Id)
+      .getDataRazaTodo(this.data.empresa.empresa_Id)
       .subscribe(res => {
         console.log('raza:', res['data'])
         this.datoRaza = res['data'] ;
@@ -319,7 +319,8 @@ export class ModificaFichaComponent implements OnInit {
         this.examen= {
             idExamen: examen_,
             codigoExamen: this.modificaFicha.get('idExamen')!.value.codigoExamen,
-            nombre: this.modificaFicha.get('idExamen')!.value.nombre
+            nombre: this.modificaFicha.get('idExamen')!.value.nombre,
+            nombreExamen: this.modificaFicha.get('idExamen')!.value.nombreExamen
       //   }
         }
         console.log('paso-1');
@@ -346,7 +347,8 @@ export class ModificaFichaComponent implements OnInit {
           idCliente: idCliente_,
           rutCliente: this.modificaFicha.get('idCliente')!.value.rutCliente,
           razonSocial: this.modificaFicha.get('idCliente')!.value.razonSocial,
-          nombreFantasia: this.modificaFicha.get('idCliente')!.value.nombreFantasia
+          nombreFantasia: this.modificaFicha.get('idCliente')!.value.nombreFantasia,
+          correoEnvioCliente: this.modificaFicha.get('idCliente')!.value.emailEnvioExamenCliente
         }
         console.log('paso1');
         let idEspecie_:string;
@@ -357,7 +359,7 @@ export class ModificaFichaComponent implements OnInit {
 
         this.especie= {
           idEspecie: idEspecie_,
-          nombre: this.modificaFicha.get('idEspecie')!.value.nombre.toUpperCase()
+          nombre: this.modificaFicha.get('idEspecie')!.value.nombre
         }
         console.log('paso2');
         let idRaza_:string;
@@ -368,7 +370,7 @@ export class ModificaFichaComponent implements OnInit {
 
         this.raza= {
           idRaza: idRaza_,
-          nombre: this.modificaFicha.get('idRaza')!.value.nombre.toUpperCase()
+          nombre: this.modificaFicha.get('idRaza')!.value.nombre
         }
         console.log('paso3',this.modificaFicha.get('idDoctorSolicitante')!.value);
 
@@ -387,7 +389,7 @@ export class ModificaFichaComponent implements OnInit {
 
         this.doctorSolicitante= {
           idDoctorSolicitante: idDoctorSolicitante_,
-          nombreDoctorSolicitante: nombreDoctorSolicitante_.toUpperCase()
+          nombreDoctorSolicitante: nombreDoctorSolicitante_
         }
 
 
@@ -396,12 +398,12 @@ export class ModificaFichaComponent implements OnInit {
           _id:this.data._id,
           fichaC: {
                 cliente: this.cliente,
-                nombrePropietario: this.modificaFicha.get('nombrePropietario')!.value.toUpperCase(),
-                nombrePaciente: this.modificaFicha.get('nombrePaciente')!.value.toUpperCase(),
+                nombrePropietario: this.modificaFicha.get('nombrePropietario')!.value,
+                nombrePaciente: this.modificaFicha.get('nombrePaciente')!.value,
                 edadPaciente: this.modificaFicha.get('edad')!.value,
                 especie: this.especie,
                 raza: this.raza,
-                sexo: this.modificaFicha.get('sexo')!.value.toUpperCase(),
+                sexo: this.modificaFicha.get('sexo')!.value,
                 doctorSolicitante: this.doctorSolicitante,
                 examen:this.examen,
                 numeroFicha:this.data.fichaC.numeroFicha

@@ -9,10 +9,11 @@ import { validateRut, formatRut, RutFormat } from '@fdograph/rut-utilities';
 
 import Swal from 'sweetalert2';
 import { ExamenService } from './../../../../servicios/examen.service';
-import { IExamen } from './../../../../modelo/examen-interface';
+import { IExamen, IResultado } from './../../../../modelo/examen-interface';
 import { AuthenticationService } from './../../../../autentica/_services';
 import { JwtResponseI } from './../../../../autentica/_models';
-
+import { FileHolder } from 'angular2-image-upload';
+import { ImagenesService } from '@app/servicios/imagenes.service';
 @Component({
   selector: 'app-agrega-examen',
   templateUrl: './agrega-examen.component.html',
@@ -23,14 +24,26 @@ export class AgregaExamenComponent implements OnInit {
   form!: FormGroup;
   usuario: string;
   dato!: IExamen;
+  resultado!:IResultado;
 
   currentUsuario!: JwtResponseI;
+  imagen64= '';
+  archivo: {
+    nombre: string,
+    nombreArchivo: string,
+    base64textString: string,
+    ruta: string
+  } = {
+    nombre:'',
+    nombreArchivo: '',
+    base64textString: '',
+    ruta:''
+  };
 
   constructor(private dialogRef: MatDialogRef<AgregaExamenComponent>,
               @Inject(MAT_DIALOG_DATA) data:any,
-              public servicioService: ExamenService,
-            //  public rutService: RutService,
-              public rutValidator: RutValidator,
+              private servicioService: ExamenService,
+              private imagenesService: ImagenesService,
               private authenticationService: AuthenticationService
               ) {
 
@@ -87,6 +100,7 @@ export class AgregaExamenComponent implements OnInit {
       nombre: this.agregaExamen.get('nombre')!.value,
       sigla: this.agregaExamen.get('sigla')!.value,
       precio: this.agregaExamen.get('precio')!.value,
+      nombreExamen: this.archivo.nombreArchivo,
       usuarioCrea_id: this.usuario,
       usuarioModifica_id: this.usuario,
       empresa_Id: this.currentUsuario.usuarioDato.empresa.empresa_Id
@@ -98,6 +112,24 @@ export class AgregaExamenComponent implements OnInit {
         console.log('respuesta:', dato);
         console.log('respuesta:', dato.mensaje);
         if (dato.codigo === 200) {
+          console.log('entro if 200',this.archivo);
+          this.imagenesService.uploadFile(this.archivo)
+          .subscribe({
+            next: (datos) => {
+              console.log('antes de grabar imagen:',datos);
+              if(datos.resultado === 'OK') {
+                console.log('grabó imagen');
+              }
+            },
+             error: (error) => {
+              console.log('error carga:', error);
+              Swal.fire(
+                'ERROR INESPERADO',
+                error,
+               'error'
+             );
+            }
+        }) ,
             Swal.fire(
             'Se agregó con Éxito',
             'Click en Boton!',
@@ -127,6 +159,27 @@ export class AgregaExamenComponent implements OnInit {
   // Error handling
   cerrar() {
     this.dialogRef.close();
+  }
+
+  onUploadFinished(file: FileHolder) {
+    console.log('paso1:', file);
+    console.log('muestra base64: ', file.src)
+    this.imagen64= file.src;
+    this.archivo.base64textString=file.src;
+    this.archivo.nombreArchivo=file.file.name;
+    this.archivo.ruta=this.currentUsuario.usuarioDato.empresa.rutEmpresa;
+  }
+
+  onRemoved(file: FileHolder) {
+    console.log('paso2: ', file);
+    this.imagen64= '';
+    this.archivo.base64textString='';
+    this.archivo.nombreArchivo='';
+    this.archivo.ruta='';
+  }
+
+  onUploadStateChanged(state: boolean) {
+    console.log('paso3: ', state);
   }
 }
 

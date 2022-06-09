@@ -57,7 +57,7 @@ export class RazaService {
     );
   }
 
-  getDataRaza(empresaId:string): Observable<any> {
+  getDataRazaTodo(empresaId:string): Observable<any> {
     return this.http.get(`${environment.apiUrl}/razaTodo/${empresaId}`, { headers: this.headers })
     .pipe(
       retry(1),

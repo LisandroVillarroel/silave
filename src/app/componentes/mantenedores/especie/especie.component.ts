@@ -62,7 +62,7 @@ ngOnInit() {
 getListEspecie(): void {
     console.log('pasa emp 2');
     this.especieService
-      .getDataEspecie(this.currentUsuario.usuarioDato.empresa.empresa_Id)
+      .getDataEspecieTodo(this.currentUsuario.usuarioDato.empresa.empresa_Id)
       .subscribe(res => {
         console.log('especie: ', res['data']);
         this.dataSource.data = res['data'] as IEspecie[];

@@ -5,6 +5,8 @@ import { ExamenService } from './../../../../servicios/examen.service';
 import { IExamen } from '../../../../modelo/examen-interface';
 
 import Swal from 'sweetalert2';
+import { AuthenticationService } from '@app/autentica/_services';
+import { JwtResponseI } from '@app/autentica/_models';
 
 @Component({
   selector: 'app-elimina-examen',
@@ -15,13 +17,23 @@ export class EliminaExamenComponent implements OnInit {
 
   datoPar: IExamen;
   dato!: IExamen;
+  imagen = './../../../../../assets/imagenes/';
+  currentUsuario!: JwtResponseI;
 
   constructor(private dialogRef: MatDialogRef<EliminaExamenComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
-              public servicioService: ExamenService
-    ) {this.datoPar = data; }
+              private servicioService: ExamenService,
+              private authenticationService:AuthenticationService,
+    ) {
+        this.authenticationService.currentUsuario.subscribe(x => this.currentUsuario = x);
+        if (this.authenticationService.getCurrentUser() != null) {
+              this.currentUsuario.usuarioDato = this.authenticationService.getCurrentUser() ;
+        }
+        this.datoPar = data;
+      }
 
   ngOnInit(): void {
+    this.imagen=this.imagen+ this.currentUsuario.usuarioDato.empresa.rutEmpresa+'/'+this.data.nombreExamen  // agregar a estructura data.nomreArchivo
   }
 
   enviar() {

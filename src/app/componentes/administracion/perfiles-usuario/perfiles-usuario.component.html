@@ -21,8 +21,8 @@
 
     <!-- ID Column -->
     <ng-container matColumnDef="usuario">
-      <th id='usuarioI' mat-header-cell *matHeaderCellDef mat-sort-header style=' width: 17%;'>USUARIO</th>
-      <td mat-cell *matCellDef="let row"style=' width: 17%;'> {{row.usuario}} </td>
+      <th id='usuarioI' mat-header-cell *matHeaderCellDef mat-sort-header style=' width: 12%;'>USUARIO</th>
+      <td mat-cell *matCellDef="let row"style=' width: 12%;'> {{row.usuario}} </td>
     </ng-container>
 
     <!-- Progress Column -->
@@ -34,13 +34,23 @@
 
     <!-- Titulo Column -->
     <ng-container matColumnDef="nombres">
-      <th id='nombresI' mat-header-cell *matHeaderCellDef mat-sort-header style=' width: 25%;'> NOMBRES </th>
-      <td mat-cell *matCellDef="let row" style=' width: 25%;'> {{row.nombres}} </td>
+      <th id='nombresI' mat-header-cell *matHeaderCellDef mat-sort-header style=' width: 10%;'> NOMBRES </th>
+      <td mat-cell *matCellDef="let row" style=' width: 10%;'> {{row.nombres}} </td>
     </ng-container>
 
     <ng-container matColumnDef="apellidoPaterno">
       <th id='apellidoPaternoI' mat-header-cell *matHeaderCellDef mat-sort-header style=' width: 20%;'> APELLIDO PATERNO </th>
       <td mat-cell *matCellDef="let row" style=' width: 20%;'> {{row.apellidoPaterno}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="tipoEmpresa">
+      <th id='tipoEmpresaI' mat-header-cell *matHeaderCellDef mat-sort-header style=' width: 10%;'> TIPO EMPRESA </th>
+      <td mat-cell *matCellDef="let row" style=' width: 10%;'> {{row.empresa.tipoEmpresa}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="nombreFantasia">
+      <th id='nombreFantasiaI' mat-header-cell *matHeaderCellDef mat-sort-header style=' width: 10%;'> CLIENTE </th>
+      <td mat-cell *matCellDef="let row" style=' width: 10%;'>  {{row.cliente.nombreFantasia}} </td>
     </ng-container>
 
     <ng-container matColumnDef="estadoUsuario">

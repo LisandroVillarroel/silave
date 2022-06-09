@@ -2,6 +2,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './autentica/login';
 import { AuthGuard } from './autentica/_guards';
+import { DatosEmpresaComponent } from './componentes/administracion/ADM/datos-empresa/datos-empresa.component';
+import { UsuariosEmpresaComponent } from './componentes/administracion/ADM/usuarios-empresa/usuarios-empresa.component';
+import { PerfilEmpresaComponent } from './componentes/administracion/perfil-empresa/perfil-empresa.component';
 import { PerfilesUsuarioComponent } from './componentes/administracion/perfiles-usuario/perfiles-usuario.component';
 import { ResetContrasenaComponent } from './componentes/administracion/reset-contrasena/reset-contrasena.component';
 import { ActualizaDatosComponent } from './componentes/datosPersonales/actualiza-datos/actualiza-datos.component';
@@ -23,9 +26,12 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'inicio', component: PortadaComponent, canActivate: [AuthGuard] },
 
+  { path: 'mantenedorEmpresa', component: DatosEmpresaComponent, canActivate: [AuthGuard]},
+  { path: 'administraUsuarioAdm', component: UsuariosEmpresaComponent, canActivate: [AuthGuard]},
   { path: 'resetKey/:token/:id', component: ResetContrasenaComponent},
   { path: 'cambioContrasena', component: CambioContrasenaComponent, canActivate: [AuthGuard] },
   { path: 'actualizaDatos', component: ActualizaDatosComponent, canActivate: [AuthGuard] },
+  { path: 'actualizaDatosEmpresa', component: PerfilEmpresaComponent, canActivate: [AuthGuard] },
 
   { path: 'administraUsuario', component: PerfilesUsuarioComponent, canActivate: [AuthGuard]},
   { path: 'ingresoFicha', component: FichaComponent, canActivate: [AuthGuard]},

@@ -8,7 +8,6 @@ import Swal from 'sweetalert2';
 import { MatDialogRef } from '@angular/material/dialog';
 import { HemogramaComponent } from '../hemograma.component';
 import { EmpresaService } from '@app/servicios/empresa.service';
-import { ICorreo } from '@app/modelo/empresa-interface';
 import { JwtResponseI } from '@app/autentica/_models';
 import { AuthenticationService } from '@app/autentica/_services';
 
@@ -210,7 +209,8 @@ console.log('serie Blanca 0',this.datoFichaRecibe.formatoResultado?.hemograma?.s
 
 
               console.log('file:',file);
-              this.fichaService.upload(file,this.datoFichaRecibe.fichaC.numeroFicha+'.pdf',this.currentUsuario.usuarioDato.empresa.empresa_Id,this.currentUsuario.usuarioDato.empresa.rutEmpresa,this.datoFichaRecibe.fichaC.examen.nombre,this.datoFichaRecibe.fichaC.numeroFicha).subscribe(
+              //this.fichaService.upload(file,this.datoFichaRecibe.fichaC.numeroFicha+'.pdf',this.currentUsuario.usuarioDato.empresa.empresa_Id,this.currentUsuario.usuarioDato.empresa.rutEmpresa,this.datoFichaRecibe.fichaC.examen.nombre,this.datoFichaRecibe.fichaC.numeroFicha,this.datoFichaRecibe._id).subscribe(
+              this.fichaService.upload(file,this.datoFichaRecibe.fichaC.numeroFicha+'.pdf',this.datoFichaRecibe._id).subscribe(
                 (event: any) => {
                   console.log('termino',event.codigo)
 
@@ -221,7 +221,7 @@ console.log('serie Blanca 0',this.datoFichaRecibe.formatoResultado?.hemograma?.s
                               '',
                               'success'
                             );
-                            this.dialogRef.close(1);
+                           this.dialogRef.close(1);
                       }else{
                         console.log('error',event);
                         Swal.fire(

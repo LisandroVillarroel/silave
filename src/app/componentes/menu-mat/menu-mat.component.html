@@ -13,6 +13,7 @@
     </div>
     <button class="padingLateral" mat-button [matMenuTriggerFor]="menu"><mat-icon>keyboard_arrow_down</mat-icon></button>
 <mat-menu #menu="matMenu">
+  <button *ngIf="accesoDatosEmpresa" mat-menu-item routerLink="/actualizaDatosEmpresa">Datos Empresa</button>
   <button mat-menu-item routerLink="/actualizaDatos">Datos Personales</button>
   <button mat-menu-item routerLink="/cambioContrasena">Contraseña</button>
   <button mat-menu-item (click)="cerrar()">Cerrar</button>
@@ -27,9 +28,9 @@
                  [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
       <mat-nav-list>
         <!--"https://source.unsplash.com/c_GmwfHBDzk/200x200"-->
-        <img class="avatar mat-elevation-z8" src="./../../../assets/imagenes/imgMcVet.jpg" />
-        <h4 class="name">MCVET</h4>
-      <p class="NAME">Veterinaria</p>
+        <img class="avatar mat-elevation-z8" [src]="nombreLogoEmpresa" />
+        <h4 class="name">{{nombreSiglaEmp}}</h4>
+      <p class="NAME">{{nombreTipoEmp}}</p>
         <div *ngIf="flag">
           <app-menu-list-item  *ngFor="let item of getMenu()" [item]="item" (tituloModuloF)="traeTituloModulo($event)"></app-menu-list-item>
         </div>

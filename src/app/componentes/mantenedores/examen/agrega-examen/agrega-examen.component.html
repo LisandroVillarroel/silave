@@ -26,8 +26,20 @@
     <mat-error *ngIf="precio.invalid">{{getErrorMessage('precio')}}</mat-error>
   </mat-form-field>
 
+  <image-upload class="customClass"
+  (removed)="onRemoved($event)"
+  (uploadFinished)="onUploadFinished($event)"
+  (uploadStateChanged)="onUploadStateChanged($event)"
+  buttonCaption="Presione para Seleccionar"
+  dropBoxMessage="!Suelta tu imágen aquí!"
+  clearButtonCaption="Eliminar Imágen"
+  [extensions]="['jpeg','png','jpg','svg']"
+  [max]="1"
+  >
+  </image-upload>
 
 </mat-dialog-content>
+
 
 <mat-dialog-actions>
     <div class="col-md-6">

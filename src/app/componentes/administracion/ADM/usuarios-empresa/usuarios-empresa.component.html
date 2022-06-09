@@ -1,0 +1,93 @@
+<div class="pt-1" >
+  <div class="col-md-12">
+    <h4 class="text-center">Usuarios Empresa</h4>
+  </div>
+</div>
+
+<div class="content ml-2 mr-2">
+<mat-form-field>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Buscar">
+</mat-form-field>
+
+<div class="mat-elevation-z8">
+
+  <table mat-table [dataSource]="dataSource" multiTemplateDataRows matSort>
+
+     <!-- ID Index -->
+     <ng-container matColumnDef="index">
+        <th id='indexI' mat-header-cell *matHeaderCellDef mat-sort-header style=' width: 3%;'> N° </th>
+        <td mat-cell *matCellDef="let row; let i = dataIndex;"style=' width: 3%;'> {{i+1}} </td>
+      </ng-container>
+
+    <!-- ID Column -->
+    <ng-container matColumnDef="usuario">
+      <th id='usuarioI' mat-header-cell *matHeaderCellDef mat-sort-header style=' width: 10%;'>USUARIO</th>
+      <td mat-cell *matCellDef="let row"style=' width: 10%;'> {{row.usuario}} </td>
+    </ng-container>
+
+    <!-- Progress Column -->
+    <ng-container matColumnDef="rutUsuario">
+      <th id='rutUsuarioI' mat-header-cell *matHeaderCellDef mat-sort-header style=' width: 10%;'> RUT </th>
+      <td mat-cell *matCellDef="let row"  style=' width: 10%;'> {{row.rutUsuario}} </td>
+    </ng-container>
+
+
+    <!-- Titulo Column -->
+    <ng-container matColumnDef="nombres">
+      <th id='nombresI' mat-header-cell *matHeaderCellDef mat-sort-header style=' width: 18%;'> NOMBRES </th>
+      <td mat-cell *matCellDef="let row" style=' width: 18%;'> {{row.nombres}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="apellidoPaterno">
+      <th id='apellidoPaternoI' mat-header-cell *matHeaderCellDef mat-sort-header style=' width: 18%;'> APELLIDO PATERNO </th>
+      <td mat-cell *matCellDef="let row" style=' width: 18%;'> {{row.apellidoPaterno}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="rutEmpresa">
+      <th id='rutEmpresaI' mat-header-cell *matHeaderCellDef mat-sort-header style=' width: 10%;'> RUT EMPRESA </th>
+      <td mat-cell *matCellDef="let row" style=' width: 10%;'> {{row.empresa.rutEmpresa}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="tipoEmpresa">
+      <th id='tipoEmpresaI' mat-header-cell *matHeaderCellDef mat-sort-header style=' width: 10%;'> TIPO EMPRESA </th>
+      <td mat-cell *matCellDef="let row" style=' width: 10%;'> {{row.empresa.tipoEmpresa}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="estadoUsuario">
+      <th id='estadoUsuarioI' mat-header-cell *matHeaderCellDef mat-sort-header style=' width: 8%;'> ESTADO </th>
+      <td mat-cell *matCellDef="let row" style=' width: 8%;'> {{row.estadoUsuario}} </td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="opciones" >
+      <th id='opcionesI' mat-header-cell *matHeaderCellDef  style=' width: 13%; text-align: center'>
+        <button mat-icon-button color="accent" class="nuevo" (click)="agregaNuevo()">
+          <mat-icon>add</mat-icon>
+        </button>
+      </th>
+
+      <td mat-cell *matCellDef="let row; let i=index;" style=' width: 13%; text-align: center'>
+
+        <button mat-icon-button color="accent" style="size:5px" (click)="actualizaFicha(row)">
+          <mat-icon>edit</mat-icon>
+        </button>
+
+        <button mat-icon-button color="accent" (click)="consultaFicha(row)">
+          <mat-icon>search</mat-icon>
+        </button>
+
+        <button mat-icon-button color="accent" (click)="reseteaContrasena(row)">
+          <mat-icon>vpn_key</mat-icon>
+        </button>
+
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[10, 20, 30, 100]"></mat-paginator>
+
+</div>
+</div>

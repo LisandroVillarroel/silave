@@ -3,7 +3,7 @@
 <mat-dialog-content [formGroup]="modificaCliente" name="modificaCliente" class="modifica-container">
 
   <mat-form-field>
-    <input matInput placeholder="Ingrese Razón Social" [formControl]="razonSocial" oninput="this.value = this.value.toUpperCase()" required>
+    <input matInput placeholder="Ingrese Razón Social" [formControl]="razonSocial"  required>
     <mat-error *ngIf="razonSocial.invalid">{{getErrorMessage()}}</mat-error>
   </mat-form-field>
 
@@ -31,6 +31,12 @@
     <input matInput placeholder="Ingrese Nombre Contacto " [formControl]="nombreContacto" required>
     <mat-error *ngIf="nombreContacto.invalid">{{getErrorMessage()}}</mat-error>
   </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Ingrese Email Envío Exámen " [formControl]="emailEnvioExamenCliente" required>
+    <mat-error *ngIf="emailEnvioExamenCliente.invalid">{{getErrorMessage()}}</mat-error>
+  </mat-form-field>
+
 </mat-dialog-content>
 
 <mat-dialog-actions>

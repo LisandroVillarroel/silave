@@ -131,3 +131,16 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .mat-sort-header-arrow {
   color: #dced4f;
 }
+
+/*esta es para image-upload*/
+.customClass .img-ul-button{
+  color: #000 !important;
+  font-size: 12px !important;
+
+}
+
+.img-ul-drag-box-msg{
+  font-size: 15px !important;
+}
+
+/*Fin image-upload*/

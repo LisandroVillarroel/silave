@@ -1,18 +1,14 @@
-import { IEmpresa } from './../modelo/empresa-interface';
-import { Injectable, ɵConsole } from '@angular/core';
-import { AuthenticationService } from './../autentica/_services';
-
-import { environment } from './../../environments/environment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs/internal/Observable';
-import { map } from 'rxjs/operators';
-import { throwError } from 'rxjs';
-import { retry, catchError } from 'rxjs/operators';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { AuthenticationService } from '@app/autentica/_services';
+import { IEmpresa } from '@app/modelo/empresa-interface';
+import { environment } from '@environments/environment';
+import { catchError, Observable, retry, throwError } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
 })
-
 export class EmpresaService {
 
   constructor(private http: HttpClient, private authenticationService: AuthenticationService) { }
@@ -22,10 +18,6 @@ export class EmpresaService {
     Authorization: this.authenticationService.getToken()!
   });
 
-
-  // getDataPerfil() {
-  //  return this.perfilServ;
-  // }
 
   // POST
   postDataEmpresa(dato:any): Observable<any> {
@@ -58,7 +50,8 @@ export class EmpresaService {
 
   getDataEmpresaTodo():Observable<any> {
 
-    return this.http.get(`${environment.apiUrl}/empresaTodo`, { headers: this.headers })
+    console.log('dirección:',`${environment.apiUrl}/empresaTodo`,this.headers )
+    return this.http.get(`${environment.apiUrl}/empresaTodo/`, { headers: this.headers })
     .pipe(
       retry(1),
       catchError(this.errorHandl)
@@ -74,7 +67,8 @@ export class EmpresaService {
     );
   }
 
-  errorHandl(error:any) {
+
+  errorHandl(error: HttpErrorResponse) {
     console.log('paso error: ', error);
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
@@ -84,11 +78,14 @@ export class EmpresaService {
       // Get server-side error
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
-    console.log(errorMessage);
+    console.log('mio: ', errorMessage);
+    Swal.fire(
+      'ERROR INESPERADO',
+      errorMessage,
+     'error'
+   );
     return throwError(errorMessage);
  }
-
-
-
-
 }
+
+

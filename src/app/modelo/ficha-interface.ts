@@ -3,6 +3,7 @@ import { IHemograma } from "./examenHemograma-interface";
 export interface IFicha {
   _id?: string;
   fichaC:{
+    id_Ficha?: string;
     numeroFicha?: string;
     cliente?:IFichaCliente;
     nombrePropietario?: string;
@@ -36,12 +37,14 @@ export interface IFichaCliente {
   rutCliente?: string;
   razonSocial?: string;
   nombreFantasia?: string;
+  correoEnvioCliente?:string;
 }
 
 export interface IFichaExamen {
   idExamen:string;
   codigoExamen: string;
   nombre: string;
+  nombreExamen?: string;
 }
 
 
@@ -76,4 +79,5 @@ export interface IFichaUsuarioAsignado {
 export interface IFichaEmpresa {
   empresa_Id?:string;
   rutEmpresa?: string;
+  nombreLogo?: string;
 }

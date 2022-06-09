@@ -12,13 +12,15 @@ import { UsuarioLabService } from '@app/servicios/usuario-lab.service';
 import Swal from 'sweetalert2';
 import { MenuService } from '@app/servicios/menu.service';
 import { Router } from '@angular/router';
+import { EmpresaService } from '@app/servicios/empresa.service';
+import { ClienteService } from '@app/servicios/cliente.service';
 
 @Component({
   selector: 'app-menu-mat',
   templateUrl: './menu-mat.component.html',
   styleUrls: ['./menu-mat.component.css']
 })
-export class MenuMatComponent implements OnDestroy {
+export class MenuMatComponent implements OnDestroy,OnInit {
 
   positionOptions: TooltipPosition[] = ['below', 'above', 'left', 'right'];
 
@@ -28,44 +30,88 @@ export class MenuMatComponent implements OnDestroy {
 
   menuItems!: MenuItem[];
 
+  nombreSiglaEmp:string='';
+  nombreTipoEmp:string='';
+  nombreLogoEmpresa:string="./../../../assets/imagenes/sinLogo.jpg";
+
   flag=false;
+  accesoDatosEmpresa:boolean=false;
 
   constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private location: Location,
     private authenticationService: AuthenticationService,
     private router: Router,
-    private usuarioLabService:UsuarioLabService) {
+    private usuarioLabService:UsuarioLabService,
+    private empresaService: EmpresaService,
+    private clienteService: ClienteService) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._MOBILEQUERYLISTENER = () => changeDetectorRef.detectChanges();
     // deprecated: MediaQueryList.addListener(listener);
 
     this.mobileQuery.addEventListener('change', this._MOBILEQUERYLISTENER);
     this.authenticationService.currentUsuario.subscribe(x => this.currentUsuario = x);
-    console.log('pasa ficha 1',this.authenticationService.getCurrentUser());
         if (this.authenticationService.getCurrentUser() != null) {
           this.currentUsuario.usuarioDato = this.authenticationService.getCurrentUser() ;
         }
 
         this.getDataMenu();
-
-    console.log('paso menu')
   }
 
-
+  ngOnInit() {
+    if (this.currentUsuario.usuarioDato.empresa.tipoEmpresa=='Laboratorio' || this.currentUsuario.usuarioDato.empresa.tipoEmpresa=='Administrador General'){
+      this.getEmpresa(this.currentUsuario.usuarioDato.empresa.empresa_Id);
+      this.nombreTipoEmp =this.currentUsuario.usuarioDato.empresa.tipoEmpresa;
+  }else{
+    this.nombreSiglaEmp!= this.currentUsuario.usuarioDato.cliente?.nombreFantasia;
+    this.nombreTipoEmp='Veterinaria';
+  }
+  }
 
   mobileQuery: MediaQueryList;
 
 
+  getEmpresa(idEmpresa:string): any  {
+    this.empresaService
+      .getDataEmpresa(idEmpresa)
+      .subscribe(res => {
+        console.log('empresa:', res['data'][0])
+        this.nombreSiglaEmp= res['data'][0].nombreFantasia;
+        console.log('logoooo:',res['data'][0]?.nombreLogo)
+        if (res['data'][0]?.nombreLogo !== undefined && res['data'][0]?.nombreLogo!==''  && res['data'][0]?.nombreLogo!=='sinLogo.jpg') {
+          this.nombreLogoEmpresa= "./../../../assets/imagenes/"+res['data'][0].rutEmpresa+'/'+res['data'][0].nombreLogo;
+        }
+        console.log('logoooo2:',this.nombreLogoEmpresa)
+      },
+
+      error => {
+        console.log('error carga:', error);
+        Swal.fire(
+          'ERROR INESPERADO',
+          error,
+         'error'
+       );
+
+      }
+    ); // (this.dataSource.data = res as PerfilI[])
+
+  }
+
+
 
   getDataMenu(){
-    console.log('usuario id:',this.currentUsuario.usuarioDato._id);
     this.usuarioLabService
     .getDataUsuarioId(this.currentUsuario.usuarioDato._id)
     .subscribe(res => {
-      console.log('usuario: ', res.data);
       this.menuItems=res.data[0].MenuItem;
+      console.log('menu:',res)
+      for(let a=0; a<res.data[0].MenuItem.length; a++){
+        if (res.data[0].MenuItem[a].route=='administraUsuario' && res.data[0].MenuItem[a].tipoPermiso=='Administrador')
+        {
+          this.accesoDatosEmpresa=true;
+          console.log('Tipo empresa:',res.data[0].MenuItem[a].tipoPermiso);
+        }
+      }
       this.flag=true;
     },
-    // console.log('yo:', res as PerfilI[]),
     error => {
       console.log('error carga:', error);
       Swal.fire(
@@ -185,7 +231,6 @@ menuItems: MenuItem[] = [
   }
 
    getMenu() {
-    console.log('item:',this.menuItems)
    return this.menuItems.filter((item) => item.selected === true);
   }
 

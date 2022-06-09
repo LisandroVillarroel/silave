@@ -34,6 +34,7 @@ export class EliminaClienteComponent implements OnInit {
       telefono: '',
       email: '',
       nombreContacto: '',
+      emailEnvioExamenCliente: '',
       usuarioModifica_id: this.datoClientePar.usuarioModifica_id
     };
 
@@ -58,7 +59,5 @@ export class EliminaClienteComponent implements OnInit {
 
   }
 
-  cerrar() {
-    this.dialogRef.close();
-  }
+
 }

@@ -23,6 +23,20 @@ import { JwtResponseI } from '@app/autentica/_models';
 
     datoUsuario!: IUsuario;
 
+    imagen = './../../../../../assets/imagenes/';
+
+    imagen64: any;
+    archivo: {
+      nombre: string,
+      nombreArchivo: string,
+      base64textString: string,
+      ruta: string
+    } = {
+      nombre:'',
+      nombreArchivo: '',
+      base64textString: '',
+      ruta:''
+    };
     constructor(private  usuarioLabService: UsuarioLabService,
                 private authenticationService:AuthenticationService,
                 ) {
@@ -116,12 +130,12 @@ import { JwtResponseI } from '@app/autentica/_models';
       this.datoUsuario = {
         _id:this.currentUsuario.usuarioDato._id,
         rutUsuario: this.modificaUsuario.get('rutUsuario')!.value.toUpperCase(),
-        nombres: this.modificaUsuario.get('nombres')!.value.toUpperCase(),
-        apellidoPaterno: this.modificaUsuario.get('apellidoPaterno')!.value.toUpperCase(),
-        apellidoMaterno: this.modificaUsuario.get('apellidoMaterno')!.value.toUpperCase(),
+        nombres: this.modificaUsuario.get('nombres')!.value,
+        apellidoPaterno: this.modificaUsuario.get('apellidoPaterno')!.value,
+        apellidoMaterno: this.modificaUsuario.get('apellidoMaterno')!.value,
         telefono: this.modificaUsuario.get('telefono')!.value,
-        email: this.modificaUsuario.get('email')!.value.toUpperCase(),
-        direccion: this.modificaUsuario.get('direccion')!.value.toUpperCase(),
+        email: this.modificaUsuario.get('email')!.value,
+        direccion: this.modificaUsuario.get('direccion')!.value,
         usuarioCrea_id: this.currentUsuario.usuarioDato.usuario,
         usuarioModifica_id: this.currentUsuario.usuarioDato.usuario
 
@@ -177,5 +191,7 @@ import { JwtResponseI } from '@app/autentica/_models';
         this.modificaUsuario.get('rutUsuario')!.setValue(formatRut(rut, RutFormat.DOTS_DASH));
       }
     }
+
+
 
   }

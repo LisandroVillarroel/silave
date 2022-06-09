@@ -44,25 +44,36 @@
       <td mat-cell *matCellDef="let row" style=' width: 7%;'> {{row.precio}} </td>
     </ng-container>
 
+ <!-- codigo Interno Column -->
+  <ng-container  matColumnDef="codigoInterno">
+    <th [hidden]="show" id='codigoInternoI' mat-header-cell *matHeaderCellDef mat-sort-header style=' width: 7%;'> Código Interno </th>
+    <td [hidden]="show" mat-cell *matCellDef="let row" style=' width: 7%;'> {{row.codigoInterno}} </td>
+  </ng-container>
+
+  <!-- Nombre Archivo Examen Column -->
+  <ng-container  matColumnDef="nombreExamen">
+    <th [hidden]="show" id='nombreExamenI' mat-header-cell *matHeaderCellDef mat-sort-header style=' width: 7%;'> Nombre Archivo Examen </th>
+    <td [hidden]="show" mat-cell *matCellDef="let row" style=' width: 7%;'> {{row.nombreExamen}} </td>
+  </ng-container>
 
     <ng-container matColumnDef="opciones" >
-      <th id='opcionesI' mat-header-cell *matHeaderCellDef  style=' width: 10%; text-align: center'>
-        <button mat-icon-button color="accent" class="nuevo" (click)="agregaNuevo()">
-          <mat-icon>add</mat-icon>
-        </button>
-      </th>
+        <th id='opcionesI' mat-header-cell *matHeaderCellDef  style=' width: 10%; text-align: center'>
+          <button *ngIf="visible" mat-icon-button color="accent" class="nuevo" (click)="agregaNuevo()">
+            <mat-icon>add</mat-icon>
+          </button>
+        </th>
 
       <td mat-cell *matCellDef="let row; let i=index;" style=' width: 10%; text-align: center'>
 
-        <button mat-icon-button color="accent" style="size:5px" (click)="actualiza(row._id, row.codigoExamen, row.nombre, row.sigla, row.precio)">
+        <button mat-icon-button color="accent" style="size:5px" (click)="actualiza(row._id, row.codigoExamen, row.nombre, row.sigla, row.precio,row.codigoInterno,row.nombreExamen)">
           <mat-icon>edit</mat-icon>
         </button>
 
-        <button mat-icon-button color="accent" (click)="consulta(row._id, row.codigoExamen, row.nombre, row.sigla, row.precio)">
+        <button mat-icon-button color="accent" (click)="consulta(row._id, row.codigoExamen, row.nombre, row.sigla, row.precio, row.nombreExamen)">
           <mat-icon>search</mat-icon>
         </button>
 
-        <button mat-icon-button color="accent" (click)="elimina(row._id, row.codigoExamen, row.nombre, row.sigla, row.precio)">
+        <button *ngIf="visible" mat-icon-button color="accent" (click)="elimina(row._id, row.codigoExamen, row.nombre, row.sigla, row.precio,row.nombreExamen)">
           <mat-icon>delete</mat-icon>
         </button>
 

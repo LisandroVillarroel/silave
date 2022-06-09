@@ -30,11 +30,15 @@
     <input matInput placeholder="Nombre Contacto " value="{{datoClientePar.nombreContacto}}" disabled='true'>
   </mat-form-field>
 
+  <mat-form-field>
+    <input matInput placeholder="Email Envío Exámen" value="{{datoClientePar.emailEnvioExamenCliente}}" disabled='true'>
+  </mat-form-field>
+
 </mat-dialog-content>
 
 <mat-dialog-actions>
     <div class="col-md-6">
-      <button mat-raised-button color="warn" (click)="cerrar()" mat-dialog-close  [disabled]=false>Cerrar</button>
+      <button mat-raised-button color="warn"  mat-dialog-close  [disabled]=false>Cerrar</button>
     </div>
     <div class="col-md-6">
       <button class="colorFondoBoton" mat-raised-button  (click)="enviar()"  mat-dialog-close >ELIMINA</button>

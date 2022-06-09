@@ -45,6 +45,7 @@ export class ModificaClienteComponent implements OnInit {
     telefono = new FormControl(this.data.telefono, [Validators.required]);
     email = new FormControl(this.data.email, [Validators.required]);
     nombreContacto = new FormControl(this.data.nombreContacto, [Validators.required]);
+    emailEnvioExamenCliente = new FormControl(this.data.emailEnvioExamenCliente, [Validators.required]);
 
     modificaCliente: FormGroup = new FormGroup({
       // rutEmpresa: this.datoEmpresaPar.rutEmpresa,
@@ -53,7 +54,8 @@ export class ModificaClienteComponent implements OnInit {
       direccion: this.direccion,
       telefono: this.telefono,
       email: this.email,
-      nombreContacto: this.nombreContacto
+      nombreContacto: this.nombreContacto,
+      emailEnvioExamenCliente: this.emailEnvioExamenCliente
       // address: this.addressFormControl
     });
 
@@ -64,6 +66,7 @@ export class ModificaClienteComponent implements OnInit {
           this.telefono.hasError('required') ? 'Debes ingresar Teléfono' :
           this.email.hasError('required') ? 'Debes ingresar Email' :
           this.nombreContacto.hasError('required') ? 'Debes ingresar Nombre Contacto' :
+          this.emailEnvioExamenCliente.hasError('required') ? 'Debes ingresar Email Envío Exámen' :
               '';
     }
 
@@ -74,12 +77,13 @@ export class ModificaClienteComponent implements OnInit {
     this.datoCliente = {
       _id: this.datoClientePar._id,
       rutCliente: this.datoClientePar.rutCliente,
-      razonSocial: this.modificaCliente.get('razonSocial')!.value.toUpperCase(),
-      nombreFantasia: this.modificaCliente.get('nombreFantasia')!.value.toUpperCase(),
-      direccion: this.modificaCliente.get('direccion')!.value.toUpperCase(),
+      razonSocial: this.modificaCliente.get('razonSocial')!.value,
+      nombreFantasia: this.modificaCliente.get('nombreFantasia')!.value,
+      direccion: this.modificaCliente.get('direccion')!.value,
       telefono: this.modificaCliente.get('telefono')!.value,
-      email: this.modificaCliente.get('email')!.value.toUpperCase(),
-      nombreContacto: this.modificaCliente.get('nombreContacto')!.value.toUpperCase(),
+      email: this.modificaCliente.get('email')!.value,
+      nombreContacto: this.modificaCliente.get('nombreContacto')!.value,
+      emailEnvioExamenCliente: this.modificaCliente.get('emailEnvioExamenCliente')!.value,
     //  usuarioCrea_id: this.datoEmpresaPar.usuarioCrea_id,
       usuarioModifica_id: this.datoClientePar.usuarioModifica_id
     };
@@ -90,8 +94,8 @@ export class ModificaClienteComponent implements OnInit {
         console.log('respuesta:', dato['codigo']);
         if (dato['codigo'] === 200) {
             Swal.fire(
-            'Ya se agrego con Exito',
-            'Click en Boton!',
+            'Ya se Actualizó con Éxito',
+            '',
             'success'
           ),
           this.dialogRef.close(1);

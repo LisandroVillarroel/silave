@@ -57,7 +57,16 @@ export class ExamenService {
     );
   }
 
-  getDataExamen(empresaId:string):Observable<any> {
+
+  getDataExamen(Id:string):Observable<any> {
+    return this.http.get(`${environment.apiUrl}/examen/${Id}`, { headers: this.headers })
+    .pipe(
+      retry(1),
+      catchError(this.errorHandl)
+    );
+  }
+
+  getDataExamenTodo(empresaId:string):Observable<any> {
     return this.http.get(`${environment.apiUrl}/examenTodo/${empresaId}`, { headers: this.headers })
     .pipe(
       retry(1),

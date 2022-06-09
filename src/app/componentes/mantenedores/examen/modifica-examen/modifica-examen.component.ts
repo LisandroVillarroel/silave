@@ -7,6 +7,10 @@ import { IExamen } from '../../../../modelo/examen-interface';
 
 import Swal from 'sweetalert2';
 import { formatRut, RutFormat, validateRut } from '@fdograph/rut-utilities';
+import { FileHolder } from 'angular2-image-upload';
+import { AuthenticationService } from '@app/autentica/_services';
+import { JwtResponseI } from '@app/autentica/_models';
+import { ImagenesService } from '@app/servicios/imagenes.service';
 
 @Component({
   selector: 'app-modifica-examen',
@@ -16,7 +20,7 @@ import { formatRut, RutFormat, validateRut } from '@fdograph/rut-utilities';
 export class ModificaExamenComponent implements OnInit {
 
   form!: FormGroup;
-
+  currentUsuario!: JwtResponseI;
   // id: string;
   // rutEmpresa: string;
   // razonSocialPar: string;
@@ -25,11 +29,32 @@ export class ModificaExamenComponent implements OnInit {
   // usuario: string;
   datoPar: IExamen;
   _dato!: IExamen;
+  imagen64: any;
+
+  imagen = './../../../../../assets/imagenes/';
+  archivo: {
+    nombre: string,
+    nombreArchivo: string,
+    base64textString: string,
+    ruta: string
+  } = {
+    nombre:'',
+    nombreArchivo: '',
+    base64textString: '',
+    ruta:''
+  };
 
   constructor(private dialogRef: MatDialogRef<ModificaExamenComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
-              public servicioService: ExamenService
+              private servicioService: ExamenService,
+              private imagenesService: ImagenesService,
+              private authenticationService:AuthenticationService,
               ) {
+                this.authenticationService.currentUsuario.subscribe(x => this.currentUsuario = x);
+                if (this.authenticationService.getCurrentUser() != null) {
+                      this.currentUsuario.usuarioDato = this.authenticationService.getCurrentUser() ;
+                }
+
                 this.datoPar = data;
                 console.log('dato update: ', data);
                // this.id = data.id;
@@ -70,6 +95,7 @@ export class ModificaExamenComponent implements OnInit {
     }
 
   ngOnInit() {
+   this.imagen=this.imagen+ this.currentUsuario.usuarioDato.empresa.rutEmpresa+'/'+this.data.nombreExamen  // agregar a estructura data.nomreArchivo
   }
 
   enviar() {
@@ -79,10 +105,12 @@ export class ModificaExamenComponent implements OnInit {
       nombre: this.modifica.get('nombre')!.value,
       sigla: this.modifica.get('sigla')!.value,
       precio: this.modifica.get('precio')!.value,
+      nombreExamen: this.archivo.nombreArchivo,
       empresa_Id: this.datoPar.empresa_Id,
       usuarioModifica_id: this.datoPar.usuarioModifica_id
     };
     console.log('modifica:', this._dato);
+    /*
     this.servicioService.putDataExamen(this._dato)
     .subscribe(
       dato => {
@@ -116,6 +144,56 @@ export class ModificaExamenComponent implements OnInit {
       }
        // error =>{console.log('error agrega:',<any>error);this.errorMsg=error.error.error;alert('Error: ' + this.errorMsg)}
       );
+*/
+    this.servicioService.putDataExamen(this._dato)
+    .subscribe(
+      dato => {
+        console.log('respuesta:', dato);
+        console.log('respuesta:', dato.mensaje);
+        if (dato.codigo === 200) {
+          console.log('entro if 200',this.archivo);
+          this.imagenesService.uploadFile(this.archivo)
+          .subscribe({
+            next: (datos) => {
+              console.log('antes de grabar imagen:',datos);
+              if(datos.resultado === 'OK') {
+                console.log('grabó imagen');
+              }
+            },
+             error: (error) => {
+              console.log('error carga:', error);
+              Swal.fire(
+                'ERROR INESPERADO',
+                error,
+               'error'
+             );
+            }
+        }) ,
+            Swal.fire(
+            'Se agregó con Éxito',
+            'Click en Boton!',
+            'success'
+          ); // ,
+            this.dialogRef.close(1);
+        }else{
+          if (dato.codigo!=500){
+            Swal.fire(
+              dato.mensaje,
+              '',
+              'error'
+            );
+          }
+          else{
+            console.log('Error Exámen:', dato);
+            Swal.fire(
+              '',
+              'ERROR SISTEMA',
+              'error'
+            );
+          }
+        }
+      }
+    );
       // this.dialogRef.close(this.form.value);
     // console.log(this.datoCotiza);
   }
@@ -123,8 +201,29 @@ export class ModificaExamenComponent implements OnInit {
   // Error handling
 
 
-  cerrar() {
-    this.dialogRef.close();
+
+  onUploadFinished(file: FileHolder) {
+    console.log('paso1:', file);
+    console.log('muestra base64: ', file.src)
+    console.log('extensión:',file.src.split(';')[0].split('/')[1]);
+    this.imagen64= file.src;
+    this.archivo.base64textString=file.src;
+
+    this.archivo.nombreArchivo=this.data.codigoInterno+'_firmaExamen.'+file.src.split(';')[0].split('/')[1];
+    this.archivo.ruta=this.currentUsuario.usuarioDato.empresa.rutEmpresa;
   }
+
+  onRemoved(file: FileHolder) {
+    console.log('paso2: ', file);
+    this.imagen64= '';
+    this.archivo.base64textString='';
+    this.archivo.nombreArchivo='';
+    this.archivo.ruta='';
+  }
+
+  onUploadStateChanged(state: boolean) {
+    console.log('paso3: ', state);
+  }
+
 
 }

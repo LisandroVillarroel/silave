@@ -10,7 +10,7 @@
 
 
   <mat-form-field>
-    <input matInput placeholder="Ingrese Nombres" [formControl]="nombres" oninput="this.value = this.value.toUpperCase()" required>
+    <input matInput placeholder="Ingrese Nombres" [formControl]="nombres" required>
     <mat-error *ngIf="nombres.invalid">{{getErrorMessage()}}</mat-error>
   </mat-form-field>
 

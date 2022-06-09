@@ -9,6 +9,7 @@ import { MenuItem } from "./menu-interface";
   apellidoPaterno: string;
   apellidoMaterno: string;
   empresa?: IUsuarioEmpresa;
+  cliente?: IUsuarioCliente;
   telefono?: string;
   email?: string;
   direccion?:string;
@@ -20,9 +21,17 @@ import { MenuItem } from "./menu-interface";
 }
 
 export interface IUsuarioEmpresa {
-  empresa_Id?:string;
-  rutEmpresa?: string;
+  empresa_Id:string;
+  rutEmpresa: string;
+  menu_Id: string;
+  tipoEmpresa?: string;
 }
+
+export interface IUsuarioCliente {
+  idCliente?: string;
+  nombreFantasia?:string;
+}
+
 
 
 export interface IUsuarioContrasena {

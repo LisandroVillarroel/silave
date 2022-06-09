@@ -104,14 +104,14 @@ export class AgregaPropietarioComponent implements OnInit {
   enviar() {
     this.dato = {
       rutPropietario: this.agrega.get('rutPropietario')!.value.toUpperCase(),
-      nombres: this.agrega.get('nombres')!.value.toUpperCase(),
-      apellidoPaterno: this.agrega.get('apellidoPaterno')!.value.toUpperCase(),
-      apellidoMaterno: this.agrega.get('apellidoMaterno')!.value.toUpperCase(),
+      nombres: this.agrega.get('nombres')!.value,
+      apellidoPaterno: this.agrega.get('apellidoPaterno')!.value,
+      apellidoMaterno: this.agrega.get('apellidoMaterno')!.value,
       region: 'Sin Region',
       comuna: 'Sin Comuna',
-      direccion: this.agrega.get('direccion')!.value.toUpperCase(),
+      direccion: this.agrega.get('direccion')!.value,
       telefono: this.agrega.get('telefono')!.value,
-      email: this.agrega.get('email')!.value.toUpperCase(),
+      email: this.agrega.get('email')!.value,
       usuarioCrea_id: this.usuario,
       usuarioModifica_id: this.usuario
     };

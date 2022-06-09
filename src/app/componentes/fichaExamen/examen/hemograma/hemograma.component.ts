@@ -13,6 +13,7 @@ import { IHemograma, IHemogramaSerieBlanca, IHemogramaSerieRoja } from '@app/mod
 import { JwtResponseI } from '@app/autentica/_models';
 import { AuthenticationService } from '@app/autentica/_services';
 import { FichaService } from '@app/servicios/ficha.service';
+import { MatAccordion } from '@angular/material/expansion';
 
 
 @Component({
@@ -23,6 +24,7 @@ import { FichaService } from '@app/servicios/ficha.service';
 export class HemogramaComponent implements OnInit {
 
   @ViewChild('htmlData') htmlData!:ElementRef;
+  @ViewChild(MatAccordion) accordion!: MatAccordion;
 
     currentUsuario!: JwtResponseI;
 
@@ -30,7 +32,7 @@ export class HemogramaComponent implements OnInit {
     usuario!: string;
     datoFicha!: IFicha;
     datoFichaRespuesta!: IFicha;
-    datoExamen!: IExamen[];
+    /*datoExamen!: IExamen[];*/
 
     IHemograma!: IHemograma;
     IHemogramaSerieRoja!: IHemogramaSerieRoja[];
@@ -144,9 +146,9 @@ export class HemogramaComponent implements OnInit {
 
     ngOnInit() {
       console.log('ficha2:',this.data)
-      this.cargaExamen();
+   /*   this.cargaExamen();*/
     }
-
+/*
     cargaExamen(){
       this.servicioService
         .getDataExamen(this.data.empresa.empresa_Id)
@@ -165,7 +167,7 @@ export class HemogramaComponent implements OnInit {
         }
       );
     }
-
+*/
 
   srHematocritoFormula(){
     console.log('paso1 falg:',this.srHematocritoFlag)
@@ -509,6 +511,7 @@ export class HemogramaComponent implements OnInit {
      this.datoFicha = {
        _id:this.data._id,
       fichaC: this.data.fichaC,
+      empresa: this.data.empresa,
       formatoResultado:{
         examen: this.data.fichaC.examen,
         hemograma: this.IHemograma

@@ -31,7 +31,7 @@ export class PerfilesUsuarioComponent implements OnInit {
      // id: string;
 
       // tslint:disable-next-line:max-line-length
-      displayedColumns: string[] = ['index', 'usuario','rutUsuario','nombres', 'apellidoPaterno', 'estadoUsuario', 'opciones'];
+      displayedColumns: string[] = ['index', 'usuario','rutUsuario','nombres', 'apellidoPaterno', 'tipoEmpresa','nombreFantasia','estadoUsuario', 'opciones'];
       dataSource: MatTableDataSource<IUsuario>;
 
       @ViewChild(MatPaginator ) paginator!: MatPaginator;
@@ -58,9 +58,13 @@ export class PerfilesUsuarioComponent implements OnInit {
       }
 
     getListUsuario(): void {
-        console.log('pasa ficha 2');
+        console.log('pasa  2',this.currentUsuario.usuarioDato.cliente?.idCliente);
+        let PCliente='Laboratorio'
+        if(this.currentUsuario.usuarioDato.cliente?.idCliente){
+          PCliente=this.currentUsuario.usuarioDato.cliente?.idCliente
+        }
         this.usuarioLabService
-          .getDataUsuario(this.currentUsuario.usuarioDato.empresa.empresa_Id)
+          .getDataUsuario(this.currentUsuario.usuarioDato.empresa.empresa_Id, PCliente)
           .subscribe(res => {
             console.log('usuario: ', res);
             this.dataSource.data = res['data'] as any[];
@@ -100,8 +104,8 @@ export class PerfilesUsuarioComponent implements OnInit {
 
         dialogConfig.disableClose = true;
         dialogConfig.autoFocus = true;
-        dialogConfig.width = '80%';
-        dialogConfig.height = '85%';
+        dialogConfig.width = '90%';
+        dialogConfig.height = '90%';
         dialogConfig.position = { top : '2%'};
         dialogConfig.data = {usuario: this.currentUsuario.usuarioDato._id, empresa_Id:this.currentUsuario.usuarioDato.empresa.empresa_Id,rutEmpresa:this.currentUsuario.usuarioDato.empresa.rutEmpresa};
       //  dialogConfig.data = {
@@ -127,9 +131,9 @@ export class PerfilesUsuarioComponent implements OnInit {
 
         dialogConfig.disableClose = true;
         dialogConfig.autoFocus = true;
-        dialogConfig.width = '70%';
-        dialogConfig.height = '70%';
-        dialogConfig.position = { top : '5%'};
+        dialogConfig.width = '90%';
+        dialogConfig.height = '90%';
+        dialogConfig.position = { top : '2%'};
 
         dialogConfig.data = datoUsuario;
         this.dialog.open(ModificaPerfilUsuarioComponent, dialogConfig)
@@ -149,9 +153,9 @@ export class PerfilesUsuarioComponent implements OnInit {
 
         dialogConfig.disableClose = true;
         dialogConfig.autoFocus = true;
-        dialogConfig.width = '50%';
-        dialogConfig.height = '70%';
-        dialogConfig.position = { top : '5%'};
+        dialogConfig.width = '90%';
+        dialogConfig.height = '90%';
+        dialogConfig.position = { top : '2%'};
 
         dialogConfig.data = datoUsuario;
         this.dialog.open(ConsultaPerfilUsuarioComponent, dialogConfig)

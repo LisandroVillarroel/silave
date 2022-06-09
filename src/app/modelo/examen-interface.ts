@@ -5,9 +5,14 @@ export interface IExamen {
   nombre: string;
   sigla: string;
   precio: number;
+  nombreExamen?: string;
   usuarioCrea_id?: string;
   usuarioModifica_id: string;
   empresa_Id?: string;
   estado?: string;
   }
 
+  export interface IResultado {
+    resultado?: string;
+    mensaje: string;
+  }

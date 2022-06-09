@@ -145,7 +145,7 @@ export class AgregaExamenesFichasComponent implements OnInit {
 
   cargaExamen(){
     this.examenService
-    .getDataExamen(this.data.empresa_Id)
+    .getDataExamenTodo(this.data.empresa_Id)
     .subscribe(res => {
       console.log('examen:', res['data'])
       this.datoExamen = res['data'] ;
@@ -164,7 +164,7 @@ export class AgregaExamenesFichasComponent implements OnInit {
 
   cargaUsuario(){
     this.usuarioLabService
-    .getDataUsuario(this.data.empresa_Id)
+    .getDataUsuario(this.data.empresa_Id,'Laboratorio')
     .subscribe(res => {
       console.log('usuario:', res['data'])
       this.datoUsuario = res['data'] ;
@@ -203,7 +203,7 @@ export class AgregaExamenesFichasComponent implements OnInit {
 
   cargaEspecie(){
     this.especieService
-    .getDataEspecie(this.data.empresa_Id)
+    .getDataEspecieTodo(this.data.empresa_Id)
     .subscribe(res => {
       console.log('especie:', res['data'])
       this.datoEspecie = res['data'] ;
@@ -222,7 +222,7 @@ export class AgregaExamenesFichasComponent implements OnInit {
 
   cargaRaza(){
     this.razaService
-    .getDataRaza(this.data.empresa_Id)
+    .getDataRazaTodo(this.data.empresa_Id)
     .subscribe(res => {
       console.log('raza:', res['data'])
       this.datoRaza = res['data'] ;
@@ -290,12 +290,12 @@ export class AgregaExamenesFichasComponent implements OnInit {
 
     this.especie= {
       idEspecie: this.agregaCabeceraExamen.get('idEspecie')!.value._id,
-      nombre: this.agregaCabeceraExamen.get('idEspecie')!.value.nombre.toUpperCase()
+      nombre: this.agregaCabeceraExamen.get('idEspecie')!.value
     }
 
     this.raza= {
       idRaza: this.agregaCabeceraExamen.get('idRaza')!.value._id,
-      nombre: this.agregaCabeceraExamen.get('idRaza')!.value.nombre.toUpperCase()
+      nombre: this.agregaCabeceraExamen.get('idRaza')!.value.nombre
     }
 /**
     this.datoFicha = {

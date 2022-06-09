@@ -13,6 +13,7 @@ import { validateRut, formatRut, RutFormat } from '@fdograph/rut-utilities';
 import Swal from 'sweetalert2';
 import { AuthenticationService } from './../../../../autentica/_services';
 import { JwtResponseI } from './../../../../autentica/_models';
+import { MenuService } from '@app/servicios/menu.service';
 
 @Component({
   selector: 'app-agrega-cliente',
@@ -27,15 +28,19 @@ export class AgregaClienteComponent implements OnInit {
 
   currentUsuario!: JwtResponseI;
 
+  tipoEmpresa!:string;
+  menu_Id!:string;
+
   constructor(private dialogRef: MatDialogRef<AgregaClienteComponent>,
               @Inject(MAT_DIALOG_DATA) data:any,
               public servCliente: ClienteService,
-            //  public rutService: RutService,
+              public menuService: MenuService,
               public rutValidator: RutValidator,
               private authenticationService: AuthenticationService
               ) {
                 this.authenticationService.currentUsuario.subscribe(x => this.currentUsuario = x);
                this.usuario = data.usuario;
+               this.getDataMenu();
     }
   ngOnInit() {
 
@@ -48,6 +53,7 @@ export class AgregaClienteComponent implements OnInit {
     telefono = new FormControl('', [Validators.required]);
     email = new FormControl('', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]);
     nombreContacto = new FormControl('', [Validators.required]);
+    emailEnvioExamenCliente = new FormControl('', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]);
 
     agregaCliente: FormGroup = new FormGroup({
       rutCliente: this.rutCliente,
@@ -56,7 +62,8 @@ export class AgregaClienteComponent implements OnInit {
       direccion: this.direccion,
       telefono: this.telefono,
       email: this.email,
-      nombreContacto: this.nombreContacto
+      nombreContacto: this.nombreContacto,
+      emailEnvioExamenCliente: this.emailEnvioExamenCliente
 
       // address: this.addressFormControl
     });
@@ -83,6 +90,9 @@ export class AgregaClienteComponent implements OnInit {
       }
       if (campo === 'nombreContacto'){
         return this.nombreContacto.hasError('required') ? 'Debes ingresar Nombre Contacto' : '';
+      }
+      if (campo === 'emailEnvioExamenCliente'){
+        return this.emailEnvioExamenCliente.hasError('required') ? 'Debes ingresar Email Envío Exámen' : '';
       }
       /* return this.rutEmpresa.hasError('required') ? 'Debes ingresar Rut' :
              this.rutEmpresa.hasError('rutInvalido') ? 'Rut Inválido' :
@@ -112,20 +122,47 @@ export class AgregaClienteComponent implements OnInit {
     }
   }
 
+  getDataMenu(){
 
+    this.menuService
+    .getDataMenuNombre('Administrador Veterinaria')
+    .subscribe(res => {
+      console.log('res menu cliente:',res);
+      console.log(' res.data.nombreMenu:', res.data.nombreMenu);
+      console.log(' res.data.menu_Id:', res.data.menu_Id);
+      console.log(' res.data[0].nombreMenu:', res.data[0].nombreMenu);
+      console.log(' res.data[0].menu_Id:', res.data[0]._id);
+        this.tipoEmpresa= res.data[0].nombreMenu;
+        this.menu_Id=res.data[0]._id;
+
+    },
+    // console.log('yo:', res as PerfilI[]),
+    error => {
+      console.log('error carga:', error);
+      Swal.fire(
+        'ERROR INESPERADO',
+        error,
+       'error'
+     );
+    }
+    );
+  }
 
   enviar() {
     this.datoCliente = {
       rutCliente: this.agregaCliente.get('rutCliente')!.value.toUpperCase(),
-      razonSocial: this.agregaCliente.get('razonSocial')!.value.toUpperCase(),
-      nombreFantasia: this.agregaCliente.get('nombreFantasia')!.value.toUpperCase(),
-      direccion: this.agregaCliente.get('direccion')!.value.toUpperCase(),
+      razonSocial: this.agregaCliente.get('razonSocial')!.value,
+      nombreFantasia: this.agregaCliente.get('nombreFantasia')!.value,
+      direccion: this.agregaCliente.get('direccion')!.value,
       telefono: this.agregaCliente.get('telefono')!.value,
-      email: this.agregaCliente.get('email')!.value.toUpperCase(),
-      nombreContacto: this.agregaCliente.get('nombreContacto')!.value.toUpperCase(),
+      email: this.agregaCliente.get('email')!.value,
+      nombreContacto: this.agregaCliente.get('nombreContacto')!.value,
+      emailEnvioExamenCliente: this.agregaCliente.get('emailEnvioExamenCliente')!.value,
       usuarioCrea_id: this.usuario,
       usuarioModifica_id: this.usuario,
-      empresa_Id: this.currentUsuario.usuarioDato.empresa.empresa_Id
+      empresa_Id: this.currentUsuario.usuarioDato.empresa.empresa_Id,
+      tipoEmpresa: this.tipoEmpresa,
+      menu_Id:this.menu_Id
     };
     console.log('agrega 1:', this.datoCliente);
     this.servCliente.postDataCliente(this.datoCliente)

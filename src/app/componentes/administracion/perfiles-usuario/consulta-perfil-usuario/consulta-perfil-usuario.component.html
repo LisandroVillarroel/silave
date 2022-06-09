@@ -6,39 +6,47 @@
 </div>
 <mat-stepper linear #stepper>
   <mat-step  >
-    <mat-dialog-content  name="modificaUsuario" class="modifica-container">
+    <mat-dialog-content  name="consultaUsuario" class="consulta-container">
       <ng-template matStepLabel>Datos Usuario Laboratorio</ng-template>
 
       <mat-form-field color="accent">
-        <input matInput class="input-rut rut" placeholder="Ingrese Rut" value="{{this.data.rutUsuario}}" disabled='true'>
+        <input matInput class="input-rut rut" placeholder="Rut Sin Info. " value="{{this.data.rutUsuario}}" disabled='true'>
       </mat-form-field>
 
       <mat-form-field color="accent">
-        <input matInput placeholder="Ingrese Nombres " value="{{this.data.nombres}}" disabled='true'>
+        <input matInput placeholder="Nombres Sin Info. " value="{{this.data.nombres}}" disabled='true'>
       </mat-form-field>
 
       <mat-form-field color="accent">
-        <input matInput placeholder="Ingrese Apellido Paterno" value="{{this.data.apellidoPaterno}}"  disabled='true'>
+        <input matInput placeholder="Apellido Paterno Sin Info. " value="{{this.data.apellidoPaterno}}"  disabled='true'>
       </mat-form-field>
 
       <mat-form-field color="accent">
-        <input matInput placeholder="Ingrese Apellido Materno" value="{{this.data.apellidoMaterno}}" disabled='true'>
+        <input matInput placeholder="Apellido Materno Sin Info. " value="{{this.data.apellidoMaterno}}" disabled='true'>
       </mat-form-field>
 
       <mat-form-field color="accent">
-        <input matInput placeholder="Ingrese teléfono " value="{{this.data.telefono}}" disabled='true'>
+        <input matInput placeholder="teléfono Sin Info. " value="{{this.data.telefono}}" disabled='true'>
       </mat-form-field>
 
       <mat-form-field color="accent">
-        <input matInput placeholder="Ingrese Email " value="{{this.data.email}}" disabled='true'>
+        <input matInput placeholder="Email Sin Info. " value="{{this.data.email}}" disabled='true'>
       </mat-form-field>
 
       <mat-form-field color="accent">
-        <input matInput placeholder="Ingrese Dirección " value="{{this.data.direccion}}" disabled='true'>
+        <input matInput placeholder="Dirección Sin Info. " value="{{this.data.direccion}}" disabled='true'>
       </mat-form-field>
 
       <mat-form-field color="accent">
-        <input matInput placeholder="Ingrese Dirección " value="{{this.data.estadoUsuario}}" disabled='true'>
+        <input matInput placeholder="Tipo Empresa Sin Info. " value="{{this.data.empresa.tipoEmpresa}}" disabled='true'>
+      </mat-form-field>
+
+      <mat-form-field color="accent">
+        <input matInput placeholder="Cliente Sin Info. " value="{{this.data.cliente.nombreFantasia}}" disabled='true'>
+      </mat-form-field>
+
+      <mat-form-field color="accent">
+        <input matInput placeholder="Estado Sin Info. " value="{{this.data.estadoUsuario}}" disabled='true'>
       </mat-form-field>
       <div>
         <button mat-button matStepperNext>Siguiente<mat-icon pt-1>arrow_forward_ios</mat-icon></button>

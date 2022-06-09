@@ -6,7 +6,6 @@ import { environment } from './../../../environments/environment';
 
 import { AlertService, AuthenticationService } from '../../autentica/_services';
 import Swal from 'sweetalert2';
-import { EmpresaService } from '@app/servicios/empresa.service';
 import { JwtResponseI } from '../_models';
 
 @Component({
@@ -28,8 +27,7 @@ export class LoginComponent implements OnInit {
       private route: ActivatedRoute,
       private router: Router,
       private authenticationService: AuthenticationService,
-      private alertService: AlertService,
-      private empresaService: EmpresaService
+      private alertService: AlertService
   ) {
       // redirect to home if already logged in
       console.log('autentica: ',this.authenticationService.currentUsuarioValue);

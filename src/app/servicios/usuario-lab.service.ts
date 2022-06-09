@@ -1,4 +1,4 @@
-import { Injectable, ɵConsole } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { AuthenticationService } from './../autentica/_services';
 
 import { environment } from './../../environments/environment';
@@ -77,14 +77,22 @@ export class UsuarioLabService {
       );
     }
 
-  getDataUsuario(empresaId:string):Observable<any> {
-    return this.http.get(`${environment.apiUrl}/usuarioTodo/${empresaId}`, { headers: this.headers })
+  getDataUsuario(empresaId:string, idCliente: string):Observable<any> {
+    console.log('idCliente:',idCliente)
+    return this.http.get(`${environment.apiUrl}/usuarioTodo/${empresaId}/${idCliente}`, { headers: this.headers })
     .pipe(
       retry(1),
       catchError(this.errorHandl)
     );
   }
 
+  getDataUsuarioTodo():Observable<any> {
+    return this.http.get(`${environment.apiUrl}/usuarioTodo`, { headers: this.headers })
+    .pipe(
+      retry(1),
+      catchError(this.errorHandl)
+    );
+  }
   errorHandl(error: HttpErrorResponse) {
     console.log('paso error: ', error.error);
     let errorMessage = '';

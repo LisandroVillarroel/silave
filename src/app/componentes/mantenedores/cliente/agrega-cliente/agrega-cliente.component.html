@@ -36,6 +36,11 @@
     <mat-error *ngIf="nombreContacto.invalid">{{getErrorMessage('nombreContacto')}}</mat-error>
   </mat-form-field>
 
+  <mat-form-field>
+    <input matInput placeholder="Ingrese Email Envío Exámen " [formControl]="emailEnvioExamenCliente" required>
+    <mat-error *ngIf="emailEnvioExamenCliente.invalid">{{getErrorMessage('emailEnvioExamenCliente')}}</mat-error>
+  </mat-form-field>
+
 </mat-dialog-content>
 
 <mat-dialog-actions>

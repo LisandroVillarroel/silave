@@ -1,10 +1,10 @@
-import { IUsuario } from '@app/modelo/usuario-interface';
+import { IUsuario, IUsuarioEmpresa } from '@app/modelo/usuario-interface';
 import { NestedTreeControl } from "@angular/cdk/tree";
 import { MatTreeNestedDataSource } from "@angular/material/tree";
 
 import { Component, Inject, OnInit } from "@angular/core";
 
-import { IUsuarioEmpresa, JwtResponseI } from "@app/autentica/_models";
+import { JwtResponseI } from "@app/autentica/_models";
 import { MenuItem } from "@app/modelo/menu-interface";
 import { MenuService } from "@app/servicios/menu.service";
 import { AuthenticationService } from "@app/autentica/_services";
@@ -143,9 +143,9 @@ export class ConsultaPerfilUsuarioComponent implements  OnInit  {
 
   getDataMenu(){
     let flag=0;
-
+    console.log('idmenu:',this.data.empresa.menu_Id)
     this.menuService
-    .getDataMenu(this.currentUsuario.usuarioDato.empresa.empresa_Id)
+    .getDataMenu(this.data.empresa.menu_Id)
     .subscribe(res => {
       this.menuItems=res.data[0].MenuItem;
       //this.flag=true;

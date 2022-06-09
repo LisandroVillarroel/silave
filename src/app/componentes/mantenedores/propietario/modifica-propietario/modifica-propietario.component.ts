@@ -124,14 +124,14 @@ export class ModificaPropietarioComponent implements OnInit {
     this._dato = {
       _id: this.datoPar._id,
       rutPropietario: this.modificaPropietario.get('rutPropietario')!.value.toUpperCase(),
-      nombres: this.modificaPropietario.get('nombres')!.value.toUpperCase(),
-      apellidoPaterno: this.modificaPropietario.get('apellidoPaterno')!.value.toUpperCase(),
-      apellidoMaterno: this.modificaPropietario.get('apellidoMaterno')!.value.toUpperCase(),
+      nombres: this.modificaPropietario.get('nombres')!.value,
+      apellidoPaterno: this.modificaPropietario.get('apellidoPaterno')!.value,
+      apellidoMaterno: this.modificaPropietario.get('apellidoMaterno')!.value,
       region: 'sin region',
       comuna: 'sin comuna',
-      direccion: this.modificaPropietario.get('direccion')!.value.toUpperCase(),
+      direccion: this.modificaPropietario.get('direccion')!.value,
       telefono: this.modificaPropietario.get('telefono')!.value,
-      email: this.modificaPropietario.get('email')!.value.toUpperCase(),
+      email: this.modificaPropietario.get('email')!.value,
       usuarioModifica_id: this.datoPar.usuarioModifica_id
     };
 

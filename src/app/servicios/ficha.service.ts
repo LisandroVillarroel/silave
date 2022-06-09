@@ -30,9 +30,9 @@ export class FichaService {
   // }
 
   // POST
-    postDataFicha(dato:IFicha): Observable<any> {
+    postDataFicha(dato:IFicha,numeroFichaCorrelativo:number): Observable<any> {
     console.log('envia agregar ficha:', dato);
-    return this.http.post<IFicha>(`${environment.apiUrl}/ficha`, JSON.stringify(dato),{ headers: this.headers })
+    return this.http.post<IFicha>(`${environment.apiUrl}/ficha/${numeroFichaCorrelativo}`, JSON.stringify(dato),{ headers: this.headers })
     .pipe(
       retry(1),
       catchError(this.errorHandl)
@@ -69,8 +69,8 @@ export class FichaService {
 
 
 
-  upload(file:any,nombreArchivo: string,empresa_Id:string,directorio:string,nombreExamen:string,numFicha:string):Observable<any> {
-
+  //upload(file:any,nombreArchivo: string,empresa_Id:string,directorio:string,nombreExamen:string,numFicha:string,ficha_Id:string):Observable<any> {
+  upload(file:any,nombreArchivo: string,ficha_Id:string):Observable<any> {
     console.log('nombre Archivo:',nombreArchivo);
     // Create form data
     const formData = new FormData();
@@ -78,8 +78,8 @@ export class FichaService {
     // Store form name as "file" with file data
     formData.append("file", file, nombreArchivo);
 
-
-    return this.http.post(`${environment.apiUrl}/fichaSubeArchivo/${empresa_Id}/${directorio}/${nombreExamen}/${numFicha}`, formData, this.header)
+    //return this.http.post(`${environment.apiUrl}/fichaSubeArchivo/${empresa_Id}/${directorio}/${nombreExamen}/${numFicha}/${ficha_Id}`, formData, this.header)
+    return this.http.post(`${environment.apiUrl}/fichaSubeArchivo/${ficha_Id}`, formData, this.header)
     .pipe(
       retry(1),
       catchError(this.errorHandl)

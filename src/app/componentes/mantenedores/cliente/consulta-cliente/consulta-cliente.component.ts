@@ -24,8 +24,6 @@ export class ConsultaClienteComponent implements OnInit {
   ngOnInit() {
   }
 
-  cerrar() {
-    this.dialogRef.close();
-  }
+
 
 }

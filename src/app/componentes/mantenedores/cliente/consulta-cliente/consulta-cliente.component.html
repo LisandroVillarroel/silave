@@ -10,30 +10,34 @@
     <input matInput placeholder="Razón Social"  value="{{datoClientePar.razonSocial}}" disabled='true' >
   </mat-form-field>
 
-  <mat-form-field>
+  <mat-form-field color="accent">
       <input matInput placeholder="Nombre de Fantasía" value="{{datoClientePar.nombreFantasia}}" disabled='true'>
-  </mat-form-field>
+  </mat-form-field >
 
-  <mat-form-field>
+  <mat-form-field color="accent">
     <input matInput placeholder="Dirección" value="{{datoClientePar.direccion}}" disabled='true'>
   </mat-form-field>
 
-  <mat-form-field>
+  <mat-form-field color="accent">
     <input matInput placeholder="Teléfono" value="{{datoClientePar.telefono}}" disabled='true'>
   </mat-form-field>
 
-  <mat-form-field>
+  <mat-form-field color="accent">
     <input matInput placeholder="Email" value="{{datoClientePar.email}}" disabled='true'>
   </mat-form-field>
 
-  <mat-form-field>
+  <mat-form-field color="accent">
     <input matInput placeholder="Nombre Contacto" value="{{datoClientePar.nombreContacto}}" disabled='true'>
+  </mat-form-field>
+
+  <mat-form-field color="accent">
+    <input matInput placeholder="Email Envío Exámen" value="{{datoClientePar.emailEnvioExamenCliente}}" disabled='true'>
   </mat-form-field>
 
 </mat-dialog-content>
 
 <mat-dialog-actions class="justify-content-center">
     <div class="col-md-6">
-      <button mat-raised-button color="warn" (click)="cerrar()" mat-dialog-close  [disabled]=false>Cerrar</button>
+      <button mat-raised-button color="warn"  mat-dialog-close  [disabled]=false>Cerrar</button>
     </div>
 </mat-dialog-actions>

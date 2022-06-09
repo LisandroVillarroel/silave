@@ -1,4 +1,4 @@
-import { IUsuario } from '@app/modelo/usuario-interface';
+import { IUsuario, IUsuarioCliente, IUsuarioEmpresa } from '@app/modelo/usuario-interface';
 import { NestedTreeControl } from "@angular/cdk/tree";
 import { MatTreeNestedDataSource } from "@angular/material/tree";
 import { SelectionModel } from "@angular/cdk/collections";
@@ -9,7 +9,7 @@ import {
   MatTreeFlattener
 } from "@angular/material/tree";
 import { BehaviorSubject } from "rxjs";
-import { IUsuarioEmpresa, JwtResponseI } from "@app/autentica/_models";
+import { JwtResponseI } from "@app/autentica/_models";
 import { MenuItem } from "@app/modelo/menu-interface";
 import { MenuService } from "@app/servicios/menu.service";
 import { AuthenticationService } from "@app/autentica/_services";
@@ -20,6 +20,8 @@ import { formatRut, RutFormat, validateRut } from "@fdograph/rut-utilities";
 import { UsuarioLabService } from '@app/servicios/usuario-lab.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { TileStyler } from '@angular/material/grid-list/tile-styler';
+import { ClienteService } from '@app/servicios/cliente.service';
+import { ICliente } from '@app/modelo/cliente-interface';
 /**
  * Food data with nested structure.
  * Each node has a name and an optiona list of children.
@@ -38,6 +40,7 @@ export class AgregaPerfilUsuarioComponent implements  OnInit  {
 
   selectTipoPermiso = [{ value: 'Administrador', nombre: 'Administrador'}, { value: 'Básico', nombre: 'Básico'}];
 
+
   tipoPermiso = new FormControl('', Validators.required);
 
   currentUsuario!: JwtResponseI;
@@ -45,9 +48,11 @@ export class AgregaPerfilUsuarioComponent implements  OnInit  {
   menuItems!: MenuItem[];
   menuItemsResultado!: MenuItem[];
   menuItemsResultado2!: MenuItem[];
+  datoCliente!: ICliente[];
 
   datoUsuario!: IUsuario;
   datoUsuarioEmpresa!: IUsuarioEmpresa;
+  datoUsuarioCliente!: IUsuarioCliente;
 
   /*tree*/
   treeControl = new NestedTreeControl<MenuItem>(node => node.children);
@@ -57,8 +62,20 @@ export class AgregaPerfilUsuarioComponent implements  OnInit  {
 
   secondFormGroup!: FormGroup;
 
+  PnombreTipoEmpresa!: string;
+  PnombreCliente:string='';
+
+  Pmenu_Id!: string;
+
+  selectTipoEmpresa: { menu_Id: string, nombre: string} []=[];
+
+  flagCliente=false;
+
+  tipoUsuarioLaboratorio:boolean=true;// Permite ver si es Usuario Veterinario o Laboratorio
+
   constructor(private dialogRef: MatDialogRef<AgregaPerfilUsuarioComponent>,
     private menuService:MenuService,
+    private clienteService:ClienteService,
     private usuarioLabService: UsuarioLabService,
     private authenticationService:AuthenticationService,
     private _formBuilder: FormBuilder) {
@@ -69,7 +86,8 @@ export class AgregaPerfilUsuarioComponent implements  OnInit  {
     if (this.authenticationService.getCurrentUser() != null) {
           this.currentUsuario.usuarioDato = this.authenticationService.getCurrentUser() ;
     }
-    this.getDataMenu();
+    this.getDataMenuTipoEmpresa();
+    this.cargaCliente();
 
   }
 
@@ -92,7 +110,8 @@ export class AgregaPerfilUsuarioComponent implements  OnInit  {
   email = new FormControl('', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]);
   telefono = new FormControl('', [Validators.required]);
   direccion = new FormControl('', [Validators.required]);
-
+  tipoEmpresa = new FormControl('', [Validators.required]);
+  idCliente = new FormControl('',Validators.nullValidator);  //La validación depende de Tipo Empresa
 
   agregaUsuario = this._formBuilder.group({
     usuario: this.usuario,
@@ -104,8 +123,9 @@ export class AgregaPerfilUsuarioComponent implements  OnInit  {
     apellidoMaterno: this.apellidoMaterno,
     email: this.email,
     telefono: this.telefono,
-    direccion: this.direccion
-
+    direccion: this.direccion,
+    tipoEmpresa:this.tipoEmpresa,
+    idCliente:this.idCliente
     // address: this.addressFormControl
   },{validators: [this.validarQueSeanIguales]});
 
@@ -150,14 +170,39 @@ export class AgregaPerfilUsuarioComponent implements  OnInit  {
     if (campo === 'email'){
       return this.email.hasError('required') ? 'Debes ingresar Email' : '';
     }
+
+    if (campo === 'tipoEmpresa'){
+      return this.tipoEmpresa.hasError('required') ? 'Debes ingresar Tipo Empresa' : '';
+    }
+    if (campo === 'idCliente'){
+      return this.idCliente.hasError('required') ? 'Debes Seleccionar Cliente' : '';
+    }
     return '';
   }
+
 
   ngOnInit() {
 
     this.secondFormGroup = this._formBuilder.group({
       secondCtrl: ['', Validators.required],
     });
+
+ //Permite ver si es Usuario Veterinario o Laboratorio
+    if (this.currentUsuario.usuarioDato.cliente!.idCliente){  // si no tiene info
+      this.tipoUsuarioLaboratorio=false;
+
+      this.Pmenu_Id=this.currentUsuario.usuarioDato.empresa.menu_Id;
+
+      this.getDataMenu(this.Pmenu_Id);
+
+      this.agregaUsuario.get('tipoEmpresa')!.clearValidators();
+      this.agregaUsuario.get('tipoEmpresa')!.setValidators([Validators.nullValidator]);
+      this.agregaUsuario.get('tipoEmpresa')!.updateValueAndValidity();
+
+      this.agregaUsuario.get('idCliente')!.clearValidators();
+      this.agregaUsuario.get('idCliente')!.setValidators([Validators.nullValidator]);
+      this.agregaUsuario.get('idCliente')!.updateValueAndValidity();
+    }
   }
 
   /*tree*/
@@ -225,11 +270,42 @@ export class AgregaPerfilUsuarioComponent implements  OnInit  {
   }
 
   /*Fin tree*/
+  getDataMenuTipoEmpresa(){
 
-  getDataMenu(){
     this.menuService
-    .getDataMenu(this.currentUsuario.usuarioDato.empresa.empresa_Id)
+    .getDataMenuTodo()
     .subscribe(res => {
+      console.log('res:',res.data);
+      for(let a=0; a<res.data.length; a++){
+        if (res.data[a].nombreMenu!='Administrador General' )
+        {
+          var arreglo={"value":res.data[a]._id, "nombre":res.data[a].nombreMenu};
+          console.log('arreglo:',arreglo);
+        /* this.selectTipoEmpresa[a].value=res.data[a]._id;
+          this.selectTipoEmpresa[a].nombre=res.data[a].nombreMenu;*/
+          this.selectTipoEmpresa.push({"menu_Id": res.data[a]._id, "nombre":res.data[a].nombreMenu});
+          console.log('Tipo empresa:',this.selectTipoEmpresa);
+        }
+      }
+    },
+    // console.log('yo:', res as PerfilI[]),
+    error => {
+      console.log('error carga:', error);
+      Swal.fire(
+        'ERROR INESPERADO',
+        error,
+       'error'
+     );
+    }
+    );
+  }
+
+  getDataMenu(P_menu_Id:string){
+
+    this.menuService
+    .getDataMenu(P_menu_Id)
+    .subscribe(res => {
+      console.log('menu:',res)
       this.menuItems=res.data[0].MenuItem;
       //this.flag=true;
       this.dataSource.data = this.menuItems; //TREE_DATA;
@@ -304,30 +380,76 @@ export class AgregaPerfilUsuarioComponent implements  OnInit  {
     console.log('paso agrega 1')
     await this.marcaInicioChildren();
     console.log('paso agrega 3')
-    this.datoUsuarioEmpresa = {
-      empresa_Id:this.currentUsuario.usuarioDato.empresa.empresa_Id,
-      rutEmpresa: this.currentUsuario.usuarioDato.empresa.rutEmpresa
+
+    if (this.tipoUsuarioLaboratorio){
+      this.datoUsuarioEmpresa = {
+        empresa_Id:this.currentUsuario.usuarioDato.empresa.empresa_Id,
+        rutEmpresa: this.currentUsuario.usuarioDato.empresa.rutEmpresa,
+        menu_Id: this.Pmenu_Id,
+        tipoEmpresa: this.PnombreTipoEmpresa
+
+      }
+
+      this.datoUsuarioCliente = {
+        idCliente:this.agregaUsuario.get('idCliente')!.value,
+        nombreFantasia:this.PnombreCliente
+      }
+
+
+
+      this.datoUsuario = {
+        usuario: this.agregaUsuario.get('usuario')!.value.toUpperCase(),
+        contrasena: this.agregaUsuario.get('contrasena')!.value,
+        rutUsuario: this.agregaUsuario.get('rutUsuario')!.value.toUpperCase(),
+        nombres: this.agregaUsuario.get('nombres')!.value,
+        apellidoPaterno: this.agregaUsuario.get('apellidoPaterno')!.value,
+        apellidoMaterno: this.agregaUsuario.get('apellidoMaterno')!.value,
+        empresa: this.datoUsuarioEmpresa,
+        cliente: this.datoUsuarioCliente,
+        telefono: this.agregaUsuario.get('telefono')!.value,
+        email: this.agregaUsuario.get('email')!.value,
+        direccion: this.agregaUsuario.get('direccion')!.value,
+        MenuItem: this.menuItemsResultado,
+        usuarioCrea_id: this.currentUsuario.usuarioDato.usuario,
+        usuarioModifica_id: this.currentUsuario.usuarioDato.usuario
+
+      };
     }
+    else{  // Veterinaria
+      this.datoUsuarioEmpresa = {
+        empresa_Id:this.currentUsuario.usuarioDato.empresa.empresa_Id,
+        rutEmpresa: this.currentUsuario.usuarioDato.empresa.rutEmpresa,
+        menu_Id: this.Pmenu_Id,
+        tipoEmpresa: 'Administrador Veterinaria'
+
+      }
+
+      this.datoUsuarioCliente = {
+        idCliente:this.currentUsuario.usuarioDato.cliente?.idCliente,
+        nombreFantasia:this.currentUsuario.usuarioDato.cliente?.nombreFantasia
+      }
 
 
 
-    this.datoUsuario = {
-      usuario: this.agregaUsuario.get('usuario')!.value.toUpperCase(),
-      contrasena: this.agregaUsuario.get('contrasena')!.value.toUpperCase(),
-      rutUsuario: this.agregaUsuario.get('rutUsuario')!.value.toUpperCase(),
-      nombres: this.agregaUsuario.get('nombres')!.value.toUpperCase(),
-      apellidoPaterno: this.agregaUsuario.get('apellidoPaterno')!.value.toUpperCase(),
-      apellidoMaterno: this.agregaUsuario.get('apellidoMaterno')!.value.toUpperCase(),
-      empresa: this.datoUsuarioEmpresa,
-      telefono: this.agregaUsuario.get('telefono')!.value,
-      email: this.agregaUsuario.get('email')!.value.toUpperCase(),
-      direccion: this.agregaUsuario.get('direccion')!.value.toUpperCase(),
-      MenuItem: this.menuItemsResultado,
-      usuarioCrea_id: this.currentUsuario.usuarioDato.usuario,
-      usuarioModifica_id: this.currentUsuario.usuarioDato.usuario
+      this.datoUsuario = {
+        usuario: this.agregaUsuario.get('usuario')!.value.toUpperCase(),
+        contrasena: this.agregaUsuario.get('contrasena')!.value,
+        rutUsuario: this.agregaUsuario.get('rutUsuario')!.value.toUpperCase(),
+        nombres: this.agregaUsuario.get('nombres')!.value,
+        apellidoPaterno: this.agregaUsuario.get('apellidoPaterno')!.value,
+        apellidoMaterno: this.agregaUsuario.get('apellidoMaterno')!.value,
+        empresa: this.datoUsuarioEmpresa,
+        cliente: this.datoUsuarioCliente,
+        telefono: this.agregaUsuario.get('telefono')!.value,
+        email: this.agregaUsuario.get('email')!.value,
+        direccion: this.agregaUsuario.get('direccion')!.value,
+        MenuItem: this.menuItemsResultado,
+        usuarioCrea_id: this.currentUsuario.usuarioDato.usuario,
+        usuarioModifica_id: this.currentUsuario.usuarioDato.usuario
 
-    };
-
+      };
+    }
+    console.log('datoUsuario:',this.datoUsuario);
     this.usuarioLabService.postDataUsuario(this.datoUsuario)
       .subscribe(
         dato => {
@@ -380,6 +502,51 @@ export class AgregaPerfilUsuarioComponent implements  OnInit  {
     }
   }
 
+
+  seleccionaTipoEmpresa(p:any){
+
+    this.PnombreTipoEmpresa=p.nombre;
+    this.Pmenu_Id=p.menu_Id;
+    console.log('ppTipoEmpresa:',p);
+    this.getDataMenu(p.menu_Id);
+
+    this.agregaUsuario.get('idCliente')!.clearValidators();
+    if (p.nombre=='Laboratorio'){
+      this.flagCliente=false;
+      this.agregaUsuario.get('idCliente')!.setValidators([Validators.nullValidator]);
+    }
+    else{
+      this.flagCliente=true;
+      this.agregaUsuario.get('idCliente')!.setValidators([Validators.required]);
+    }
+    this.agregaUsuario.get('idCliente')!.updateValueAndValidity();
+    return;
+  }
+
+  seleccionaCliente(p:any){
+
+    this.PnombreCliente=p.nombreFantasia;
+
+    return;
+  }
+  cargaCliente(){
+    this.clienteService
+    .getDataCliente(this.currentUsuario.usuarioDato.empresa.empresa_Id!)
+    .subscribe(res => {
+      console.log('cliente:', res['data'])
+      this.datoCliente = res['data'] ;
+    },
+    // console.log('yo:', res as PerfilI[]),
+    error => {
+      console.log('error carga:', error);
+     Swal.fire(
+      'ERROR INESPERADO',
+      error,
+     'error'
+    );
+    }
+  ); // (this.dataSource.data = res as PerfilI[])
+  }
 
 }
 

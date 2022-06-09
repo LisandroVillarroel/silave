@@ -57,7 +57,7 @@ ngOnInit() {
 
 onItemSelected($event: any, item: MenuItem) {
   console.log('paso00000',item.route);
-  if (item.route === 'cerrar'){
+  if (item.route?.toUpperCase() == 'Cerrar'.toUpperCase()){
     console.log('paso1111');
     this.authenticationService.logout();
     this.router.navigate(['/login']);

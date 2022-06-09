@@ -40,8 +40,24 @@ export class MenuService {
 
 
 
-  getDataMenu(empresaId:string):Observable<any> {
-    return this.http.get(`${environment.apiUrl}/menuTodo/${empresaId}`, { headers: this.headers })
+  getDataMenu(menu_Id: string):Observable<any> {
+    return this.http.get(`${environment.apiUrl}/menu/${menu_Id}`, { headers: this.headers })
+    .pipe(
+      retry(1),
+      catchError(this.errorHandl)
+    );
+  }
+
+  getDataMenuTodo():Observable<any> {
+    return this.http.get(`${environment.apiUrl}/menuTodo`, { headers: this.headers })
+    .pipe(
+      retry(1),
+      catchError(this.errorHandl)
+    );
+  }
+
+  getDataMenuNombre(menu_nombre: string):Observable<any> {
+    return this.http.get(`${environment.apiUrl}/menuNombre/${menu_nombre}`, { headers: this.headers })
     .pipe(
       retry(1),
       catchError(this.errorHandl)

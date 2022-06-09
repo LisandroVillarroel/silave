@@ -1,5 +1,25 @@
 <h2 mat-dialog-title>INGRESO EXÁMEN HEMOGRAMA</h2>
+
+
+
 <mat-dialog-content [formGroup]="ingresaHemograma" name="agregaFormato1" class="agrega-container"  >
+  <mat-accordion class="example-headers-align" multi>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+
+        </mat-panel-title>
+        <mat-panel-description>
+          Ficha Paciente
+          <mat-icon>account_circle</mat-icon>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <app-imprime-ficha-cabecera [datoFichaRecibeFicha]="datoFicha"></app-imprime-ficha-cabecera>
+
+    </mat-expansion-panel>
+
+  </mat-accordion>
+
   <div>
     <div id="serieRoja">
         <h4>SERIE ROJA</h4>

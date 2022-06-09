@@ -19,6 +19,8 @@ export class AuthenticationService {
     constructor(private http: HttpClient) {
         this.currentUsuarioSubject = new BehaviorSubject<JwtResponseI>(JSON.parse(localStorage.getItem('currentUsuario')!));
         this.currentUsuario = this.currentUsuarioSubject.asObservable();
+        console.log('this.currentUsuarioSubject:',this.currentUsuarioSubject);
+        console.log('this.currentUsuario:',this.currentUsuario)
     }
 
      public get currentUsuarioValue(): JwtResponseI {
@@ -60,6 +62,7 @@ export class AuthenticationService {
       ////      }));
     //// }
     getToken() {
+      console.log('ACCESS_TOKEN:',localStorage.getItem('ACCESS_TOKEN'))
       return localStorage.getItem('ACCESS_TOKEN');
     }
 

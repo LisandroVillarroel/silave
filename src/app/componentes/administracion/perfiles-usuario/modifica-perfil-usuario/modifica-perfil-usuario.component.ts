@@ -1,11 +1,11 @@
 
-import { IUsuario } from '@app/modelo/usuario-interface';
+import { IUsuario, IUsuarioEmpresa } from '@app/modelo/usuario-interface';
 import { NestedTreeControl } from "@angular/cdk/tree";
 import { MatTreeNestedDataSource } from "@angular/material/tree";
 
 import { Component, Inject, OnInit } from "@angular/core";
 
-import { IUsuarioEmpresa, JwtResponseI } from "@app/autentica/_models";
+import { JwtResponseI } from "@app/autentica/_models";
 import { MenuItem } from "@app/modelo/menu-interface";
 import { MenuService } from "@app/servicios/menu.service";
 import { AuthenticationService } from "@app/autentica/_services";
@@ -32,6 +32,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class ModificaPerfilUsuarioComponent implements  OnInit  {
 
+  selectTipoUsuario = [{ value: 'Administrador', nombre: 'Administrador'}, { value: 'Laboratorio', nombre: 'Laboratorio'}, { value: 'Cliente', nombre: 'Cliente'}];
   selectTipoPermiso = [{ value: 'Administrador', nombre: 'Administrador'}, { value: 'Básico', nombre: 'Básico'}];
   selectEstadoUsuario = [{ nombre: 'Activo', id: 'Activo'}, { nombre: 'Inactivo', id: 'Inactivo'}];
 
@@ -55,6 +56,10 @@ export class ModificaPerfilUsuarioComponent implements  OnInit  {
 
   secondFormGroup!: FormGroup;
 
+  selectTipoEmpresa: { menu_Id: string, nombre: string} []=[];
+  PnombreTipoEmpresa!: string;
+  Pmenu_Id!: string;
+
   constructor(private dialogRef: MatDialogRef<ModificaPerfilUsuarioComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private menuService:MenuService,
@@ -75,7 +80,10 @@ export class ModificaPerfilUsuarioComponent implements  OnInit  {
     });
     */
     //Fin Carga Menu
-    this.getDataMenu();
+    console.log('data:',data);
+    this.getDataMenuTipoEmpresa();
+    this.getDataMenu(data.empresa.menu_Id);
+
   }
 
 
@@ -88,6 +96,7 @@ export class ModificaPerfilUsuarioComponent implements  OnInit  {
   telefono = new FormControl(this.data.telefono, [Validators.required]);
   direccion = new FormControl(this.data.direccion, [Validators.required]);
   estadoUsuario = new FormControl(this.data.estadoUsuario, [Validators.required]);
+  tipoEmpresa = new FormControl(this.data.empresa.tipoEmpresa, [Validators.required]);
 
   agregaUsuario = this._formBuilder.group({
 
@@ -98,7 +107,8 @@ export class ModificaPerfilUsuarioComponent implements  OnInit  {
     email: this.email,
     telefono: this.telefono,
     direccion: this.direccion,
-    estadoUsuario: this.estadoUsuario
+    estadoUsuario: this.estadoUsuario,
+    tipoEmpresa: this.tipoEmpresa
 
     // address: this.addressFormControl
   });
@@ -134,6 +144,9 @@ export class ModificaPerfilUsuarioComponent implements  OnInit  {
     }
     if (campo === 'email'){
       return this.email.hasError('required') ? 'Debes ingresar Email' : '';
+    }
+    if (campo === 'tipoEmpresa'){
+      return this.tipoEmpresa.hasError('required') ? 'Debes ingresar Tipo Empresa' : '';
     }
     return '';
   }
@@ -210,48 +223,108 @@ export class ModificaPerfilUsuarioComponent implements  OnInit  {
   }
 
   /*Fin tree*/
-
-  getDataMenu(){
-    let flag=0;
+  getDataMenuTipoEmpresa(){
 
     this.menuService
-    .getDataMenu(this.currentUsuario.usuarioDato.empresa.empresa_Id)
+    .getDataMenuTodo()
     .subscribe(res => {
+      console.log('res:',res.data);
+      for(let a=0; a<res.data.length; a++){
+        if (res.data[a].nombreMenu!='Administrador General' || this.currentUsuario.usuarioDato.empresa.tipoEmpresa=='Administrador General' )
+        {
+          var arreglo={"value":res.data[a]._id, "nombre":res.data[a].nombreMenu};
+          console.log('arreglo:',arreglo);
+        /* this.selectTipoEmpresa[a].value=res.data[a]._id;
+          this.selectTipoEmpresa[a].nombre=res.data[a].nombreMenu;*/
+          this.selectTipoEmpresa.push({"menu_Id": res.data[a]._id, "nombre":res.data[a].nombreMenu});
+          console.log('Tipo empresa:',this.selectTipoEmpresa);
+        }
+      }
+    },
+    // console.log('yo:', res as PerfilI[]),
+    error => {
+      console.log('error carga:', error);
+      Swal.fire(
+        'ERROR INESPERADO',
+        error,
+       'error'
+     );
+    }
+    );
+  }
+
+  getDataMenuEmpresa(P_menu_Id: string){
+    console.log('id menu usuario:',P_menu_Id);
+    this.menuService
+    .getDataMenu(P_menu_Id)
+    .subscribe(res => {
+      console.log('menu:',res)
+      this.menuItems=res.data[0].MenuItem;
+      //this.flag=true;
+      this.dataSource.data = this.menuItems; //TREE_DATA;
+      Object.keys(this.dataSource.data).forEach(x => {
+        this.setParent(this.dataSource.data[x as any], null);
+      });
+    },
+    // console.log('yo:', res as PerfilI[]),
+    error => {
+      console.log('error carga:', error);
+      Swal.fire(
+        'ERROR INESPERADO',
+        error.error.error,
+       'error'
+     );
+    }
+    );
+  }
+
+
+  getDataMenu(P_menu_Id:string){
+    let flag=0;
+
+    console.log('menu id:',P_menu_Id);
+    this.menuService
+    .getDataMenu(P_menu_Id)
+    .subscribe(res => {
+      console.log('menu origen',res.data[0]);
       this.menuItems=res.data[0].MenuItem;
       //this.flag=true;
       console.log('paso data ',this.data.MenuItem);
       console.log('paso rescata',res.data[0].MenuItem);
-      for(let b=0; b<this.menuItems.length; b++){
-        if (this.menuItems[b].children && this.menuItems[b].children!.length) {
-          for(let c=0; c<this.menuItems[b].children!.length; c++){
-            flag=0;
-            for(let d=0; d<this.data.MenuItem.length; d++){
-              if (this.data.MenuItem[d].children && this.data.MenuItem[d].children!.length) {
-                for(let e=0; c<this.data.MenuItem[d].children!.length; e++){
-                    if (this.data.MenuItem[d].children[e]._id== this.menuItems[b].children![c]._id){
-                       // console.log('for children:',this.data.MenuItem[d].children[e]);
-                       this.menuItems[b].children![c].selected=this.data.MenuItem[d].children[e].selected
-                       this.menuItems[b].children![c].tipoPermiso=this.data.MenuItem[d].children[e].tipoPermiso
-                        flag=1
-                        break
-                    }
-                }
-                if (flag==1){
-                  break
+      if (this.data.MenuItem.length!=0)
+      {
+        for(let b=0; b<this.menuItems.length; b++){
+          if (this.menuItems[b].children && this.menuItems[b].children!.length) {
+            for(let c=0; c<this.menuItems[b].children!.length; c++){
+              flag=0;
+              for(let d=0; d<this.data.MenuItem.length; d++){
+                if (this.data.MenuItem[d].children && this.data.MenuItem[d].children!.length) {
+                  for(let e=0; c<this.data.MenuItem[d].children!.length; e++){
+                      if (this.data.MenuItem[d].children[e]._id== this.menuItems[b].children![c]._id){
+                        // console.log('for children:',this.data.MenuItem[d].children[e]);
+                        this.menuItems[b].children![c].selected=this.data.MenuItem[d].children[e].selected
+                        this.menuItems[b].children![c].tipoPermiso=this.data.MenuItem[d].children[e].tipoPermiso
+                          flag=1
+                          break
+                      }
+                  }
+                  if (flag==1){
+                    break
+                  }
                 }
               }
+
+
             }
+          }else{
+            this.menuItemsResultadoFiltro=this.data.MenuItem!.filter((item: any) => item._id === this.menuItems[b]._id)
+            this.menuItems[b].selected=this.menuItemsResultadoFiltro[0].selected
+            this.menuItems[b].tipoPermiso=this.menuItemsResultadoFiltro[0].tipoPermiso
 
-
+            /*if (this.menuItems[a].codigoServicio.toUpperCase() === this.menuItems[b].route.toUpperCase().replace("/0","").replace("/1","")){
+              this.fillerNav[b].disabled=false;
+            }*/
           }
-        }else{
-          this.menuItemsResultadoFiltro=this.data.MenuItem!.filter((item: any) => item._id === this.menuItems[b]._id)
-          this.menuItems[b].selected=this.menuItemsResultadoFiltro[0].selected
-          this.menuItems[b].tipoPermiso=this.menuItemsResultadoFiltro[0].tipoPermiso
-
-          /*if (this.menuItems[a].codigoServicio.toUpperCase() === this.menuItems[b].route.toUpperCase().replace("/0","").replace("/1","")){
-            this.fillerNav[b].disabled=false;
-          }*/
         }
       }
       console.log('base:', this.menuItems);
@@ -328,7 +401,9 @@ export class ModificaPerfilUsuarioComponent implements  OnInit  {
 
     this.datoUsuarioEmpresa = {
       empresa_Id:this.currentUsuario.usuarioDato.empresa.empresa_Id,
-      rutEmpresa: this.currentUsuario.usuarioDato.empresa.rutEmpresa
+      rutEmpresa: this.currentUsuario.usuarioDato.empresa.rutEmpresa,
+      menu_Id: this.currentUsuario.usuarioDato.empresa.menu_Id,
+      tipoEmpresa:  this.agregaUsuario.get('tipoEmpresa')!.value,
     }
 
 
@@ -336,13 +411,13 @@ export class ModificaPerfilUsuarioComponent implements  OnInit  {
     this.datoUsuario = {
       _id:this.data._id,
       rutUsuario: this.agregaUsuario.get('rutUsuario')!.value.toUpperCase(),
-      nombres: this.agregaUsuario.get('nombres')!.value.toUpperCase(),
-      apellidoPaterno: this.agregaUsuario.get('apellidoPaterno')!.value.toUpperCase(),
-      apellidoMaterno: this.agregaUsuario.get('apellidoMaterno')!.value.toUpperCase(),
+      nombres: this.agregaUsuario.get('nombres')!.value,
+      apellidoPaterno: this.agregaUsuario.get('apellidoPaterno')!.value,
+      apellidoMaterno: this.agregaUsuario.get('apellidoMaterno')!.value,
       empresa: this.datoUsuarioEmpresa,
       telefono: this.agregaUsuario.get('telefono')!.value,
-      email: this.agregaUsuario.get('email')!.value.toUpperCase(),
-      direccion: this.agregaUsuario.get('direccion')!.value.toUpperCase(),
+      email: this.agregaUsuario.get('email')!.value,
+      direccion: this.agregaUsuario.get('direccion')!.value,
       estadoUsuario: this.agregaUsuario.get('estadoUsuario')!.value,
       MenuItem: this.menuItemsResultado,
       usuarioCrea_id: this.currentUsuario.usuarioDato.usuario,
@@ -382,10 +457,23 @@ export class ModificaPerfilUsuarioComponent implements  OnInit  {
       );
   }
 
+  seleccionaTipoEmpresa(p:any){
+    console.log('p:',p)
+    this.PnombreTipoEmpresa=p.nombre;
+    this.Pmenu_Id=p.menu_Id;
+    this.getDataMenuEmpresa(p.menu_Id);
+     return;
+   }
 
 
   comparaEstadoUsuario(v1: any, v2: any): boolean {
     return  v1.toUpperCase()===v2.toUpperCase();
+  }
+
+  comparaTipoEmpresa(v1: any, v2: any): boolean {
+    console.log('v1:',v1.nombre);
+    console.log('v2:',v2);
+    return  v1.nombre.toUpperCase()===v2.toUpperCase();
   }
 
 }

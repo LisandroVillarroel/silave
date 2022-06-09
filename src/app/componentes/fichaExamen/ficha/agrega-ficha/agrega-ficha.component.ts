@@ -19,6 +19,8 @@ import { IDoctorSolicitante } from './../../../../modelo/doctorSolicitante-inter
 import { DoctorSolicitanteService } from './../../../../servicios/doctor-solicitante.service';
 import { validateHorizontalPosition } from '@angular/cdk/overlay';
 import { UsuarioLabService } from '@app/servicios/usuario-lab.service';
+import { EmpresaService } from '@app/servicios/empresa.service';
+import { IEmpresa } from '@app/modelo/empresa-interface';
 
 
 @Component({
@@ -61,8 +63,12 @@ export class AgregaFichaComponent implements OnInit {
     flagGraba=0;
     respuesta=3;
 
+    numeroFichaCorrelativo:number=0;
+    nombreLogo='sinLogo.jpg';
+
     constructor(private dialogRef: MatDialogRef<AgregaFichaComponent>,
                 @Inject(MAT_DIALOG_DATA) public data:any,
+                private empresaService: EmpresaService,
                 private examenService: ExamenService,
                 private usuarioLabService: UsuarioLabService,
                 private clienteService: ClienteService,
@@ -145,13 +151,13 @@ export class AgregaFichaComponent implements OnInit {
                     return '';
                   }
 
-    ngOnInit() {
-
+    async ngOnInit() {
+      await this.getEmpresa();
     }
 
     cargaExamen(){
       this.examenService
-      .getDataExamen(this.data.empresa_Id)
+      .getDataExamenTodo(this.data.empresa_Id)
       .subscribe(res => {
         console.log('examen:', res['data'])
         this.datoExamen = res['data'] as any[];
@@ -171,9 +177,28 @@ export class AgregaFichaComponent implements OnInit {
     ); // (this.dataSource.data = res as PerfilI[])
     }
 
+    getEmpresa(){
+      this.empresaService
+      .getDataEmpresa(this.data.empresa_Id)
+      .subscribe(res => {
+        console.log('logo empresa:', res['data'][0])
+        this.nombreLogo = res['data'][0]?.nombreLogo;
+      },
+      // console.log('yo:', res as PerfilI[]),
+      error => {
+        console.log('error carga:', error);
+        Swal.fire(
+          'ERROR INESPERADO',
+          error,
+         'error'
+       );
+      }
+    ); // (this.dataSource.data = res as PerfilI[])
+    }
+
     cargaUsuario(){
       this.usuarioLabService
-      .getDataUsuario(this.data.empresa_Id)
+      .getDataUsuario(this.data.empresa_Id,'Laboratorio')
       .subscribe(res => {
         console.log('usuario:', res['data']);
         this.datoUsuario = res['data'] as any[] ;
@@ -212,7 +237,7 @@ export class AgregaFichaComponent implements OnInit {
 
     cargaEspecie(){
       this.especieService
-      .getDataEspecie(this.data.empresa_Id)
+      .getDataEspecieTodo(this.data.empresa_Id)
       .subscribe(res => {
         console.log('especie:', res['data']);
         this.datoEspecie = res['data'] as any[];
@@ -250,7 +275,7 @@ export class AgregaFichaComponent implements OnInit {
 
     cargaRaza(){
       this.razaService
-      .getDataRaza(this.data.empresa_Id)
+      .getDataRazaTodo(this.data.empresa_Id)
       .subscribe(res => {
         console.log('raza:', res['data']);
         this.datoRaza = res['data'] as any[];
@@ -321,6 +346,7 @@ export class AgregaFichaComponent implements OnInit {
         /*Permite ingresar con recursividad por lo de asyncrono*/
         console.log('examen seleccionado',this.datoExamen)
         console.log('hemo',this.visibleHemograma);
+
         if (this.visibleHemograma ){
             console.log('paso hemo')
             this.examenDato= this.datoExamen.find(valor => valor.codigoInterno == 1);
@@ -342,6 +368,8 @@ export class AgregaFichaComponent implements OnInit {
 
 
   grabar(examenEncontrado:any,UsuarioIngresado:any, flag:any,codigoInterno:any){
+    this.numeroFichaCorrelativo=this.numeroFichaCorrelativo+1;
+    console.log('correlativo:',this.numeroFichaCorrelativo);
       if (flag!=0){
 
         // console.log(x)
@@ -349,7 +377,8 @@ export class AgregaFichaComponent implements OnInit {
           this.examen= {
             idExamen: examenEncontrado._id,
             codigoExamen: examenEncontrado.codigoExamen,
-            nombre: examenEncontrado.nombre
+            nombre: examenEncontrado.nombre,
+            nombreExamen: examenEncontrado.nombreExamen
       //   }
         }
 
@@ -365,40 +394,42 @@ export class AgregaFichaComponent implements OnInit {
           idCliente:this.agregaFicha.get('idCliente')!.value._id,
           rutCliente: this.agregaFicha.get('idCliente')!.value.rutCliente,
           razonSocial: this.agregaFicha.get('idCliente')!.value.razonSocial,
-          nombreFantasia: this.agregaFicha.get('idCliente')!.value.nombreFantasia
+          nombreFantasia: this.agregaFicha.get('idCliente')!.value.nombreFantasia,
+          correoEnvioCliente: this.agregaFicha.get('idCliente')!.value.emailEnvioExamenCliente
         }
 
         this.especie= {
           idEspecie: this.agregaFicha.get('idEspecie')!.value._id,
-          nombre: this.agregaFicha.get('idEspecie')!.value.nombre.toUpperCase()
+          nombre: this.agregaFicha.get('idEspecie')!.value.nombre
         }
 
         this.raza= {
           idRaza: this.agregaFicha.get('idRaza')!.value._id,
-          nombre: this.agregaFicha.get('idRaza')!.value.nombre.toUpperCase()
+          nombre: this.agregaFicha.get('idRaza')!.value.nombre
         }
 
         this.doctorSolicitante= {
           idDoctorSolicitante: this.agregaFicha.get('idDoctorSolicitante')!.value._id,
-          nombreDoctorSolicitante: this.agregaFicha.get('idDoctorSolicitante')!.value.nombre.toUpperCase()
+          nombreDoctorSolicitante: this.agregaFicha.get('idDoctorSolicitante')!.value.nombre
         }
 
         this.datoFicha = {
           fichaC: {
                 cliente: this.cliente,
-                nombrePropietario: this.agregaFicha.get('nombrePropietario')!.value.toUpperCase(),
-                nombrePaciente: this.agregaFicha.get('nombrePaciente')!.value.toUpperCase(),
+                nombrePropietario: this.agregaFicha.get('nombrePropietario')!.value,
+                nombrePaciente: this.agregaFicha.get('nombrePaciente')!.value,
                 edadPaciente: this.agregaFicha.get('edad')!.value,
                 especie: this.especie,
                 raza: this.raza,
-                sexo: this.agregaFicha.get('sexo')!.value.toUpperCase(),
+                sexo: this.agregaFicha.get('sexo')!.value,
                 doctorSolicitante: this.doctorSolicitante,
                 examen:this.examen
           },
         usuarioAsignado:this.usuarioAsignado,
         empresa:{
           empresa_Id: this.data.empresa_Id,
-          rutEmpresa: this.data.rutEmpresa
+          rutEmpresa: this.data.rutEmpresa,
+          nombreLogo: this.nombreLogo
         },
         usuarioCrea_id: this.usuario,
         usuarioModifica_id: this.usuario,
@@ -406,21 +437,28 @@ export class AgregaFichaComponent implements OnInit {
         };
       }
       console.log('ficha:',this.datoFicha)
-       this.fichaService.postDataFicha(this.datoFicha)
+       this.fichaService.postDataFicha(this.datoFicha,this.numeroFichaCorrelativo)
       .subscribe(
         dato => {
           if (dato.codigo === 200) {
-
+              console.log('dato ficha res:',dato.data)
+              console.log('examen dato:',this.datoExamen);
             if (this.visibleHemograma && codigoInterno<=1){
-                this.examenDato!= this.datoExamen.find(valor=> valor.codigoInterno==1);
-                this.grabar(this.examenDato,this.agregaFicha.get('idUsuarioHemograma')!.value,1,2)
+              console.log('pasooooooooooooooooooooooooooo1');
+                this.examenDato!= this.datoExamen.find(valor=> valor.codigoInterno == 1);
+                console.log('examen1:',this.examenDato);
+                this.grabar(this.examenDato,this.agregaFicha.get('idUsuarioHemograma')!.value,1,2)  // dato.data.fichaC.id_Ficha= para que guarde la misma id_ficha
             }else{
               if (this.visibleExamen1 && codigoInterno<=2){
-                this.examenDato!= this.datoExamen.find(valor=> valor.codigoInterno==2)
+                console.log('pasoooooooooooooooooooooooooo2');
+                this.examenDato= this.datoExamen.find(valor=> valor.codigoInterno == 2)
+                console.log('examen2:',this.examenDato);
                  this.grabar(this.examenDato,this.agregaFicha.get('idUsuarioExamen1')!.value,1,3)
              }else{
               if (this.visibleExamen2 && codigoInterno<=3){
-                 this.examenDato!= this.datoExamen.find(valor=> valor.codigoInterno==3)
+                console.log('pasooooooooooooooooooooooooo3');
+                 this.examenDato= this.datoExamen.find(valor=> valor.codigoInterno == 3)
+                 console.log('examen3:',this.examenDato);
                  this.grabar(this.examenDato,this.agregaFicha.get('idUsuarioExamen2')!.value,1,4)
               }else{
                 Swal.fire(

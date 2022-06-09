@@ -57,6 +57,11 @@
       <td mat-cell *matCellDef="let row" style=' width: 10%;'> {{row.nombreContacto}} </td>
     </ng-container>
 
+    <ng-container matColumnDef="emailEnvioExamenCliente">
+      <th [hidden]="show" id='emailEnvioExamenClienteI' mat-header-cell *matHeaderCellDef mat-sort-header style=' width: 10%;'> EMAIL ENVÍO EXÁMEN </th>
+      <td [hidden]="show" mat-cell *matCellDef="let row" style=' width: 10%;'> {{row.emailEnvioExamenCliente}} </td>
+    </ng-container>
+
     <ng-container matColumnDef="opciones" >
       <th id='opcionesI' mat-header-cell *matHeaderCellDef  style=' width: 15%; text-align: center'>
         <button mat-icon-button color="accent" class="nuevo" (click)="agregaNuevo()">
@@ -66,15 +71,15 @@
 
       <td mat-cell *matCellDef="let row; let i=index;" style=' width: 15%; text-align: center'>
 
-        <button mat-icon-button color="accent" style="size:5px" (click)="actualizaCliente(row._id, row.rutCliente, row.razonSocial, row.nombreFantasia,row.direccion, row.telefono, row.email, row.nombreContacto)">
+        <button mat-icon-button color="accent" style="size:5px" (click)="actualizaCliente(row._id, row.rutCliente, row.razonSocial, row.nombreFantasia,row.direccion, row.telefono, row.email, row.nombreContacto, row.emailEnvioExamenCliente)">
           <mat-icon>edit</mat-icon>
         </button>
 
-        <button mat-icon-button color="accent" (click)="consultaCliente(row._id, row.rutCliente, row.razonSocial, row.nombreFantasia,row.direccion, row.telefono, row.email, row.nombreContacto)">
+        <button mat-icon-button color="accent" (click)="consultaCliente(row._id, row.rutCliente, row.razonSocial, row.nombreFantasia,row.direccion, row.telefono, row.email, row.nombreContacto, row.emailEnvioExamenCliente)">
           <mat-icon>search</mat-icon>
         </button>
 
-        <button mat-icon-button color="accent" (click)="eliminaCliente(row._id, row.rutCliente, row.razonSocial, row.nombreFantasia,row.direccion, row.telefono, row.email, row.nombreContacto)">
+        <button mat-icon-button color="accent" (click)="eliminaCliente(row._id, row.rutCliente, row.razonSocial, row.nombreFantasia,row.direccion, row.telefono, row.email, row.nombreContacto,row.emailEnvioExamenCliente)">
           <mat-icon>delete</mat-icon>
         </button>
 

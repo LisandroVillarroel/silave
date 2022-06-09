@@ -1,0 +1,7 @@
+.margen-imprimir{
+  margin: 2%;
+}
+
+.agrega-container > * {
+  width: 95%;
+}
