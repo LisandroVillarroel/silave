@@ -110,7 +110,7 @@ agregaNuevo() {
     this.dialog.open(AgregaPropietarioComponent, dialogConfig)
     .afterClosed().subscribe(
      data => {console.log('Dialog output3333:', data);
-              if (data !== undefined) {
+              if (data === 1) {
                   this.refreshTable();
               }
       }
@@ -147,7 +147,7 @@ actualiza(id: string, rutPropietario: string, nombres: string, apellidoPaterno: 
     this.dialog.open(ModificaPropietarioComponent, dialogConfig)
     .afterClosed().subscribe(
      data => {console.log('Dialog output3333:', data);
-              if (data !== undefined) {
+              if (data === 1) {
                   this.refreshTable();
               }
       }
@@ -183,7 +183,7 @@ consulta(id: string, rutPropietario: string, nombres: string, apellidoPaterno: s
     this.dialog.open(ConsultaPropietarioComponent, dialogConfig)
     .afterClosed().subscribe(
      data => {console.log('Datoas Consulta:', data);
-              if (data !== undefined) {
+              if (data === 1) {
                   this.refreshTable();
               }
       }
@@ -219,7 +219,7 @@ elimina(id: string, rutPropietario: string, nombres: string, apellidoPaterno: st
     this.dialog.open(EliminaPropietarioComponent, dialogConfig)
     .afterClosed().subscribe(
      data => {console.log('Datoas Consulta:', data);
-              if (data !== undefined) {
+              if (data === 1) {
                   this.refreshTable();
               }
       }

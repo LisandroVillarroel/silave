@@ -40,7 +40,7 @@
       </div>
       <div class="col-md-4 ">
         <mat-form-field>
-          <mat-select [formControl]="idEspecie" placeholder="Seleccione Especie" [compareWith]="comparaSeleccionaEspecie" required>
+          <mat-select [formControl]="idEspecie" placeholder="Seleccione Especie" [compareWith]="comparaSeleccionaEspecie" (selectionChange)="seleccionaEspecie($event.value)" required>
             <mat-option *ngFor="let _especie of datoEspecie" [value]="_especie">
               {{_especie.nombre}}
             </mat-option>
@@ -83,6 +83,10 @@
       </div>
     </div>
 
+    <mat-form-field>
+      <input matInput placeholder="Ingrese Email Propietario" [formControl]="correoClienteFinal">
+    </mat-form-field>
+
     <div class="row align-items-center">
       <div class="col-md-6 ">
         <mat-form-field>
@@ -92,6 +96,16 @@
             </mat-option>
           </mat-select>
           <mat-error *ngIf="idExamen.invalid">{{getErrorMessage('idExamen')}}</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-6">
+        <mat-form-field>
+          <mat-select [formControl]="idValidador" placeholder="Seleccione Validador" [compareWith]="comparaSeleccionaValidador">
+            <mat-option *ngFor="let _validador of datoValidador" [value]="_validador">
+              {{_validador.apellidoPaterno + ' ' + _validador.apellidoMaterno + ' ' + _validador.nombres}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="idValidador.invalid">{{getErrorMessage('idValidador')}}</mat-error>
         </mat-form-field>
       </div>
       <div class="col-md-6">
@@ -111,10 +125,10 @@
 
 <mat-dialog-actions>
   <div class="col-md-6">
-    <button mat-raised-button color="warn" (click)="cerrar()" mat-dialog-close  [disabled]=false>Cerrar</button>
+    <button mat-raised-button color="warn"  mat-dialog-close  [disabled]=false>Cerrar</button>
   </div>
   <div class="col-md-6">
-    <button class="colorFondoBoton" mat-raised-button  (click)="enviar()"  [disabled]="modificaFicha.invalid">ENVIAR</button>
+    <button class="colorFondoBoton" mat-raised-button  (click)="enviar()"  [disabled]="modificaFicha.invalid">Grabar</button>
   </div>
 </mat-dialog-actions>
 

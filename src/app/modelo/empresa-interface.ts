@@ -9,6 +9,7 @@ export interface IEmpresa {
   tipoEmpresa:string;   //Administrador-Laboratorio-Cliente
   menu_Id: string;
   email:string;
+  correoRecepcionSolicitud: string;
   envioEmail?:IEmail;
   nombreLogo?:string;
   usuarioCrea_id?: string;

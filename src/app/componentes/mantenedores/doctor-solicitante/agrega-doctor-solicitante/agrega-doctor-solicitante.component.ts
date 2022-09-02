@@ -128,9 +128,5 @@ export class AgregaDoctorSolicitanteComponent implements OnInit {
         }
       );
     }
-    // Error handling
-    cerrar() {
-      this.dialogRef.close();
-    }
   }
 

@@ -50,7 +50,35 @@ export class ClienteService {
   // PUT
   deleteDataCliente(dato: ICliente): Observable<any> {
     console.log('id:', dato._id);
-    return this.http.delete<ICliente>(`${environment.apiUrl}/cliente/${dato._id}/${dato.usuarioModifica_id}`, { headers: this.headers })
+    return this.http.put<ICliente>(`${environment.apiUrl}/cliente/${dato._id}/${dato.usuarioModifica_id}`, JSON.stringify(dato), { headers: this.headers })
+    .pipe(
+      retry(1),
+      catchError(this.errorHandl)
+    );
+  }
+
+
+  getDataClientePorRut(rutCliente: string): Observable<any> {
+
+    return this.http.get(`${environment.apiUrl}/buscaClientePorRut/${rutCliente}`, { headers: this.headers })
+    .pipe(
+      retry(1),
+      catchError(this.errorHandl)
+    );
+  }
+
+  getDataEmpresasCliente(id: string): Observable<any> {
+
+    return this.http.get(`${environment.apiUrl}/buscarEmpresasCliente/${id}`, { headers: this.headers })
+    .pipe(
+      retry(1),
+      catchError(this.errorHandl)
+    );
+  }
+
+  getDataClienteActual(id: string): Observable<any> {
+
+    return this.http.get(`${environment.apiUrl}/cliente/${id}`, { headers: this.headers })
     .pipe(
       retry(1),
       catchError(this.errorHandl)

@@ -31,7 +31,7 @@ export class ModificaExamenComponent implements OnInit {
   _dato!: IExamen;
   imagen64: any;
 
-  imagen = './../../../../../assets/imagenes/';
+  /*imagen = './../../../../../assets/imagenes/';
   archivo: {
     nombre: string,
     nombreArchivo: string,
@@ -43,7 +43,7 @@ export class ModificaExamenComponent implements OnInit {
     base64textString: '',
     ruta:''
   };
-
+*/
   constructor(private dialogRef: MatDialogRef<ModificaExamenComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private servicioService: ExamenService,
@@ -95,17 +95,30 @@ export class ModificaExamenComponent implements OnInit {
     }
 
   ngOnInit() {
-   this.imagen=this.imagen+ this.currentUsuario.usuarioDato.empresa.rutEmpresa+'/'+this.data.nombreExamen  // agregar a estructura data.nomreArchivo
+  /*
+    if (this.data.nombreExamen =='sinFirma.jpg' || this.data.nombreExamen ==''){
+      this.imagen=this.imagen+'sinFirma.jpg' // agregar a estructura data.nomreArchivo
+    }else{
+      this.imagen=this.imagen+ this.currentUsuario.usuarioDato.empresa.rutEmpresa+'/'+this.data.nombreExamen  // agregar a estructura data.nomreArchivo
+    }
+    */
   }
 
   enviar() {
+   /* console.log('sube archivo:',this.archivo.nombreArchivo)
+    let nombreExamen_= this.data.nombreExamen;
+
+    if (this.archivo.nombreArchivo!=''){
+        nombreExamen_=this.archivo.nombreArchivo
+    }
+    */
     this._dato = {
       _id: this.datoPar._id,
       codigoExamen: this.modifica.get('codigoExamen')!.value,
       nombre: this.modifica.get('nombre')!.value,
       sigla: this.modifica.get('sigla')!.value,
       precio: this.modifica.get('precio')!.value,
-      nombreExamen: this.archivo.nombreArchivo,
+    //  nombreExamen: nombreExamen_,
       empresa_Id: this.datoPar.empresa_Id,
       usuarioModifica_id: this.datoPar.usuarioModifica_id
     };
@@ -151,30 +164,48 @@ export class ModificaExamenComponent implements OnInit {
         console.log('respuesta:', dato);
         console.log('respuesta:', dato.mensaje);
         if (dato.codigo === 200) {
-          console.log('entro if 200',this.archivo);
-          this.imagenesService.uploadFile(this.archivo)
-          .subscribe({
-            next: (datos) => {
-              console.log('antes de grabar imagen:',datos);
-              if(datos.resultado === 'OK') {
-                console.log('grabó imagen');
-              }
-            },
-             error: (error) => {
-              console.log('error carga:', error);
-              Swal.fire(
-                'ERROR INESPERADO',
-                error,
-               'error'
-             );
-            }
-        }) ,
-            Swal.fire(
+         
+          Swal.fire(
             'Se agregó con Éxito',
-            'Click en Boton!',
+            '',
             'success'
-          ); // ,
+          );
+          this.dialogRef.close(1);
+          /*
+          
+          if (this.archivo.nombreArchivo!=''){
+              this.imagenesService.uploadFile(this.archivo)
+              .subscribe({
+                next: (datos) => {
+                  console.log('antes de grabar imagen:',datos);
+                  if(datos.resultado === 'OK') {
+                    console.log('grabó imagen');
+                    Swal.fire(
+                      'Se agregó con Éxito',
+                      '',
+                      'success'
+                    );
+                  }
+                },
+                error: (error) => {
+                  console.log('error carga:', error);
+                  Swal.fire(
+                    'ERROR INESPERADO',
+                    error,
+                  'error'
+                );
+                }
+              })
+               // ,
+          }else{
+                Swal.fire(
+                'Se agregó con Éxito',
+                '',
+                'success'
+              );
+          }
             this.dialogRef.close(1);
+            */
         }else{
           if (dato.codigo!=500){
             Swal.fire(
@@ -201,7 +232,7 @@ export class ModificaExamenComponent implements OnInit {
   // Error handling
 
 
-
+/*
   onUploadFinished(file: FileHolder) {
     console.log('paso1:', file);
     console.log('muestra base64: ', file.src)
@@ -224,6 +255,6 @@ export class ModificaExamenComponent implements OnInit {
   onUploadStateChanged(state: boolean) {
     console.log('paso3: ', state);
   }
-
+*/
 
 }

@@ -86,6 +86,14 @@ export class UsuarioLabService {
     );
   }
 
+  getDataUsuarioLaboratorio(empresaId:string):Observable<any> {
+    return this.http.get(`${environment.apiUrl}/usuarioTodoLaboratorio/${empresaId}`, { headers: this.headers })
+    .pipe(
+      retry(1),
+      catchError(this.errorHandl)
+    );
+  }
+
   getDataUsuarioTodo():Observable<any> {
     return this.http.get(`${environment.apiUrl}/usuarioTodo`, { headers: this.headers })
     .pipe(

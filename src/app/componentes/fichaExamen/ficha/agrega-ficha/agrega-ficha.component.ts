@@ -13,7 +13,7 @@ import { Component, OnInit, Inject } from '@angular/core';
   import { EspecieService } from './../../../../servicios/especie.service';
   import { IEspecie } from './../../../../modelo/especie-interface';
   import { IRaza } from './../../../../modelo/raza-interface';
-  import { IFicha, IFichaCliente, IFichaDoctorSolicitante, IFichaEspecie, IFichaExamen, IFichaRaza, IFichaUsuarioAsignado } from './../../../../modelo/ficha-interface';
+  import { IFicha, IFichaCliente, IFichaDoctorSolicitante, IFichaEspecie, IFichaExamen, IFichaRaza, IFichaUsuarioAsignado, IFichaValidador, IIngresadoPor } from './../../../../modelo/ficha-interface';
   import { FichaService } from './../../../../servicios/ficha.service';
 import { IDoctorSolicitante } from './../../../../modelo/doctorSolicitante-interface';
 import { DoctorSolicitanteService } from './../../../../servicios/doctor-solicitante.service';
@@ -21,8 +21,10 @@ import { validateHorizontalPosition } from '@angular/cdk/overlay';
 import { UsuarioLabService } from '@app/servicios/usuario-lab.service';
 import { EmpresaService } from '@app/servicios/empresa.service';
 import { IEmpresa } from '@app/modelo/empresa-interface';
+import { ValidadorService } from '@app/servicios/validador.service';
+import { IValidador } from '@app/modelo/validador-interface';
 
-
+/*Ese modulo es llamado por Laboratorio y veterinario por lo que tiene varias restricciones dependiendo de quien lo llame*/
 @Component({
   selector: 'app-agrega-ficha',
   templateUrl: './agrega-ficha.component.html',
@@ -39,16 +41,23 @@ export class AgregaFichaComponent implements OnInit {
     doctorSolicitante!: IFichaDoctorSolicitante;
     usuarioAsignado!:IFichaUsuarioAsignado;
 
+    validadorAsignado!:IFichaValidador;
+    validador!: IValidador;
+
     usuario: string;
     form!: FormGroup;
     datoExamen!: IExamen[];
     datoUsuario!: IUsuario[];
     datoCliente!: ICliente[];
+    datoEmpresa!: IEmpresa[];
+    datoValidador!: IValidador[];
+
     datoFicha!: IFicha;
     datoDoctorSolicitante!:IDoctorSolicitante[];
 
     datoEspecie!: IEspecie[];
     datoRaza!: IRaza[];
+    IIngresadoPor!: IIngresadoPor;
 
     fechaActual: Date = new Date();
 
@@ -57,8 +66,12 @@ export class AgregaFichaComponent implements OnInit {
 
 
     visibleHemograma= false;
-    visibleExamen1= false;
-    visibleExamen2= false;
+    visiblePerfilBioquimico= false;
+    visiblePruebasDeCoagulacion= false;
+
+    flagHemograma= false;
+    flagPerfilBioquimico= false;
+    flagPruebasDeCoagulacion= false;
 
     flagGraba=0;
     respuesta=3;
@@ -66,10 +79,16 @@ export class AgregaFichaComponent implements OnInit {
     numeroFichaCorrelativo:number=0;
     nombreLogo='sinLogo.jpg';
 
+    tipoEmpresa='';
+    razonSocial= '';
+    nombreFantasia= '';
+    tituloBoton='';
+    estadoFicha_=''
     constructor(private dialogRef: MatDialogRef<AgregaFichaComponent>,
                 @Inject(MAT_DIALOG_DATA) public data:any,
                 private empresaService: EmpresaService,
                 private examenService: ExamenService,
+                private validadorService: ValidadorService,
                 private usuarioLabService: UsuarioLabService,
                 private clienteService: ClienteService,
                 private especieService: EspecieService,
@@ -77,16 +96,27 @@ export class AgregaFichaComponent implements OnInit {
                 private doctorSolicitanteService: DoctorSolicitanteService,
                 private fichaService: FichaService,
                 ) {
-
+                  console.log('data:',data)
+                  this.tipoEmpresa = data.tipoEmpresa;
                   this.usuario = data.usuario;
-                  this.cargaCliente();
+                  if (this.data.tipoEmpresa=='Veterinaria'){
+                    this.estadoFicha_='Solicitado';
+                    this.tituloBoton='Enviar';
+                    this.cargaEmpresasCliente();
+                  }else{
+                    this.estadoFicha_='Ingresado';
+                    this.tituloBoton='Grabar'
+                    this.cargaCliente();
+                  }
                   this.cargaExamen();
-                  this.cargaUsuario();
+                  this.cargaUsuarioLaboratorio();
                   this.cargaEspecie();
-                  this.cargaRaza();
+                  this.cargaValidador();
+                 // this.cargaRaza();
       }
 
       idCliente= new FormControl('', [Validators.required]);
+      idEmpresa= new FormControl('', [Validators.required]);
       nombrePropietario= new FormControl('', [Validators.required]);
       nombrePaciente= new FormControl('', [Validators.required]);
       idEspecie= new FormControl('', [Validators.required]);
@@ -94,17 +124,22 @@ export class AgregaFichaComponent implements OnInit {
       edad= new FormControl('', [Validators.required]);
       sexo= new FormControl('', [Validators.required]);
       idDoctorSolicitante= new FormControl('', [Validators.required]);
+      correoClienteFinal = new FormControl('', [Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]);
       flagExamen= new FormControl('',[Validators.required]);
       hemograma= new FormControl('');
-      examen1= new FormControl('');
-      examen2= new FormControl('');
+      perfilBioquimico= new FormControl('');
+      pruebasDeCoagulacion= new FormControl('');
       idUsuarioHemograma= new FormControl('');
-      idUsuarioExamen1= new FormControl('');
-      idUsuarioExamen2= new FormControl('');
+      idUsuarioPerfilBioquimico= new FormControl('');
+      idUsuarioPruebasDeCoagulacion= new FormControl('');
 
+      idValidadorHemograma= new FormControl('');
+      idValidadorPerfilBioquimico=new FormControl('');
+      idValidadorPruebasDeCoagulacion= new FormControl('');
 
       agregaFicha: FormGroup = new FormGroup({
                     idCliente: this.idCliente,
+                    idEmpresa: this.idEmpresa,
                     nombrePropietario: this.nombrePropietario,
                     nombrePaciente: this.nombrePaciente,
                     idEspecie: this.idEspecie,
@@ -112,19 +147,27 @@ export class AgregaFichaComponent implements OnInit {
                     edad: this.edad,
                     sexo: this.sexo,
                     idDoctorSolicitante: this.idDoctorSolicitante,
+                    correoClienteFinal: this.correoClienteFinal,
                     flagExamen:this.flagExamen,
                     hemograma: this.hemograma,
-                    examen1: this.examen1,
-                    examen2: this.examen2,
+                    perfilBioquimico: this.perfilBioquimico,
+                    pruebasDeCoagulacion: this.pruebasDeCoagulacion,
                     idUsuarioHemograma: this.idUsuarioHemograma,
-                    idUsuarioExamen1: this.idUsuarioExamen1,
-                    idUsuarioExamen2: this.idUsuarioExamen2
+                    idUsuarioPerfilBioquimico: this.idUsuarioPerfilBioquimico,
+                    idUsuarioPruebasDeCoagulacion: this.idUsuarioPruebasDeCoagulacion,
+
+                    idValidadorHemograma: this.idValidadorHemograma,
+                    idValidadorPerfilBioquimico: this.idValidadorPerfilBioquimico,
+                    idValidadorPruebasDeCoagulacion: this.idValidadorPruebasDeCoagulacion
       });
 
       getErrorMessage(campo: string) {
 
                     if (campo === 'idCliente'){
                       return this.idCliente.hasError('required') ? 'Debes Seleccionar Cliente' : '';
+                    }
+                    if (campo === 'idEmpresa'){
+                      return this.idEmpresa.hasError('required') ? 'Debes Seleccionar Laboratorio' : '';
                     }
                     if (campo === 'nombrePropietario'){
                       return this.nombrePropietario.hasError('required') ? 'Debes ingresar Nombre Propietario' : '';
@@ -148,11 +191,28 @@ export class AgregaFichaComponent implements OnInit {
                       return this.idDoctorSolicitante.hasError('required') ? 'Debes Ingresar Dr. Solicitante' : '';
                     }
 
+                    if (campo === 'idValidadorHemograma'){
+                      return this.idValidadorHemograma.hasError('required') ? 'Debes Ingresar Validador' : '';
+                    }
+                    if (campo === 'idValidadorPerfilBioquimico'){
+                      return this.idValidadorPerfilBioquimico.hasError('required') ? 'Debes Ingresar Validador' : '';
+                    }
+                    if (campo === 'idValidadorPruebasDeCoagulacion'){
+                      return this.idValidadorPruebasDeCoagulacion.hasError('required') ? 'Debes Ingresar Validador' : '';
+                    }
                     return '';
                   }
 
     async ngOnInit() {
       await this.getEmpresa();
+      if (this.data.tipoEmpresa=='Veterinaria'){
+        this.agregaFicha.get('idCliente')!.clearValidators();
+        this.agregaFicha.get('idCliente')!.updateValueAndValidity();
+        this.cargaClienteDoctorSolicitante(this.data.idCliente);
+      }else{
+        this.agregaFicha.get('idEmpresa')!.clearValidators();
+        this.agregaFicha.get('idEmpresa')!.updateValueAndValidity();
+      }
     }
 
     cargaExamen(){
@@ -177,12 +237,15 @@ export class AgregaFichaComponent implements OnInit {
     ); // (this.dataSource.data = res as PerfilI[])
     }
 
-    getEmpresa(){
-      this.empresaService
-      .getDataEmpresa(this.data.empresa_Id)
+    cargaValidador(){
+      this.validadorService
+      .getDataValidadorTodo(this.data.empresa_Id)
       .subscribe(res => {
-        console.log('logo empresa:', res['data'][0])
-        this.nombreLogo = res['data'][0]?.nombreLogo;
+        console.log('validador:', res['data'])
+        this.datoValidador = res['data'] as any[];
+      //  for (var x of this.datoExamen) {
+       //   console.log(x)
+       // }
       },
       // console.log('yo:', res as PerfilI[]),
       error => {
@@ -196,9 +259,30 @@ export class AgregaFichaComponent implements OnInit {
     ); // (this.dataSource.data = res as PerfilI[])
     }
 
-    cargaUsuario(){
+    getEmpresa(){
+      this.empresaService
+      .getDataEmpresa(this.data.empresa_Id)
+      .subscribe(res => {
+        console.log('logo empresa:', res['data'][0])
+        this.nombreLogo = res['data'][0]?.nombreLogo;
+        this.razonSocial= res['data'][0]?.razonSocial
+        this.nombreFantasia= res['data'][0]?.nombreFantasia
+      },
+      // console.log('yo:', res as PerfilI[]),
+      error => {
+        console.log('error carga:', error);
+        Swal.fire(
+          'ERROR INESPERADO',
+          error,
+         'error'
+       );
+      }
+    ); // (this.dataSource.data = res as PerfilI[])
+    }
+
+    cargaUsuarioLaboratorio(){
       this.usuarioLabService
-      .getDataUsuario(this.data.empresa_Id,'Laboratorio')
+      .getDataUsuarioLaboratorio(this.data.empresa_Id)
       .subscribe(res => {
         console.log('usuario:', res['data']);
         this.datoUsuario = res['data'] as any[] ;
@@ -222,6 +306,7 @@ export class AgregaFichaComponent implements OnInit {
       .subscribe(res => {
         console.log('cliente:', res['data'])
         this.datoCliente = res['data'] ;
+
       },
       // console.log('yo:', res as PerfilI[]),
       error => {
@@ -231,6 +316,59 @@ export class AgregaFichaComponent implements OnInit {
         error,
        'error'
       );
+      }
+    ); // (this.dataSource.data = res as PerfilI[])
+    }
+
+    cargaEmpresasCliente(){
+      console.log('íd cliente:',this.data.idCliente)
+      this.clienteService
+      .getDataEmpresasCliente(this.data.idCliente)
+      .subscribe(res => {
+
+        this.datoEmpresa = res['data'] ;
+        console.log('dato empresa:', res['data'])
+
+        /*
+        for(let a=0; a<this.datoCliente.length; a++){
+          // for(let b=0; b<this.datoClienteEmpresa[a].empresa!.length; b++){
+
+            //  if (this.datoClienteEmpresa![a].empresa![a].empresa_Id != this.currentUsuario.usuarioDato.empresa.empresa_Id){
+              this.datoCliente![a].empresa = this.datoCliente![a].empresa!.filter(x=> x.empresa_Id === this.data.empresa_Id)
+            //  }
+           // }
+         }
+         */
+      },
+      // console.log('yo:', res as PerfilI[]),
+      error => {
+        console.log('error carga:', error);
+       Swal.fire(
+        'ERROR INESPERADO',
+        error,
+       'error'
+      );
+      }
+    ); // (this.dataSource.data = res as PerfilI[])
+    }
+
+    cargaEmpresa(){
+      this.empresaService
+      .getDataEmpresa(this.data.empresa_Id)
+      .subscribe(res => {
+        console.log('logo empresa:', res['data'][0])
+        this.nombreLogo = res['data'][0]?.nombreLogo;
+        this.razonSocial= res['data'][0]?.razonSocial
+        this.nombreFantasia= res['data'][0]?.nombreFantasia
+      },
+      // console.log('yo:', res as PerfilI[]),
+      error => {
+        console.log('error carga:', error);
+        Swal.fire(
+          'ERROR INESPERADO',
+          error,
+         'error'
+       );
       }
     ); // (this.dataSource.data = res as PerfilI[])
     }
@@ -255,6 +393,7 @@ export class AgregaFichaComponent implements OnInit {
     }
 
     cargaClienteDoctorSolicitante(idCliente:any){
+      console.log('id cliente:',idCliente)
       this.doctorSolicitanteService
       .getDataClienteDoctorSolicitante(idCliente)
       .subscribe(res => {
@@ -273,9 +412,11 @@ export class AgregaFichaComponent implements OnInit {
     ); // (this.dataSource.data = res as PerfilI[])
     }
 
-    cargaRaza(){
+    cargaRaza(nombreEspecie:string){
+      console.log('empresa:',this.data.empresa_Id)
+      console.log('especie:',nombreEspecie)
       this.razaService
-      .getDataRazaTodo(this.data.empresa_Id)
+      .getDataRazaTodoEspecie(this.data.empresa_Id,nombreEspecie)
       .subscribe(res => {
         console.log('raza:', res['data']);
         this.datoRaza = res['data'] as any[];
@@ -296,43 +437,89 @@ export class AgregaFichaComponent implements OnInit {
     }
 
     async seleccionaCliente(p: any){
+      console.log('dats cliente:',p)
      await this.cargaClienteDoctorSolicitante(p._id)
       return;
     }
 
-    chkHemograma(event:boolean){
+
+    async seleccionaEspecie(p: any){
+      console.log('dats Especie:',p)
+     await this.cargaRaza(p.nombre)
+      return;
+    }
+
+    async chkHemograma(event:boolean){
       console.log('valor chk:',event);
-      if (event)
-          this.visibleHemograma=true
-      else
+      this.flagHemograma=event;
+      console.log('flag:',this.flagHemograma);
+      if (event && this.tipoEmpresa=='Laboratorio'){
+           this.visibleHemograma=true;
+      }else{
         this.visibleHemograma=false
-
+      }
+      this.validaValodadorHemograma();
       this.validaExamen();
     }
 
-    chkExamen1(event:boolean){
+    chkPerfilBioquimico(event:boolean){
       console.log('valor chk:',event);
-      if (event)
-          this.visibleExamen1=true
+      this.flagPerfilBioquimico=event;
+      if (event && this.tipoEmpresa=='Laboratorio')
+          this.visiblePerfilBioquimico=true
       else
-        this.visibleExamen1=false
+        this.visiblePerfilBioquimico=false
 
+      this.validaValodadorPerfilBioquimico();
       this.validaExamen();
     }
 
-    chkExamen2(event:boolean){
+    chkPruebasDeCoagulacion(event:boolean){
       console.log('valor chk:',event);
-      if (event)
-          this.visibleExamen2=true
+      this.flagPruebasDeCoagulacion=event;
+      if (event && this.tipoEmpresa=='Laboratorio')
+          this.visiblePruebasDeCoagulacion=true
       else
-        this.visibleExamen2=false
+        this.visiblePruebasDeCoagulacion=false
 
-        this.validaExamen();
+      this.validaValodadorPruebasDeCoagulacion();
+      this.validaExamen();
     }
 
+    validaValodadorHemograma(){
+      console.log('ValidadorHemograma:',this.visibleHemograma)
+      if (this.visibleHemograma){
+        console.log('paso activa');
+        this.agregaFicha.get('idValidadorHemograma')!.setValidators([Validators.required]);
+      }else{
+        console.log('paso Inactiva');
+        this.agregaFicha.get('idValidadorHemograma')!.clearValidators();
+      }
+      this.agregaFicha.get('idValidadorHemograma')!.updateValueAndValidity();
+    }
+
+    validaValodadorPerfilBioquimico(){
+      console.log('visiblePerfilBioquimico:',this.visiblePerfilBioquimico)
+      if (this.visiblePerfilBioquimico){
+        this.agregaFicha.get('idValidadorPerfilBioquimico')!.setValidators([Validators.required]);
+      }else{
+        this.agregaFicha.get('idValidadorPerfilBioquimico')!.clearValidators();
+      }
+      this.agregaFicha.get('idValidadorPerfilBioquimico')!.updateValueAndValidity();
+    }
+
+    validaValodadorPruebasDeCoagulacion(){
+      console.log('visiblePruebasDeCoagulacion:',this.visiblePruebasDeCoagulacion)
+      if (this.visiblePruebasDeCoagulacion){
+        this.agregaFicha.get('idValidadorPruebasDeCoagulacion')!.setValidators([Validators.required]);
+      }else{
+        this.agregaFicha.get('idValidadorPruebasDeCoagulacion')!.clearValidators();
+      }
+      this.agregaFicha.get('idValidadorPruebasDeCoagulacion')!.updateValueAndValidity();
+    }
 
     validaExamen(){
-      if (this.visibleHemograma || this.visibleExamen1 || this.visibleExamen2){
+      if (this.visibleHemograma || this.visiblePerfilBioquimico || this.visiblePruebasDeCoagulacion || this.tipoEmpresa!='Laboratorio'){
         this.agregaFicha.get('flagExamen')!.clearValidators();
       }
       else{
@@ -345,58 +532,101 @@ export class AgregaFichaComponent implements OnInit {
 
         /*Permite ingresar con recursividad por lo de asyncrono*/
         console.log('examen seleccionado',this.datoExamen)
-        console.log('hemo',this.visibleHemograma);
+        console.log('hemo',this.flagHemograma);
 
-        if (this.visibleHemograma ){
+        if (this.flagHemograma ){
             console.log('paso hemo')
             this.examenDato= this.datoExamen.find(valor => valor.codigoInterno == 1);
             console.log('paso hemo2',this.examenDato)
-            this.grabar(this.examenDato,this.agregaFicha.get('idUsuarioHemograma')!.value,1,2)
+
+            this.grabar(this.examenDato,this.agregaFicha.get('idValidadorHemograma')!.value,this.agregaFicha.get('idUsuarioHemograma')!.value,1,2)
             console.log('paso hemo3')
         }else{
-          if (this.visibleExamen1 ){
+          if (this.flagPerfilBioquimico ){
             this.examenDato= this.datoExamen.find(valor=> valor.codigoInterno==2)
-             this.grabar(this.examenDato,this.agregaFicha.get('idUsuarioExamen1')!.value,1,3)
+             this.grabar(this.examenDato,this.agregaFicha.get('idValidadorPerfilBioquimico')!.value,this.agregaFicha.get('idUsuarioPerfilBioquimico')!.value,1,3)
          }else{
-          if (this.visibleExamen2 ){
+          if (this.flagPruebasDeCoagulacion ){
              this.examenDato= this.datoExamen.find(valor=> valor.codigoInterno==3)
-             this.grabar(this.examenDato,this.agregaFicha.get('idUsuarioExamen2')!.value,1,4)
+             this.grabar(this.examenDato,this.agregaFicha.get('idValidadorPruebasDeCoagulacion')!.value,this.agregaFicha.get('idUsuarioPruebasDeCoagulacion')!.value,1,4)
           }
         }
     }
   }
 
 
-  grabar(examenEncontrado:any,UsuarioIngresado:any, flag:any,codigoInterno:any){
+  grabar(examenEncontrado:any,validador: any,UsuarioIngresado:any, flag:any,valorIngreso:any){
+    let empresa_;
     this.numeroFichaCorrelativo=this.numeroFichaCorrelativo+1;
     console.log('correlativo:',this.numeroFichaCorrelativo);
-      if (flag!=0){
 
-        // console.log(x)
-        console.log('examen:',examenEncontrado);
+      if (flag!=0){
+          console.log('examen:',examenEncontrado);
           this.examen= {
             idExamen: examenEncontrado._id,
             codigoExamen: examenEncontrado.codigoExamen,
+            codigoInterno: examenEncontrado.codigoInterno,
             nombre: examenEncontrado.nombre,
             nombreExamen: examenEncontrado.nombreExamen
-      //   }
-        }
+          }
 
+          if( UsuarioIngresado._id!=undefined){
+            this.usuarioAsignado={
+              idUsuario: UsuarioIngresado._id,
+              usuario: UsuarioIngresado.usuario,
+              rutUsuario: UsuarioIngresado.rutUsuario,
+              nombreCompleto: UsuarioIngresado.nombres + ' ' + UsuarioIngresado.apellidoPaterno + ' ' + UsuarioIngresado.apellidoMaterno
+            }
+          }else{
+              this.usuarioAsignado={
+                idUsuario: '',
+                usuario: '',
+                rutUsuario: '',
+                nombreCompleto: ''
+              }
+          }
 
-        this.usuarioAsignado={
-          idUsuario: UsuarioIngresado._id,
-          usuario: UsuarioIngresado.usuario,
-          rutUsuario: UsuarioIngresado.rutUsuario,
-          nombreCompleto: UsuarioIngresado.nombres + ' ' + UsuarioIngresado.apellidoPaterno + ' ' + UsuarioIngresado.apellidoMaterno
-        }
+          this.IIngresadoPor={
+            tipoEmpresa:this.tipoEmpresa,            //Administrador, Laboratorio, Veterinaria
+            idIngreso:this.data.datoIngreso._id,
+            rutIngreso: this.data.datoIngreso.rutCliente,
+            razonSocial: this.data.datoIngreso.razonSocial,
+            nombreFantasia: this.data.datoIngreso.nombreFantasia
+          }
 
-        this.cliente= {
-          idCliente:this.agregaFicha.get('idCliente')!.value._id,
-          rutCliente: this.agregaFicha.get('idCliente')!.value.rutCliente,
-          razonSocial: this.agregaFicha.get('idCliente')!.value.razonSocial,
-          nombreFantasia: this.agregaFicha.get('idCliente')!.value.nombreFantasia,
-          correoEnvioCliente: this.agregaFicha.get('idCliente')!.value.emailEnvioExamenCliente
-        }
+          if (this.tipoEmpresa=='Veterinaria'){
+
+            this.cliente= {
+              idCliente:this.data.datoIngreso._id,
+              rutCliente: this.data.datoIngreso.rutCliente,
+              razonSocial: this.data.datoIngreso.razonSocial,
+              nombreFantasia: this.data.datoIngreso.nombreFantasia,
+              correoRecepcionCliente: this.data.datoIngreso.emailRecepcionExamenCliente
+            }
+
+            empresa_={
+              empresa_Id: this.agregaFicha.get('idEmpresa')!.value._id,
+              rutEmpresa: this.agregaFicha.get('idEmpresa')!.value.rutEmpresa,
+              nombreLogo: this.agregaFicha.get('idEmpresa')!.value.nombreLogo
+            }
+
+          }else{
+            this.cliente= {
+              idCliente:this.agregaFicha.get('idCliente')!.value._id,
+              rutCliente: this.agregaFicha.get('idCliente')!.value.rutCliente,
+              razonSocial: this.agregaFicha.get('idCliente')!.value.empresa[0].razonSocial,
+              nombreFantasia: this.agregaFicha.get('idCliente')!.value.empresa[0].nombreFantasia,
+              correoRecepcionCliente: this.agregaFicha.get('idCliente')!.value.emailRecepcionExamenCliente
+            }
+
+            empresa_={
+              empresa_Id: this.data.empresa_Id,
+              rutEmpresa: this.data.rutEmpresa,
+              nombreLogo: this.nombreLogo
+            }
+          }
+
+        console.log('this.agregaFicha.get(idCliente)!.value',this.agregaFicha.get('idCliente')!.value);
 
         this.especie= {
           idEspecie: this.agregaFicha.get('idEspecie')!.value._id,
@@ -413,6 +643,33 @@ export class AgregaFichaComponent implements OnInit {
           nombreDoctorSolicitante: this.agregaFicha.get('idDoctorSolicitante')!.value.nombre
         }
 
+        console.log('validador:',validador._id)
+
+        if( validador._id!=undefined){
+          this.validadorAsignado={
+            idValidador: validador._id,
+            rutValidador: validador.rutValidador,
+            nombres: validador.nombres,
+            apellidoPaterno: validador.apellidoPaterno,
+            apellidoMaterno: validador.apellidoMaterno,
+            telefono: validador.telefono,
+            profesion: validador.profesion,
+            nombreFirma: validador.nombreFirma
+          }
+        }else{
+          this.validadorAsignado={
+            idValidador: '',
+            rutValidador: '',
+            nombres: '',
+            apellidoPaterno: '',
+            apellidoMaterno: '',
+            telefono: '',
+            profesion: '',
+            nombreFirma: ''
+          }
+        }
+
+
         this.datoFicha = {
           fichaC: {
                 cliente: this.cliente,
@@ -423,16 +680,20 @@ export class AgregaFichaComponent implements OnInit {
                 raza: this.raza,
                 sexo: this.agregaFicha.get('sexo')!.value,
                 doctorSolicitante: this.doctorSolicitante,
-                examen:this.examen
+                correoClienteFinal: this.agregaFicha.get('correoClienteFinal')!.value,
+                examen:this.examen,
+                validador: this.validadorAsignado
           },
         usuarioAsignado:this.usuarioAsignado,
-        empresa:{
-          empresa_Id: this.data.empresa_Id,
-          rutEmpresa: this.data.rutEmpresa,
-          nombreLogo: this.nombreLogo
-        },
+
+        empresa: empresa_,
+        ingresadoPor:this.IIngresadoPor,
+        estadoFicha: this.estadoFicha_,
         usuarioCrea_id: this.usuario,
         usuarioModifica_id: this.usuario,
+        fechaHora_envia_crea: new Date('01/01/1900 00:00:00'),
+        fechaHora_envia_modifica: new Date('01/01/1900 00:00:00'),
+        fechaHora_recepciona_crea: new Date('01/01/1900 00:00:00')
 
         };
       }
@@ -441,34 +702,58 @@ export class AgregaFichaComponent implements OnInit {
       .subscribe(
         dato => {
           if (dato.codigo === 200) {
+              console.log('this.numeroFichaCorrelativo:',this.numeroFichaCorrelativo)
               console.log('dato ficha res:',dato.data)
               console.log('examen dato:',this.datoExamen);
-            if (this.visibleHemograma && codigoInterno<=1){
+              console.log('visibleHemograma:',this.visibleHemograma)
+            if (this.flagHemograma && valorIngreso<=1){
               console.log('pasooooooooooooooooooooooooooo1');
                 this.examenDato!= this.datoExamen.find(valor=> valor.codigoInterno == 1);
                 console.log('examen1:',this.examenDato);
-                this.grabar(this.examenDato,this.agregaFicha.get('idUsuarioHemograma')!.value,1,2)  // dato.data.fichaC.id_Ficha= para que guarde la misma id_ficha
+                this.grabar(this.examenDato,this.agregaFicha.get('idValidadorHemograma')!.value,this.agregaFicha.get('idUsuarioHemograma')!.value,1,2)  // dato.data.fichaC.id_Ficha= para que guarde la misma id_ficha
             }else{
-              if (this.visibleExamen1 && codigoInterno<=2){
+              if (this.flagPerfilBioquimico && valorIngreso<=2){
                 console.log('pasoooooooooooooooooooooooooo2');
                 this.examenDato= this.datoExamen.find(valor=> valor.codigoInterno == 2)
                 console.log('examen2:',this.examenDato);
-                 this.grabar(this.examenDato,this.agregaFicha.get('idUsuarioExamen1')!.value,1,3)
-             }else{
-              if (this.visibleExamen2 && codigoInterno<=3){
-                console.log('pasooooooooooooooooooooooooo3');
-                 this.examenDato= this.datoExamen.find(valor=> valor.codigoInterno == 3)
-                 console.log('examen3:',this.examenDato);
-                 this.grabar(this.examenDato,this.agregaFicha.get('idUsuarioExamen2')!.value,1,4)
+                 this.grabar(this.examenDato,this.agregaFicha.get('idValidadorPerfilBioquimico')!.value,this.agregaFicha.get('idUsuarioPerfilBioquimico')!.value,1,3)
               }else{
-                Swal.fire(
-                  'Se agregó con Éxito',
-                  '',
-                  'success'
-                ); // ,
-                  this.dialogRef.close(1);
+                  if (this.flagPruebasDeCoagulacion && valorIngreso<=3){
+                    console.log('pasooooooooooooooooooooooooo3');
+                    this.examenDato= this.datoExamen.find(valor=> valor.codigoInterno == 3)
+                    console.log('examen3:',this.examenDato);
+                    this.grabar(this.examenDato,this.agregaFicha.get('idValidadorPruebasDeCoagulacion')!.value,this.agregaFicha.get('idUsuarioPruebasDeCoagulacion')!.value,1,4)
+                  }else{
+                      console.log('dato Idddddd:',dato.data)
+                      if (this.tipoEmpresa=='Veterinaria'){
+                        this.fichaService
+                        .envioCorreoSolicitudCliente(dato.data._id)
+                        .subscribe((res) => {
+                          Swal.fire(
+                            'Solicitud se Envió con Éxito',
+                            '',
+                            'success'
+                          );
 
-              }
+                        },
+                          error => {
+                            console.log('error carga:', error);
+                            Swal.fire(
+                              'ERROR INESPERADO',
+                              error,
+                            'error'
+                            );
+                          }
+                        );
+                      }else{
+                        Swal.fire(
+                          'Se agregó con Éxito',
+                          '',
+                          'success'
+                        );
+                      }
+                      this.dialogRef.close(1);
+                  }
              }
             }
 
@@ -497,9 +782,4 @@ export class AgregaFichaComponent implements OnInit {
   }
     // Error handling
 
-
-    cerrar() {
-     // this.dialogRef.close();
-    }
-  }
-
+}

@@ -1,0 +1,115 @@
+<div class="pt-1" >
+  <div class="col-md-12">
+    <h4 class="text-center">Consulta Exámen</h4>
+  </div>
+</div>
+
+<div class="content ml-2 mr-2">
+<mat-form-field>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Buscar">
+</mat-form-field>
+<span class="spacerDerecha"></span>
+<mat-dialog-content [formGroup]="range" name="filtraFicha" class="justify-content-right">
+  <mat-form-field class="example-form-field mb-2" appearance="fill">
+    <mat-label style="text-align: center;">Ingrese el Rango de Fecha</mat-label>
+    <mat-date-range-input [formGroup]="range"  [rangePicker]="picker" >
+      <input matStartDate formControlName="start" placeholder="Fecha Inicial" >
+      <input matEndDate formControlName="end" placeholder="Fecha Final">
+    </mat-date-range-input>
+    <mat-hint>DD/MM/YYYY – DD/MM/YYYY</mat-hint>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker></mat-date-range-picker>
+
+    <mat-error *ngIf="start.hasError('matStartDateInvalid')">Fecha Inicial Inválida</mat-error>
+    <mat-error *ngIf="end.hasError('matEndDateInvalid')">Fecha Final Inválida</mat-error>
+
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions class="justify-content-right">
+
+  <button  class="colorFondoBoton  margenIzquierdo" mat-raised-button  (click)="buscar()"   [disabled]="range.invalid">Buscar</button>
+</mat-dialog-actions>
+
+<div class="mat-elevation-z8">
+
+  <table mat-table [dataSource]="dataSource" multiTemplateDataRows matSort>
+
+     <!-- ID Index -->
+     <ng-container matColumnDef="index">
+        <th id='indexI' mat-header-cell *matHeaderCellDef mat-sort-header style=' width: 3%;'> N° </th>
+        <td mat-cell *matCellDef="let row; let i = dataIndex;"style=' width: 3%;'> {{i+1}} </td>
+      </ng-container>
+
+    <!-- ID Column -->
+    <ng-container matColumnDef="fichaC.numeroFicha">
+      <th id='numeroFichaI' mat-header-cell *matHeaderCellDef mat-sort-header style=' width: 5%;'>N° FICHA</th>
+      <td mat-cell *matCellDef="let row"style=' width: 5%;'> {{row.fichaC.numeroFicha}} </td>
+    </ng-container>
+
+    <!-- Progress Column -->
+    <ng-container matColumnDef="fichaC.cliente.nombreFantasia">
+      <th id='nombreFantasiaI' mat-header-cell *matHeaderCellDef mat-sort-header style=' width: 8%;'> VETERINARIA </th>
+      <td mat-cell *matCellDef="let row"  style=' width: 8%;'> {{row.fichaC.cliente.nombreFantasia}} </td>
+    </ng-container>
+
+
+    <!-- Titulo Column -->
+    <ng-container matColumnDef="fichaC.nombrePaciente">
+      <th id='nombrePacienteI' mat-header-cell *matHeaderCellDef mat-sort-header style=' width: 8%;'> NOMBRE PACIENTE </th>
+      <td mat-cell *matCellDef="let row" style=' width: 8%;'> {{row.fichaC.nombrePaciente}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="fichaC.examen.nombre">
+      <th id='examen.nombreI' mat-header-cell *matHeaderCellDef mat-sort-header style=' width: 13%;'> EXÁMEN </th>
+      <td mat-cell *matCellDef="let row" style=' width: 13%;'> {{row.fichaC.examen.nombre}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="fechaHora_crea">
+      <th id='fechaHora_creaI' mat-header-cell *matHeaderCellDef mat-sort-header style=' width: 10%;'> FECHA INGRESO </th>
+      <td mat-cell *matCellDef="let row" style=' width: 10%;'> {{row.fechaHora_crea | date:'dd-MM-yyyy HH:mm:ss'}} </td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="fechaHora_envia_modifica">
+      <th id='fechaHora_envia_modificaI' mat-header-cell *matHeaderCellDef mat-sort-header style=' width: 10%;'> FECHA RECEPCIÓN </th>
+      <td mat-cell *matCellDef="let row" style=' width: 10%;'> {{row.fechaHora_envia_modifica | date:'dd-MM-yyyy HH:mm:ss'}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="estadoFicha">
+      <th id='estadoFichaI' mat-header-cell *matHeaderCellDef mat-sort-header style=' width: 5%;'> ESTADO</th>
+      <td mat-cell *matCellDef="let row" style=' width: 5%;'> {{row.estadoFicha}} </td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="opciones" >
+      <th id='opcionesI' mat-header-cell *matHeaderCellDef  style=' width: 10%; text-align: center'>
+
+      </th>
+
+      <td mat-cell *matCellDef="let row; let i=index;" style=' width: 10%; text-align: center'>
+
+        <button mat-icon-button color="accent" style="size:5px" (click)="descargaExamen(row.fichaC.numeroFicha,row.fichaC.examen.nombre,row.empresa.rutEmpresa)">
+          <mat-icon>cloud_download</mat-icon>
+        </button>
+
+        <button mat-icon-button color="accent" (click)="consultaFicha(row.fichaC.numeroFicha,row.empresa.rutEmpresa)">
+          <mat-icon>search</mat-icon>
+        </button>
+
+        <button mat-icon-button color="accent" (click)="envioEmail(row)">
+          <mat-icon>email</mat-icon>
+        </button>
+
+
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[10, 20, 30, 100]"></mat-paginator>
+
+</div>
+</div>

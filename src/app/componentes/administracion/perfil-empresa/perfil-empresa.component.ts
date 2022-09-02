@@ -105,6 +105,7 @@ export class PerfilEmpresaComponent implements OnInit {
           tipoEmpresa:this.datoEmpresa.tipoEmpresa,   //Administrador-Laboratorio-Cliente
           menu_Id: this.datoEmpresa.menu_Id,
           email: this.datoEmpresa.email,
+          correoRecepcionSolicitud: this.datoEmpresa.correoRecepcionSolicitud,
           nombreLogo:this.archivo.nombreArchivo,
           usuarioModifica_id: this.currentUsuario.usuarioDato._id
         };
@@ -132,7 +133,7 @@ export class PerfilEmpresaComponent implements OnInit {
                   'error'
                 );
                 }
-            }) ,
+            })
                 Swal.fire(
                 'Se agregó con Éxito',
                 'Click en Boton!',

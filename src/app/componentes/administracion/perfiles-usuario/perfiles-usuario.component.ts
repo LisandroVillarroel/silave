@@ -117,7 +117,7 @@ export class PerfilesUsuarioComponent implements OnInit {
         this.dialog.open(AgregaPerfilUsuarioComponent, dialogConfig)
         .afterClosed().subscribe(
          data => {console.log('Dialog output3333:', data);
-                  if (data !== undefined) {
+                  if (data === 1) {
                       this.refreshTable();
                   }
           }
@@ -139,7 +139,7 @@ export class PerfilesUsuarioComponent implements OnInit {
         this.dialog.open(ModificaPerfilUsuarioComponent, dialogConfig)
         .afterClosed().subscribe(
          data => {console.log('Dialog output3333:', data);
-                  if (data !== undefined) {
+                  if (data === 1) {
                       this.refreshTable();
                   }
           }
@@ -161,7 +161,7 @@ export class PerfilesUsuarioComponent implements OnInit {
         this.dialog.open(ConsultaPerfilUsuarioComponent, dialogConfig)
         .afterClosed().subscribe(
          data => {console.log('Datoas Consulta:', data);
-                  if (data !== undefined) {
+                  if (data === 1) {
                       this.refreshTable();
                   }
           }
@@ -184,7 +184,7 @@ export class PerfilesUsuarioComponent implements OnInit {
         this.dialog.open(EliminaPerfilUsuarioComponent, dialogConfig)
         .afterClosed().subscribe(
          data => {console.log('Datoas Consulta:', data);
-                  if (data !== undefined) {
+                  if (data === 1) {
                       this.refreshTable();
                   }
           }

@@ -56,8 +56,8 @@ export class ModificaPerfilUsuarioComponent implements  OnInit  {
 
   secondFormGroup!: FormGroup;
 
-  selectTipoEmpresa: { menu_Id: string, nombre: string} []=[];
-  PnombreTipoEmpresa!: string;
+  //selectTipoEmpresa: { menu_Id: string, nombre: string} []=[];
+  //PnombreTipoEmpresa!: string;
   Pmenu_Id!: string;
 
   constructor(private dialogRef: MatDialogRef<ModificaPerfilUsuarioComponent>,
@@ -68,6 +68,7 @@ export class ModificaPerfilUsuarioComponent implements  OnInit  {
     private _formBuilder: FormBuilder) {
 
       this.datoUsuarioPar = data;
+      this.Pmenu_Id= data.empresa.menu_Id;
     this.authenticationService.currentUsuario.subscribe(x => this.currentUsuario = x);
     if (this.authenticationService.getCurrentUser() != null) {
           this.currentUsuario.usuarioDato = this.authenticationService.getCurrentUser() ;
@@ -80,8 +81,8 @@ export class ModificaPerfilUsuarioComponent implements  OnInit  {
     });
     */
     //Fin Carga Menu
-    console.log('data:',data);
-    this.getDataMenuTipoEmpresa();
+    console.log('data inicial:',data);
+   // this.getDataMenuTipoEmpresa();
     this.getDataMenu(data.empresa.menu_Id);
 
   }
@@ -96,7 +97,7 @@ export class ModificaPerfilUsuarioComponent implements  OnInit  {
   telefono = new FormControl(this.data.telefono, [Validators.required]);
   direccion = new FormControl(this.data.direccion, [Validators.required]);
   estadoUsuario = new FormControl(this.data.estadoUsuario, [Validators.required]);
-  tipoEmpresa = new FormControl(this.data.empresa.tipoEmpresa, [Validators.required]);
+  //tipoEmpresa = new FormControl(this.data.empresa.tipoEmpresa, [Validators.required]);
 
   agregaUsuario = this._formBuilder.group({
 
@@ -107,8 +108,8 @@ export class ModificaPerfilUsuarioComponent implements  OnInit  {
     email: this.email,
     telefono: this.telefono,
     direccion: this.direccion,
-    estadoUsuario: this.estadoUsuario,
-    tipoEmpresa: this.tipoEmpresa
+    estadoUsuario: this.estadoUsuario
+    //tipoEmpresa: this.tipoEmpresa
 
     // address: this.addressFormControl
   });
@@ -145,9 +146,10 @@ export class ModificaPerfilUsuarioComponent implements  OnInit  {
     if (campo === 'email'){
       return this.email.hasError('required') ? 'Debes ingresar Email' : '';
     }
-    if (campo === 'tipoEmpresa'){
+   /* if (campo === 'tipoEmpresa'){
       return this.tipoEmpresa.hasError('required') ? 'Debes ingresar Tipo Empresa' : '';
     }
+    */
     return '';
   }
 
@@ -172,29 +174,37 @@ export class ModificaPerfilUsuarioComponent implements  OnInit  {
   }
 
   checkAllParents(node: any) {
-
+    console.log('node 1:',node);
     if (node.parent) {
       const descendants = this.treeControl.getDescendants(node.parent);
       node.parent.selected = descendants.every(child => child.selected);
   //    node.parent.tipoPermiso = descendants.every(child => child.tipoPermiso);
       node.parent.indeterminate = descendants.some(child => child.selected);
       this.checkAllParents(node.parent);
-    }else{
+    }
+    /*else{
       const descendants = this.treeControl.getDescendants(node);
       node.selected = descendants.every(child => child.selected);
     //  node.tipoPermiso = descendants.every(child => child.tipoPermiso);
       node.indeterminate = descendants.some(child => child.selected);
     }
-
+    */
+    console.log('node 2:',node);
   }
 
   todoItemSelectionToggle(checked: any, node: { selected: any; children: any[]; }) {
+
     node.selected = checked;
+
+    console.log('selected2:',node.selected)
+    console.log('selected2.1:',node)
     if (node.children) {
       node.children.forEach(x => {
         this.todoItemSelectionToggle(checked, x);
       });
     }
+    console.log('selected2.3:',node.selected)
+    console.log('selected3:',node)
     this.checkAllParents(node);
   }
 
@@ -223,6 +233,7 @@ export class ModificaPerfilUsuarioComponent implements  OnInit  {
   }
 
   /*Fin tree*/
+  /*
   getDataMenuTipoEmpresa(){
 
     this.menuService
@@ -234,8 +245,7 @@ export class ModificaPerfilUsuarioComponent implements  OnInit  {
         {
           var arreglo={"value":res.data[a]._id, "nombre":res.data[a].nombreMenu};
           console.log('arreglo:',arreglo);
-        /* this.selectTipoEmpresa[a].value=res.data[a]._id;
-          this.selectTipoEmpresa[a].nombre=res.data[a].nombreMenu;*/
+
           this.selectTipoEmpresa.push({"menu_Id": res.data[a]._id, "nombre":res.data[a].nombreMenu});
           console.log('Tipo empresa:',this.selectTipoEmpresa);
         }
@@ -252,7 +262,7 @@ export class ModificaPerfilUsuarioComponent implements  OnInit  {
     }
     );
   }
-
+*/
   getDataMenuEmpresa(P_menu_Id: string){
     console.log('id menu usuario:',P_menu_Id);
     this.menuService
@@ -299,7 +309,7 @@ export class ModificaPerfilUsuarioComponent implements  OnInit  {
               flag=0;
               for(let d=0; d<this.data.MenuItem.length; d++){
                 if (this.data.MenuItem[d].children && this.data.MenuItem[d].children!.length) {
-                  for(let e=0; c<this.data.MenuItem[d].children!.length; e++){
+                  for(let e=0; e<this.data.MenuItem[d].children!.length; e++){
                       if (this.data.MenuItem[d].children[e]._id== this.menuItems[b].children![c]._id){
                         // console.log('for children:',this.data.MenuItem[d].children[e]);
                         this.menuItems[b].children![c].selected=this.data.MenuItem[d].children[e].selected
@@ -317,10 +327,16 @@ export class ModificaPerfilUsuarioComponent implements  OnInit  {
 
             }
           }else{
+            console.log('busca:',this.menuItems[b]._id);
             this.menuItemsResultadoFiltro=this.data.MenuItem!.filter((item: any) => item._id === this.menuItems[b]._id)
-            this.menuItems[b].selected=this.menuItemsResultadoFiltro[0].selected
-            this.menuItems[b].tipoPermiso=this.menuItemsResultadoFiltro[0].tipoPermiso
-
+            console.log('encontro:',this.menuItemsResultadoFiltro);
+            console.log('cantidad:',this.menuItemsResultadoFiltro.length)
+            if (this.menuItemsResultadoFiltro.length!=0){
+              this.menuItems[b].selected=this.menuItemsResultadoFiltro[0].selected
+              this.menuItems[b].tipoPermiso=this.menuItemsResultadoFiltro[0].tipoPermiso
+            }else{
+             // this.menuItems[b].selected=false
+            }
             /*if (this.menuItems[a].codigoServicio.toUpperCase() === this.menuItems[b].route.toUpperCase().replace("/0","").replace("/1","")){
               this.fillerNav[b].disabled=false;
             }*/
@@ -371,6 +387,7 @@ export class ModificaPerfilUsuarioComponent implements  OnInit  {
 
   async enviar(){
     let result: any[] = [];
+    console.log('resultado 1',this.dataSource.data);
     await this.dataSource.data.forEach(node => {
       result = result.concat(
         this.treeControl
@@ -382,7 +399,7 @@ export class ModificaPerfilUsuarioComponent implements  OnInit  {
     });
 
 
-
+    console.log('resultado 2',this.dataSource.data);
     this.menuItemsResultado=this.dataSource.data;
 
     const getCircularReplacer = () => {
@@ -397,15 +414,18 @@ export class ModificaPerfilUsuarioComponent implements  OnInit  {
         return value;
       };
     };
+    console.log('resultado 3',this.menuItemsResultado);
     this.menuItemsResultado=JSON.parse(JSON.stringify(this.menuItemsResultado, getCircularReplacer())); // Permite pasar estructura al modelo
-
-    this.datoUsuarioEmpresa = {
+    console.log('resultado 4:',this.menuItemsResultado)
+   // await this.marcaSelectedSeleccionado()
+   // console.log('resultado 6:',this.menuItemsResultado)
+   /* this.datoUsuarioEmpresa = {
       empresa_Id:this.currentUsuario.usuarioDato.empresa.empresa_Id,
       rutEmpresa: this.currentUsuario.usuarioDato.empresa.rutEmpresa,
-      menu_Id: this.currentUsuario.usuarioDato.empresa.menu_Id,
+      menu_Id: this.Pmenu_Id,
       tipoEmpresa:  this.agregaUsuario.get('tipoEmpresa')!.value,
     }
-
+*/
 
 
     this.datoUsuario = {
@@ -420,8 +440,8 @@ export class ModificaPerfilUsuarioComponent implements  OnInit  {
       direccion: this.agregaUsuario.get('direccion')!.value,
       estadoUsuario: this.agregaUsuario.get('estadoUsuario')!.value,
       MenuItem: this.menuItemsResultado,
-      usuarioCrea_id: this.currentUsuario.usuarioDato.usuario,
-      usuarioModifica_id: this.currentUsuario.usuarioDato.usuario
+      usuarioCrea_id: this.currentUsuario.usuarioDato._id,
+      usuarioModifica_id: this.currentUsuario.usuarioDato._id
 
     };
 
@@ -457,14 +477,27 @@ export class ModificaPerfilUsuarioComponent implements  OnInit  {
       );
   }
 
-  seleccionaTipoEmpresa(p:any){
+  marcaSelectedSeleccionado(){
+    console.log('paso cambia')
+    for(let b=0; b<this.menuItemsResultado.length; b++){
+      this.menuItemsResultado[b].selected=this.menuItemsResultado[b].indeterminate;
+      if (this.menuItemsResultado[b].children && this.menuItemsResultado[b].children!.length) {
+        for(let c=0; c<this.menuItemsResultado[b].children!.length; c++){
+
+              this.menuItemsResultado[c].selected=this.menuItemsResultado[c].indeterminate;
+        }
+      }
+    }
+  }
+
+ /* seleccionaTipoEmpresa(p:any){
     console.log('p:',p)
     this.PnombreTipoEmpresa=p.nombre;
     this.Pmenu_Id=p.menu_Id;
     this.getDataMenuEmpresa(p.menu_Id);
      return;
    }
-
+*/
 
   comparaEstadoUsuario(v1: any, v2: any): boolean {
     return  v1.toUpperCase()===v2.toUpperCase();

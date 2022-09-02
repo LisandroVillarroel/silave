@@ -114,7 +114,7 @@ agregaNuevo() {
     this.dialog.open(AgregaEspecieComponent, dialogConfig)
     .afterClosed().subscribe(
      data => {console.log('Dialog output3333:', data);
-              if (data !== undefined) {
+              if (data === 1) {
                   this.refreshTable();
               }
       }
@@ -141,7 +141,7 @@ actualizaEspecie(id: string, nombre: string): void {
     this.dialog.open(ModificaEspecieComponent, dialogConfig)
     .afterClosed().subscribe(
      data => {console.log('Dialog output3333:', data);
-              if (data !== undefined) {
+              if (data === 1) {
                   this.refreshTable();
               }
       }
@@ -169,7 +169,7 @@ consultaEspecie(id: string, nombre: string) {
     this.dialog.open(ConsultaEspecieComponent, dialogConfig)
     .afterClosed().subscribe(
      data => {console.log('Datoas Consulta:', data);
-              if (data !== undefined) {
+              if (data === 1) {
                   this.refreshTable();
               }
       }
@@ -195,7 +195,7 @@ eliminaEspecie(id: string, nombre: string) {
     this.dialog.open(EliminaEspecieComponent, dialogConfig)
     .afterClosed().subscribe(
      data => {console.log('Datoas Consulta:', data);
-              if (data !== undefined) {
+              if (data === 1) {
                   this.refreshTable();
               }
       }
@@ -203,14 +203,14 @@ eliminaEspecie(id: string, nombre: string) {
 
   }
 
-    private refreshTable() {
+    async refreshTable() {
     // Refreshing table using paginator
     // Thanks yeager-j for tips
     // https://github.com/marinantonio/angular-mat-table-crud/issues/12
    // this.dataSource.paginator._changePageSize(this.paginator.pageSize);
    // this.noticia=this.servicio.getNoticias();
 
-   this.getListEspecie();
+   const respuesta = await this.getListEspecie();
    this.dataSource.paginator!._changePageSize(this.paginator.pageSize);
   }
 }

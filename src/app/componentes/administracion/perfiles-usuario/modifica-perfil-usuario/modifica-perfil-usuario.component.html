@@ -41,7 +41,7 @@
         <mat-error *ngIf="direccion.invalid">{{getErrorMessage('direccion')}}</mat-error>
       </mat-form-field>
 
-
+<!--
       <mat-form-field>
         <mat-select [formControl]="tipoEmpresa" placeholder="Seleccione Tipo Empresa" (selectionChange)="seleccionaTipoEmpresa($event.value)" [compareWith]="comparaTipoEmpresa" required>
           <mat-option *ngFor="let _tipoEmpresa of selectTipoEmpresa" [value]="_tipoEmpresa">
@@ -50,7 +50,7 @@
         </mat-select>
         <mat-error *ngIf="tipoEmpresa.invalid">{{getErrorMessage('tipoEmpresa')}}</mat-error>
       </mat-form-field>
-
+-->
       <mat-form-field>
         <mat-select [formControl]="estadoUsuario" placeholder="Seleccione Estado Usuario" [compareWith]="comparaEstadoUsuario" required>
           <mat-option *ngFor="let _estadoUsuario of selectEstadoUsuario" [value]="_estadoUsuario.id">
@@ -119,7 +119,7 @@
           <button mat-raised-button color="warn"  mat-dialog-close  [disabled]=false>Cerrar</button>
         </div>
         <div class="col-md-6">
-          <button class="colorFondoBoton" mat-raised-button  (click)="enviar()"  [disabled]="agregaUsuario.invalid">ENVIAR</button>
+          <button class="colorFondoBoton" mat-raised-button  (click)="enviar()"  [disabled]="agregaUsuario.invalid">GRABAR</button>
         </div>
     </mat-dialog-actions>
     </form>

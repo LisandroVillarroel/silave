@@ -1,3 +1,17 @@
-<div class="text-end" id="footerFirma">
-  <img  [src]="imagen" width="250px" height="150px">
+
+<div class="text-center"  id="footerFirma">
+  <figure>
+    <img  [src]="imagen" width="250px" height="150px">
+    <figcaption   class="text-center"><STRONG>{{this.datoFichaRecibeFicha.fichaC.validador.nombres+' '+this.datoFichaRecibeFicha.fichaC.validador.apellidoPaterno}}</STRONG></figcaption>
+    <figcaption  class="text-center"><STRONG>{{this.datoFichaRecibeFicha.fichaC.validador.profesion}}</STRONG></figcaption>
+  </figure>
+  <!--
+  <div id="conten-bloque-line-height">
+    <div class="text-end " id="'box" >
+
+      <div class="text-center">{{this.datoFichaRecibeFicha.fichaC.validador.nombres+' '+this.datoFichaRecibeFicha.fichaC.validador.apellidoPaterno}}</div>
+      <div class="text-center">{{this.datoFichaRecibeFicha.fichaC.validador.profesion}}</div>
+    </div>
+  </div>
+-->
 </div>

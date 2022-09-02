@@ -410,8 +410,8 @@ export class AgregaPerfilUsuarioComponent implements  OnInit  {
         email: this.agregaUsuario.get('email')!.value,
         direccion: this.agregaUsuario.get('direccion')!.value,
         MenuItem: this.menuItemsResultado,
-        usuarioCrea_id: this.currentUsuario.usuarioDato.usuario,
-        usuarioModifica_id: this.currentUsuario.usuarioDato.usuario
+        usuarioCrea_id: this.currentUsuario.usuarioDato._id,
+        usuarioModifica_id: this.currentUsuario.usuarioDato._id
 
       };
     }
@@ -444,8 +444,8 @@ export class AgregaPerfilUsuarioComponent implements  OnInit  {
         email: this.agregaUsuario.get('email')!.value,
         direccion: this.agregaUsuario.get('direccion')!.value,
         MenuItem: this.menuItemsResultado,
-        usuarioCrea_id: this.currentUsuario.usuarioDato.usuario,
-        usuarioModifica_id: this.currentUsuario.usuarioDato.usuario
+        usuarioCrea_id: this.currentUsuario.usuarioDato._id,
+        usuarioModifica_id: this.currentUsuario.usuarioDato._id
 
       };
     }
@@ -525,7 +525,7 @@ export class AgregaPerfilUsuarioComponent implements  OnInit  {
 
   seleccionaCliente(p:any){
 
-    this.PnombreCliente=p.nombreFantasia;
+    this.PnombreCliente=p.empresa![0].nombreFantasia;
 
     return;
   }
@@ -535,6 +535,14 @@ export class AgregaPerfilUsuarioComponent implements  OnInit  {
     .subscribe(res => {
       console.log('cliente:', res['data'])
       this.datoCliente = res['data'] ;
+      for(let a=0; a<this.datoCliente.length; a++){
+        // for(let b=0; b<this.datoClienteEmpresa[a].empresa!.length; b++){
+
+          //  if (this.datoClienteEmpresa![a].empresa![a].empresa_Id != this.currentUsuario.usuarioDato.empresa.empresa_Id){
+            this.datoCliente![a].empresa = this.datoCliente![a].empresa!.filter(x=> x.empresa_Id === this.currentUsuario.usuarioDato.empresa.empresa_Id)
+          //  }
+         // }
+       }
     },
     // console.log('yo:', res as PerfilI[]),
     error => {

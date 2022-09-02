@@ -20,6 +20,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.imagen= this.imagen+this.datoFichaRecibeFicha.empresa.rutEmpresa+'/'+this.datoFichaRecibeFicha.empresa?.nombreLogo  // agregar a estructura data.nomreArchivo
     console.log('imagen logo:',this.imagen)
+    console.log('dato recibe head:',this.datoFichaRecibeFicha);
   }
 
   /*getEmpresa()  {

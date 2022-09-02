@@ -167,8 +167,6 @@ export class ModificaPropietarioComponent implements OnInit {
   // Error handling
 
 
-  cerrar() {
-    this.dialogRef.close();
-  }
+
 
 }

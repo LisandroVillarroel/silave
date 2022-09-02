@@ -17,7 +17,7 @@ export class EliminaExamenComponent implements OnInit {
 
   datoPar: IExamen;
   dato!: IExamen;
-  imagen = './../../../../../assets/imagenes/';
+  //imagen = './../../../../../assets/imagenes/';
   currentUsuario!: JwtResponseI;
 
   constructor(private dialogRef: MatDialogRef<EliminaExamenComponent>,
@@ -33,7 +33,7 @@ export class EliminaExamenComponent implements OnInit {
       }
 
   ngOnInit(): void {
-    this.imagen=this.imagen+ this.currentUsuario.usuarioDato.empresa.rutEmpresa+'/'+this.data.nombreExamen  // agregar a estructura data.nomreArchivo
+  //  this.imagen=this.imagen+ this.currentUsuario.usuarioDato.empresa.rutEmpresa+'/'+this.data.nombreExamen  // agregar a estructura data.nomreArchivo
   }
 
   enviar() {
@@ -74,7 +74,4 @@ export class EliminaExamenComponent implements OnInit {
 
   }
 
-  cerrar() {
-    this.dialogRef.close();
-  }
 }

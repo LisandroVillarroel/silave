@@ -1,5 +1,6 @@
 export interface IRaza {
   _id?: string;
+  especieNombre: string;
   nombre: string;
   usuarioCrea_id?: string;
   usuarioModifica_id: string;

@@ -91,9 +91,5 @@ export class AgregaEspecieComponent implements OnInit {
       }
     );
   }
-  // Error handling
-  cerrar() {
-    this.dialogRef.close();
-  }
 }
 

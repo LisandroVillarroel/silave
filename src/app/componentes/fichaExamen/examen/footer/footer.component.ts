@@ -20,7 +20,12 @@ export class FooterComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('dato footerr:',this.datoFichaRecibeFicha.fichaC);
-    this.imagen= this.imagen+this.datoFichaRecibeFicha.empresa.rutEmpresa+'/'+this.datoFichaRecibeFicha.fichaC.examen.nombreExamen // agregar a estructura data.nomreArchivo
+    if (this.datoFichaRecibeFicha.fichaC.validador.nombreFirma!='sinFirma.jpg'){
+      this.imagen= this.imagen+this.datoFichaRecibeFicha.empresa.rutEmpresa+'/'+this.datoFichaRecibeFicha.fichaC.validador.nombreFirma // agregar a estructura data.nomreArchivo
+    }else{
+      this.imagen= this.imagen+this.datoFichaRecibeFicha.fichaC.validador.nombreFirma // agregar a estructura data.nomreArchivo
+    }
+    console.log('ruta:',this.imagen);
   }
 /*
   getExamen()  {

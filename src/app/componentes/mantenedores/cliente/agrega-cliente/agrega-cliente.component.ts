@@ -1,4 +1,5 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { IClienteEmpresa, IEmailCliente } from './../../../../modelo/cliente-interface';
+import { Component, OnInit, Inject, ViewChild, Renderer2 } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
@@ -25,13 +26,20 @@ export class AgregaClienteComponent implements OnInit {
   form: FormGroup | undefined;
   usuario: string;
   datoCliente: ICliente | undefined;
-
+  clienteEmpresa!: IClienteEmpresa[];
   currentUsuario!: JwtResponseI;
+  clienteEmpresa_!: IClienteEmpresa;
+
+  clienteEmpresaRescata!: IClienteEmpresa[];
+  datoClienteRescata: ICliente | undefined;
+  datoEnviaCorreo!: IEmailCliente;
 
   tipoEmpresa!:string;
   menu_Id!:string;
-
+  _idBusca!:string;
+  rutClienteBusca!:string;
   constructor(private dialogRef: MatDialogRef<AgregaClienteComponent>,
+              private renderer: Renderer2,
               @Inject(MAT_DIALOG_DATA) data:any,
               public servCliente: ClienteService,
               public menuService: MenuService,
@@ -53,7 +61,16 @@ export class AgregaClienteComponent implements OnInit {
     telefono = new FormControl('', [Validators.required]);
     email = new FormControl('', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]);
     nombreContacto = new FormControl('', [Validators.required]);
-    emailEnvioExamenCliente = new FormControl('', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]);
+    emailRecepcionExamenCliente = new FormControl('', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]);
+
+    emailEnvio = new FormControl('', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]);
+    password = new FormControl('', [Validators.required]);
+    nombreDesde = new FormControl('', [Validators.required]);
+    asunto = new FormControl('', [Validators.required]);
+    tituloCuerpo = new FormControl('', [Validators.required]);
+    tituloCuerpoMedio = new FormControl('', [Validators.required]);
+    tituloCuerpoPie = new FormControl('', [Validators.required]);
+
 
     agregaCliente: FormGroup = new FormGroup({
       rutCliente: this.rutCliente,
@@ -63,7 +80,15 @@ export class AgregaClienteComponent implements OnInit {
       telefono: this.telefono,
       email: this.email,
       nombreContacto: this.nombreContacto,
-      emailEnvioExamenCliente: this.emailEnvioExamenCliente
+      emailRecepcionExamenCliente: this.emailRecepcionExamenCliente,
+
+      emailEnvio: this.emailEnvio,
+      password: this.password,
+      nombreDesde: this.nombreDesde,
+      asunto: this.asunto,
+      tituloCuerpo: this.tituloCuerpo,
+      tituloCuerpoMedio: this.tituloCuerpoMedio,
+      tituloCuerpoPie: this.tituloCuerpoPie
 
       // address: this.addressFormControl
     });
@@ -91,8 +116,31 @@ export class AgregaClienteComponent implements OnInit {
       if (campo === 'nombreContacto'){
         return this.nombreContacto.hasError('required') ? 'Debes ingresar Nombre Contacto' : '';
       }
-      if (campo === 'emailEnvioExamenCliente'){
-        return this.emailEnvioExamenCliente.hasError('required') ? 'Debes ingresar Email Envío Exámen' : '';
+      if (campo === 'emailRecepcionExamenCliente'){
+        return this.emailRecepcionExamenCliente.hasError('required') ? 'Debes ingresar Email Envío Exámen' : '';
+      }
+
+
+      if (campo === 'emailEnvio'){
+        return this.emailEnvio.hasError('required') ? 'Debes ingresar Email Envio' : '';
+      }
+      if (campo === 'password'){
+        return this.password.hasError('required') ? 'Debes ingresar Password' : '';
+      }
+      if (campo === 'nombreDesde'){
+        return this.nombreDesde.hasError('required') ? 'Debes ingresar Nombre Desde' : '';
+      }
+      if (campo === 'asunto'){
+        return this.asunto.hasError('required') ? 'Debes ingresar Asunto' : '';
+      }
+      if (campo === 'tituloCuerpo'){
+        return this.tituloCuerpo.hasError('required') ? 'Debes ingresar Título Cuerpo' : '';
+      }
+      if (campo === 'tituloCuerpoMedio'){
+        return this.tituloCuerpoMedio.hasError('required') ? 'Debes ingresar Título Cuerpo Medio' : '';
+      }
+      if (campo === 'tituloCuerpoPie'){
+        return this.tituloCuerpoPie.hasError('required') ? 'Debes ingresar título Cuerpo Pie' : '';
       }
       /* return this.rutEmpresa.hasError('required') ? 'Debes ingresar Rut' :
              this.rutEmpresa.hasError('rutInvalido') ? 'Rut Inválido' :
@@ -114,18 +162,80 @@ export class AgregaClienteComponent implements OnInit {
     return null as any;
   }
 
-  onBlurRutCliente(event: any){
+  async onBlurRutCliente(event: any){
     const rut = event.target.value;
 
     if (validateRut(rut) === true){
-      this.agregaCliente.get('rutCliente')!.setValue(formatRut(rut, RutFormat.DOTS_DASH));
+      await this.agregaCliente.get('rutCliente')!.setValue(formatRut(rut, RutFormat.DOTS_DASH));
+      await this.BuscaRut(formatRut(rut, RutFormat.DOTS_DASH))
     }
+  }
+
+
+  async BuscaRut(rutCliente: string){
+
+    this.servCliente
+    .getDataClientePorRut(rutCliente)
+    .subscribe(res => {
+      console.log(' res:', res);
+      console.log(' res.data[0]:', res.data[0]);
+      console.log(' res.data[0].empresa[0]:', res.data[0].empresa[0]);
+      if (res.data[0]!=undefined){
+        this.clienteEmpresaRescata=res.data[0].empresa;
+        this.datoClienteRescata=res.data[0];
+
+        this.datoEnviaCorreo=res.data[0].envioEmail;
+        //this._idBusca=res.data[0]._id;
+       // this.rutClienteBusca=res.data[0].rutCliente;
+        if (res.data[0].empresa.empresa_Id==this.currentUsuario.usuarioDato.empresa.empresa_Id){
+
+          this.agregaCliente.get('rutCliente')!.setValue('');
+          Swal.fire(
+            'El Cliente ya Existe en la lista',
+            '',
+            'error'
+          ); // ,
+        }else{
+          Swal.fire({
+            title: `El Cliente existe en los registros, <br> << Lo Desea Incorporar >>?`,
+            showDenyButton: false,
+            showCancelButton: true,
+            confirmButtonText: 'Incorporar',
+            denyButtonText: ``,
+            cancelButtonText: `Cancelar`,
+          }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+
+              this.enviarExiste();
+
+              this.dialogRef.close(1);
+            } else {
+            //  Swal.fire('Changes are not saved', '', 'info')
+              this.agregaCliente.get('rutCliente')!.setValue('');
+
+            }
+          })
+        }
+      }
+
+    },
+    // console.log('yo:', res as PerfilI[]),
+    error => {
+      console.log('error carga:', error);
+      Swal.fire(
+        'ERROR INESPERADO',
+        error,
+       'error'
+     );
+    }
+    );
   }
 
   getDataMenu(){
 
     this.menuService
-    .getDataMenuNombre('Administrador Veterinaria')
+    .getDataMenuNombre('Veterinaria')
     .subscribe(res => {
       console.log('res menu cliente:',res);
       console.log(' res.data.nombreMenu:', res.data.nombreMenu);
@@ -148,21 +258,123 @@ export class AgregaClienteComponent implements OnInit {
     );
   }
 
-  enviar() {
+  enviarExiste() {
+
+    this.clienteEmpresa_ = {
+      empresa_Id: this.currentUsuario.usuarioDato.empresa.empresa_Id,
+      rutCliente: this.clienteEmpresaRescata![0].rutCliente,
+      razonSocial: this.clienteEmpresaRescata![0].razonSocial,
+      nombreFantasia: this.clienteEmpresaRescata![0].nombreFantasia,
+      direccion: this.clienteEmpresaRescata![0].direccion,
+      telefono: this.clienteEmpresaRescata![0].telefono,
+      email: this.clienteEmpresaRescata![0].email,
+      nombreContacto: this.clienteEmpresaRescata![0].nombreContacto,
+      envioEmail:this.datoEnviaCorreo,
+      usuarioCrea_id: this.usuario,
+      usuarioModifica_id: this.usuario,
+      menu_Id:this.menu_Id
+    };
+    this.clienteEmpresaRescata.push(this.clienteEmpresa_);
+
     this.datoCliente = {
-      rutCliente: this.agregaCliente.get('rutCliente')!.value.toUpperCase(),
+      _id: this.datoClienteRescata!._id, //this._idBusca,
+      rutCliente: this.datoClienteRescata!.rutCliente,// this.rutClienteBusca,
+/*
+      razonSocial: this.datoClienteRescata!.razonSocial,
+      nombreFantasia: this.datoClienteRescata!.nombreFantasia,
+      direccion: this.datoClienteRescata!.direccion,
+      telefono: this.datoClienteRescata!.telefono,
+      usuarioCrea_id: this.datoClienteRescata!.usuarioCrea_id,
+      */
+      usuarioModifica_id: this.usuario,
+
+      empresa: this.clienteEmpresaRescata,
+      emailRecepcionExamenCliente: this.datoClienteRescata!.emailRecepcionExamenCliente,
+      //tipoEmpresa: this.datoClienteRescata!.tipoEmpresa
+    };
+    console.log('agrega 1:', this.datoCliente);
+
+    this.servCliente.putDataCliente(this.datoCliente)
+    .subscribe(
+      dato => {
+        console.log('respuesta:', dato.codigo);
+        if (dato.codigo === 200) {
+            Swal.fire(
+            'Se agregó con Éxito',
+            '',
+            'success'
+          ); // ,
+            this.dialogRef.close(1);
+        }else{
+          if (dato.codigo!=500){
+            Swal.fire(
+              dato.mensaje,
+              '',
+              'error'
+            );
+          }
+          else{
+            console.log('Error Cliente:', dato);
+            Swal.fire(
+              '',
+              'ERROR SISTEMA',
+              'error'
+            );
+          }
+        }
+      },
+
+
+      error => {
+        console.log('error carga:', error);
+        Swal.fire(
+          'ERROR INESPERADO',
+          error,
+        'error'
+      );
+      }
+    )
+
+  }
+
+  enviar() {
+
+    this.datoEnviaCorreo={
+      //emailEnvio: this.agregaCliente.get('emailEnvio')!.value,
+      //password: this.agregaCliente.get('password')!.value,
+      nombreDesde: this.agregaCliente.get('nombreDesde')!.value,
+      asunto: this.agregaCliente.get('asunto')!.value,
+      tituloCuerpo: this.agregaCliente.get('tituloCuerpo')!.value,
+      tituloCuerpoMedio: this.agregaCliente.get('tituloCuerpoMedio')!.value,
+      tituloCuerpoPie: this.agregaCliente.get('tituloCuerpoPie')!.value
+    }
+
+    this.clienteEmpresa = [{
+      empresa_Id: this.currentUsuario.usuarioDato.empresa.empresa_Id,
+       rutCliente: this.agregaCliente.get('rutCliente')!.value.toUpperCase(),
       razonSocial: this.agregaCliente.get('razonSocial')!.value,
       nombreFantasia: this.agregaCliente.get('nombreFantasia')!.value,
       direccion: this.agregaCliente.get('direccion')!.value,
       telefono: this.agregaCliente.get('telefono')!.value,
       email: this.agregaCliente.get('email')!.value,
       nombreContacto: this.agregaCliente.get('nombreContacto')!.value,
-      emailEnvioExamenCliente: this.agregaCliente.get('emailEnvioExamenCliente')!.value,
+      envioEmail: this.datoEnviaCorreo,
       usuarioCrea_id: this.usuario,
       usuarioModifica_id: this.usuario,
-      empresa_Id: this.currentUsuario.usuarioDato.empresa.empresa_Id,
-      tipoEmpresa: this.tipoEmpresa,
       menu_Id:this.menu_Id
+    }];
+
+    this.datoCliente = {
+      rutCliente: this.agregaCliente.get('rutCliente')!.value.toUpperCase(),
+      razonSocial: this.agregaCliente.get('razonSocial')!.value,
+      nombreFantasia: this.agregaCliente.get('nombreFantasia')!.value,
+      direccion: this.agregaCliente.get('direccion')!.value,
+      telefono: this.agregaCliente.get('telefono')!.value,
+      usuarioCrea_id: this.usuario,
+      usuarioModifica_id: this.usuario,
+      empresa: this.clienteEmpresa,
+      tipoEmpresa: this.tipoEmpresa,
+      emailRecepcionExamenCliente: this.agregaCliente.get('emailRecepcionExamenCliente')!.value
     };
     console.log('agrega 1:', this.datoCliente);
     this.servCliente.postDataCliente(this.datoCliente)
@@ -193,21 +405,19 @@ export class AgregaClienteComponent implements OnInit {
             );
           }
         }
+      },
+
+
+      error => {
+        console.log('error carga:', error);
+        Swal.fire(
+          'ERROR INESPERADO',
+          error,
+        'error'
+      );
       }
-      // console.log('yo:', res as PerfilI[]),
-     /// error => {
-     ///   console.log('error agregar:', error);
-     /// }
-      // this.dialogRef.close(this.form.value);
-    // console.log(this.datoCotiza);
-    );
+    )
   }
 
-  // Error handling
-
-
-  cerrar() {
-    this.dialogRef.close();
-  }
 }
 

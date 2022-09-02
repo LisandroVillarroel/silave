@@ -1,0 +1,454 @@
+<h2 mat-dialog-title>INGRESO EXÁMEN PERFIL BIOQUIMICO</h2>
+
+
+
+<mat-dialog-content [formGroup]="ingresaPerfilBioquimico" name="agregaPerfilBioquimico" class="agrega-container"  >
+  <mat-accordion class="example-headers-align" multi>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+
+        </mat-panel-title>
+        <mat-panel-description>
+          Ficha Paciente
+          <mat-icon>account_circle</mat-icon>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <app-imprime-ficha-cabecera [datoFichaRecibeFicha]="datoFicha"></app-imprime-ficha-cabecera>
+
+    </mat-expansion-panel>
+
+  </mat-accordion>
+
+  <div>
+    <div id="serieRoja">
+
+        <div class="row anchoTitulo">
+          <div  class="col-md-2 border border-dark alineaVertical border-end-0 destacado">
+            PARÁMETRO
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-end-0 alineaVertical destacado">
+            RESULTADO
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-end-0 alineaVertical destacado" >
+            UNIDAD
+          </div>
+          <div class="col-md-6 border border-dark border-left-0 " >
+            <div class="row ">
+              <div class="col-md-12  border-dark border-bottom alineaVertical destacado">
+                VALORES DE REFERENCIA
+              </div>
+            </div>
+            <div class="row ">
+              <div class="col-md-6 border-dark border-top-0 border-left-0 border-bottom-0 alineaVertical destacado">
+                Caninos
+              </div>
+              <div class="col-md-6 border-dark  border-0 alineaVertical destacado">
+                Felinos
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="row" >
+          <div class="col-md-2 border border-dark border-top-0 alineaV border-end-0 destacado">
+            Albúmina
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0">
+            <mat-form-field class="anchoTituloLinea1">
+              <input matInput placeholder="Ingrese Valor" [formControl]="srAlbumina" [ngStyle]="{'font-weight':srAlbuminaFlag==true?'bold':'normal'}" (blur)="srAlbuminaFormula()">
+              <mat-error *ngIf="srAlbumina.invalid">{{getErrorMessage('srAlbumina')}}</mat-error>
+            </mat-form-field>
+
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            mg/dl
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical " >
+            2.6 - 3.3
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 alineaVertical" >
+            2.1 - 3.3
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-2 border border-dark border-top-0 alineaV border-end-0 destacado">
+            Bilirrubina Total
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0">
+            <mat-form-field class="anchoTituloLinea1">
+              <input matInput placeholder="Ingrese Valor" [formControl]="srBilirrubinaTotal" [ngStyle]="{'font-weight':srBilirrubinaTotalFlag==true?'bold':'normal'}" (blur)="srBilirrubinaTotalFormula()">
+              <mat-error *ngIf="srBilirrubinaTotal.invalid">{{getErrorMessage('srBilirrubinaTotal')}}</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            mg/dl
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            0.1 - 0.7
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 alineaVertical">
+            0.1 - 0.7
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="col-md-2 border border-dark border-top-0 alineaV border-end-0 destacado">
+            Bilirrubina Indirecta
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0">
+            <mat-form-field class="anchoTituloLinea1">
+              <input matInput placeholder="Ingrese Valor" [formControl]="srBilirrubinaIndirecta" [ngStyle]="{'font-weight':srBilirrubinaIndirectaFlag==true?'bold':'normal'}" (blur)="srBilirrubinaIndirectaFormula()">
+              <mat-error *ngIf="srBilirrubinaIndirecta.invalid">{{getErrorMessage('srBilirrubinaIndirecta')}}</mat-error>
+            </mat-form-field>
+
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            mg/dl
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            0.1 - 0.49
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 alineaVertical">
+            0.1 - 0.49
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="col-md-2 border border-dark border-top-0 alineaV border-end-0 destacado">
+            Bilirrubina Directa
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0">
+            <mat-form-field class="anchoTituloLinea1">
+              <input matInput placeholder="Ingrese Valor" [formControl]="srBilirrubinaDirecta" [ngStyle]="{'font-weight':srBilirrubinaDirectaFlag==true?'bold':'normal'}" (blur)="srBilirrubinaDirectaFormula()">
+              <mat-error *ngIf="srBilirrubinaDirecta.invalid">{{getErrorMessage('srBilirrubinaDirecta')}}</mat-error>
+            </mat-form-field>
+
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            mg/dl
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            0 - 0.3
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 alineaVertical">
+            0 - 0.3
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="col-md-2 border border-dark border-top-0 alineaV border-end-0 destacado">
+            Calcio
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0">
+            <mat-form-field class="anchoTituloLinea1">
+              <input matInput placeholder="Ingrese Valor" [formControl]="srCalcio" [ngStyle]="{'font-weight':srCalcioFlag==true?'bold':'normal'}" (blur)="srCalcioFormula()">
+              <mat-error *ngIf="srCalcio.invalid">{{getErrorMessage('srCalcio')}}</mat-error>
+            </mat-form-field>
+
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            mg/dl
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            9 - 12
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 alineaVertical">
+            9 - 12
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="col-md-2 border border-dark border-top-0 alineaV border-end-0 destacado">
+            Colesterol
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0">
+            <mat-form-field class="anchoTituloLinea1">
+              <input matInput placeholder="Ingrese Valor" [formControl]="srColesterol" [ngStyle]="{'font-weight':srColesterolFlag==true?'bold':'normal'}" (blur)="srColesterolFormula()">
+              <mat-error *ngIf="srColesterol.invalid">{{getErrorMessage('srColesterol')}}</mat-error>
+            </mat-form-field>
+
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            mg/dl
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            105 - 300
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 alineaVertical">
+            70 - 200
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="col-md-2 border border-dark border-top-0 alineaV border-end-0 destacado">
+            Creatinina
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0">
+            <mat-form-field class="anchoTituloLinea1">
+              <input matInput placeholder="Ingrese Valor" [formControl]="srCreatinina" [ngStyle]="{'font-weight':srCreatininaFlag==true?'bold':'normal'}" (blur)="srCreatininaFormula()">
+              <mat-error *ngIf="srCreatinina.invalid">{{getErrorMessage('srCreatinina')}}</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            mg/dl
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            0.5 - 1.5
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 alineaVertical">
+            0.8 - 1.8
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="col-md-2 border border-dark border-top-0 alineaV border-end-0 destacado">
+            Fosfatasa Alcalina
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0">
+            <mat-form-field class="anchoTituloLinea1">
+              <input matInput placeholder="Ingrese Valor" [formControl]="srFosfatasaAlcalina" [ngStyle]="{'font-weight':srFosfatasaAlcalinaFlag==true?'bold':'normal'}" (blur)="srFosfatasaAlcalinaFormula()">
+              <mat-error *ngIf="srFosfatasaAlcalina.invalid">{{getErrorMessage('srFosfatasaAlcalina')}}</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            U/l
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            &#60; 160
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 alineaVertical">
+            &#60; 85
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-2 border border-dark border-top-0 alineaV border-end-0 destacado">
+            Fósforo
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0">
+            <mat-form-field class="anchoTituloLinea1">
+              <input matInput placeholder="Ingrese Valor" [formControl]="srFosforo" [ngStyle]="{'font-weight':srFosforoFlag==true?'bold':'normal'}" (blur)="srFosforoFormula()">
+              <mat-error *ngIf="srFosforo.invalid">{{getErrorMessage('srFosforo')}}</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            mg/dl
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            2.6 - 6.2
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 alineaVertical">
+            4.5 - 8.1
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-2 border border-dark border-top-0 alineaV border-end-0 destacado">
+            GGT
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0">
+            <mat-form-field class="anchoTituloLinea1">
+              <input matInput placeholder="Ingrese Valor" [formControl]="srGGT" [ngStyle]="{'font-weight':srGGTFlag==true?'bold':'normal'}" (blur)="srGGTFormula()">
+              <mat-error *ngIf="srGGT.invalid">{{getErrorMessage('srGGT')}}</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            U/l
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            &#60; 10
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 alineaVertical">
+            &#60; 6.5
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-2 border border-dark border-top-0 alineaV border-end-0 destacado">
+            Globulinas
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0">
+            <mat-form-field class="anchoTituloLinea1">
+              <input matInput placeholder="Ingrese Valor" [formControl]="srGlobulinas" [ngStyle]="{'font-weight':srGlobulinasFlag==true?'bold':'normal'}" (blur)="srGlobulinasFormula()">
+              <mat-error *ngIf="srGlobulinas.invalid">{{getErrorMessage('srGlobulinas')}}</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            gr/dl
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            2.6 - 4.4
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 alineaVertical">
+            2.6 - 5.1
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-2 border border-dark border-top-0 alineaV border-end-0 destacado">
+            GPT (ALT)
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0">
+            <mat-form-field class="anchoTituloLinea1">
+              <input matInput placeholder="Ingrese Valor" [formControl]="srGPT" [ngStyle]="{'font-weight':srGPTFlag==true?'bold':'normal'}" (blur)="srGPTFormula()">
+              <mat-error *ngIf="srGPT.invalid">{{getErrorMessage('srGPT')}}</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            U/l
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            &#60; 68
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 alineaVertical">
+            &#60; 68
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-2 border border-dark border-top-0 alineaV border-end-0 destacado">
+            GOT (ALT)
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0">
+            <mat-form-field class="anchoTituloLinea1">
+              <input matInput placeholder="Ingrese Valor" [formControl]="srGOT" [ngStyle]="{'font-weight':srGOTFlag==true?'bold':'normal'}" (blur)="srGOTFormula()">
+              <mat-error *ngIf="srGOT.invalid">{{getErrorMessage('srGOT')}}</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            U/l
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            &#60; 55
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 alineaVertical">
+            &#60; 55
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-2 border border-dark border-top-0 alineaV border-end-0 destacado">
+            Glucosa
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0">
+            <mat-form-field class="anchoTituloLinea1">
+              <input matInput placeholder="Ingrese Valor" [formControl]="srGlucosa" [ngStyle]="{'font-weight':srGlucosaFlag==true?'bold':'normal'}" (blur)="srGlucosaFormula()">
+              <mat-error *ngIf="srGlucosa.invalid">{{getErrorMessage('srGlucosa')}}</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            mg/dl
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            65 - 118
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 alineaVertical">
+            70 - 110
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-2 border border-dark border-top-0 alineaV border-end-0 destacado">
+            Urea
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0">
+            <mat-form-field class="anchoTituloLinea1">
+              <input matInput placeholder="Ingrese Valor" [formControl]="srUrea" [ngStyle]="{'font-weight':srUreaFlag==true?'bold':'normal'}" (blur)="srUreaFormula()">
+              <mat-error *ngIf="srUrea.invalid">{{getErrorMessage('srUrea')}}</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            mg/dl
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            21.5 - 64.5
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 alineaVertical">
+            38.7 - 71
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-2 border border-dark border-top-0 alineaV border-end-0 destacado">
+            Nitrógeno Ureico S.
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0">
+            <mat-form-field class="anchoTituloLinea1">
+              <input matInput placeholder="Ingrese Valor" [formControl]="srNitrogenoUreicoS" [ngStyle]="{'font-weight':srNitrogenoUreicoSFlag==true?'bold':'normal'}" (blur)="srNitrogenoUreicoSFormula()">
+              <mat-error *ngIf="srNitrogenoUreicoS.invalid">{{getErrorMessage('srNitrogenoUreicoS')}}</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            mg/dl
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            10 - 30
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 alineaVertical">
+            18 - 33
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-2 border border-dark border-top-0 alineaV border-end-0 destacado">
+            Proteínas Totales
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0">
+            <mat-form-field class="anchoTituloLinea1">
+              <input matInput placeholder="Ingrese Valor" [formControl]="srProteinasTotales" [ngStyle]="{'font-weight':srProteinasTotalesFlag==true?'bold':'normal'}" (blur)="srProteinasTotalesFormula()">
+              <mat-error *ngIf="srProteinasTotales.invalid">{{getErrorMessage('srProteinasTotales')}}</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            gr/dl
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            5.5 - 7.5
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 alineaVertical">
+            5.4 - 7.8
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-2 border border-dark border-top-0 alineaV border-end-0 destacado">
+            Observaciones
+          </div>
+          <div class="col-md-10 border border-dark border-left-0 border-top-0 border-end-0">
+            <mat-form-field class="anchoTituloLinea1Left">
+              <input matInput placeholder="Observaciones" [formControl]="srObservaciones" >
+              <mat-error *ngIf="srObservaciones.invalid">{{getErrorMessage('srObservaciones')}}</mat-error>
+            </mat-form-field>
+          </div>
+
+        </div>
+    </div>
+
+
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+      <div class="col-md-6">
+        <button mat-raised-button color="warn"  mat-dialog-close  [disabled]=false>Cerrar</button>
+      </div>
+      <div class="col-md-6">
+        <button class="colorFondoBoton" mat-raised-button  (click)="enviar()" [disabled]="ingresaPerfilBioquimico.invalid">GRABAR</button>
+      </div>
+</mat-dialog-actions>
+
+<div *ngIf="!ingresaPerfilBioquimico.invalid">
+
+<app-imprime-perfil-bioquimico *ngIf="imprime" [datoFichaRecibe]="datoFichaRespuesta"></app-imprime-perfil-bioquimico>
+
+</div>

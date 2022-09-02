@@ -115,7 +115,7 @@ export class LoginComponent implements OnInit {
         if (result.value.codigo===200){
           Swal.fire({
             html:"<img src='./../../../assets/imagenes/email.jpg' style='width:150px;'>",
-            title: `Se envió contraseña al correo:${result.value.data}`,
+            title: `Se envió contraseña al Email:${result.value.data}`,
           // imageUrl: result.value.avatar_url
           })
         }else{

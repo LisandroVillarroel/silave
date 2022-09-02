@@ -11,14 +11,13 @@ import { ICliente } from '../../../../modelo/cliente-interface';
 })
 export class ConsultaClienteComponent implements OnInit {
 
-  datoClientePar: ICliente;
-  datoCliente!: ICliente;
+
 
   constructor(private dialogRef: MatDialogRef<ConsultaClienteComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               public servCliente: ClienteService
               ) {
-                this.datoClientePar = data;
+
               }
 
   ngOnInit() {

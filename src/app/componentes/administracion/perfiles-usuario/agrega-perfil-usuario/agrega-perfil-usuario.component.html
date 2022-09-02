@@ -67,7 +67,7 @@
       <mat-form-field *ngIf="flagCliente">
         <mat-select [formControl]="idCliente" placeholder="Seleccione Cliente" (selectionChange)="seleccionaCliente($event.value)" required>
           <mat-option *ngFor="let _cliente of datoCliente" [value]="_cliente">
-            {{_cliente.nombreFantasia}}
+            {{_cliente.empresa![0].nombreFantasia}}
           </mat-option>
         </mat-select>
         <mat-error *ngIf="idCliente.invalid">{{getErrorMessage('idCliente')}}</mat-error>
@@ -128,10 +128,10 @@
       </div>
       <mat-dialog-actions>
         <div class="col-md-6">
-          <button mat-raised-button color="warn" (click)="cerrar()" mat-dialog-close  [disabled]=false>Cerrar</button>
+          <button mat-raised-button color="warn"  mat-dialog-close  [disabled]=false>Cerrar</button>
         </div>
         <div class="col-md-6">
-          <button class="colorFondoBoton" mat-raised-button  (click)="enviar()"  [disabled]="agregaUsuario.invalid">ENVIAR</button>
+          <button class="colorFondoBoton" mat-raised-button  (click)="enviar()"  [disabled]="agregaUsuario.invalid">GRABAR</button>
         </div>
     </mat-dialog-actions>
     </form>

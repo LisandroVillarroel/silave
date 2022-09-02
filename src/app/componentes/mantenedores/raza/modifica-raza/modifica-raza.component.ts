@@ -1,9 +1,11 @@
+import { IEspecie } from './../../../../modelo/especie-interface';
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { IRaza } from './../../../../modelo/raza-interface';
 import { RazaService } from './../../../../servicios/raza.service';
 import Swal from 'sweetalert2';
+import { EspecieService } from '@app/servicios/especie.service';
 
 @Component({
   selector: 'app-modifica-raza',
@@ -14,19 +16,25 @@ export class ModificaRazaComponent implements OnInit {
 
     form!: FormGroup;
 
-    datoPar: IRaza;
+
     _dato!: IRaza;
+    datoEspecie!:IEspecie[];
 
     constructor(private dialogRef: MatDialogRef<ModificaRazaComponent>,
                 @Inject(MAT_DIALOG_DATA) public data: any,
+                private especieService: EspecieService,
                 public razaService: RazaService
                 ) {
-                  this.datoPar = data;
-                  console.log('dato update: ', data);
+
+                  console.log('dato update: ', data.razaPar.especieNombre);
+                  this.cargaEspecie(data);
     }
-    nombre = new FormControl(this.data.nombre, [Validators.required]);
+
+    idEspecie= new FormControl(this.data.razaPar.especieNombre, [Validators.required]);
+    nombre = new FormControl(this.data.razaPar.nombre, [Validators.required]);
 
     modifica: FormGroup = new FormGroup({
+      idEspecie: this.idEspecie,
       nombre: this.nombre
       });
 
@@ -42,11 +50,40 @@ export class ModificaRazaComponent implements OnInit {
     ngOnInit() {
     }
 
+    cargaEspecie(dataRaza:any){
+      console.log('data raza:',dataRaza.razaPar)
+      this.especieService
+      .getDataEspecieTodo(dataRaza.razaPar.empresa_Id)
+      .subscribe(res => {
+        console.log('especie:', res['data'])
+        this.datoEspecie = res['data'] ;
+      },
+      // console.log('yo:', res as PerfilI[]),
+      error => {
+        console.log('error carga:', error);
+       Swal.fire(
+        'ERROR INESPERADO',
+        error,
+       'error'
+      );
+      }
+    ); // (this.dataSource.data = res as PerfilI[])
+    }
+
     enviar() {
+      console.log('especieeee:',this.modifica.get('idEspecie')!.value);
+      let especieNombre_: string
+      if (this.modifica.get('idEspecie')!.value._id==undefined){
+        especieNombre_=this.data.razaPar.especieNombre
+      }else{
+        especieNombre_=this.modifica.get('idEspecie')!.value.nombre
+      }
+
       this._dato = {
-        _id: this.datoPar._id,
+        _id: this.data.razaPar._id,
+        especieNombre: especieNombre_,
         nombre: this.modifica.get('nombre')!.value,
-        usuarioModifica_id: this.datoPar.usuarioModifica_id
+        usuarioModifica_id: this.data.usuarioModifica_id
       };
       console.log('modifica:', this._dato);
       this.razaService.putDataRaza(this._dato)
@@ -66,7 +103,6 @@ export class ModificaRazaComponent implements OnInit {
               'Click en Botón!',
               'error'
             );
-            this.dialogRef.close(1);
 
           }
         }
@@ -79,8 +115,10 @@ export class ModificaRazaComponent implements OnInit {
     // Error handling
 
 
-    cerrar() {
-      this.dialogRef.close();
+    comparaSeleccionaEspecie(v1: any, v2: any): boolean {
+      console.log('v1:',v1.nombre);
+      console.log('v2:',v2);
+      return v1.nombre===v2;
     }
 
   }

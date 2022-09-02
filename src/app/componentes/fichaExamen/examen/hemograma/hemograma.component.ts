@@ -14,6 +14,8 @@ import { JwtResponseI } from '@app/autentica/_models';
 import { AuthenticationService } from '@app/autentica/_services';
 import { FichaService } from '@app/servicios/ficha.service';
 import { MatAccordion } from '@angular/material/expansion';
+import { ClienteService } from '@app/servicios/cliente.service';
+import { ICliente } from '@app/modelo/cliente-interface';
 
 
 @Component({
@@ -37,6 +39,10 @@ export class HemogramaComponent implements OnInit {
     IHemograma!: IHemograma;
     IHemogramaSerieRoja!: IHemogramaSerieRoja[];
     IHemogramaSerieBlanca!: IHemogramaSerieBlanca[];
+
+    datoClienteEmpresa!: ICliente;
+    emailRecepcionExamenCliente='';
+
 
     srHematocritoFlag = false;
     srEritrocitosFlag = false;
@@ -69,8 +75,8 @@ export class HemogramaComponent implements OnInit {
 
     constructor(private dialogRef: MatDialogRef<HemogramaComponent>,
                 @Inject(MAT_DIALOG_DATA) public data:any,
-                public servicioService: ExamenService,
-                public fichaService: FichaService,
+                private clienteService: ClienteService,
+                private fichaService: FichaService,
                 private authenticationService: AuthenticationService
                 ) {
                   this.authenticationService.currentUsuario.subscribe(x => this.currentUsuario = x);
@@ -147,7 +153,16 @@ export class HemogramaComponent implements OnInit {
     ngOnInit() {
       console.log('ficha2:',this.data)
    /*   this.cargaExamen();*/
+   if (this.data.fichaC.validador.nombreFirma=='sinFirma.jpg' || this.data.fichaC.validador.nombreFirma=='' || this.data.fichaC.validador.nombreFirma==undefined){
+    Swal.fire(
+      'El exámen no cuenta con Firma Validador',
+      '',
+      'error'
+    );
+    this.dialogRef.close(1);
     }
+    this.getCliente();
+  }
 /*
     cargaExamen(){
       this.servicioService
@@ -378,6 +393,29 @@ export class HemogramaComponent implements OnInit {
 
     }
 
+    async getCliente() {
+      console.log('pasa emp 2:',this.data.fichaC.cliente.idCliente);
+      this.clienteService
+        .getDataClienteActual(this.data.fichaC.cliente.idCliente)
+        .subscribe((res) => {
+          console.log('cliente2: ', res['data'][0] as ICliente);
+          this.datoClienteEmpresa=res['data'][0] as ICliente;
+          this.data.fichaC.cliente.correoRecepcionCliente=this.datoClienteEmpresa.emailRecepcionExamenCliente;
+          console.log('this.datoClienteEmpresa.empresa:', this.data.fichaC.cliente.correoRecepcionCliente);
+
+        },
+        // console.log('yo:', res as PerfilI[]),
+        error => {
+          console.log('error carga:', error);
+          Swal.fire(
+            'ERROR INESPERADO',
+            error,
+           'error'
+         );
+        }
+      ); // (this.dataSource.data = res as PerfilI[])
+    }
+
     async enviar() {
 
 
@@ -513,7 +551,7 @@ export class HemogramaComponent implements OnInit {
       fichaC: this.data.fichaC,
       empresa: this.data.empresa,
       formatoResultado:{
-        examen: this.data.fichaC.examen,
+        //examen: this.data.fichaC.examen,
         hemograma: this.IHemograma
       },
       datoArchivo:{
@@ -524,8 +562,8 @@ export class HemogramaComponent implements OnInit {
       usuarioModifica_id: this.currentUsuario.usuarioDato._id,
       usuarioEnviaCrea_id: this.currentUsuario.usuarioDato._id,
       usuarioEnviaModifica_id: this.currentUsuario.usuarioDato._id,
-      fechaHora_envia_crea: new Date().toDateString(),
-      fechaHora_envia_modifica: new Date().toDateString(),
+      fechaHora_envia_crea: new Date(),
+      fechaHora_envia_modifica: new Date(),
 
      };
 
@@ -550,7 +588,7 @@ export class HemogramaComponent implements OnInit {
            console.log('error:',dato)
            Swal.fire(
              dato.mensaje,
-             'Click en Boton!',
+             '',
              'error'
            );
            this.dialogRef.close(1);
@@ -559,13 +597,6 @@ export class HemogramaComponent implements OnInit {
      );
 
    }
-
-
-   // Error handling
-   cerrar() {
-     this.dialogRef.close();
-   }
-
 
   }
 

@@ -59,7 +59,5 @@ export class EliminaFichaComponent implements OnInit {
 
   }
 
-  cerrar() {
-    this.dialogRef.close();
-  }
+
 }

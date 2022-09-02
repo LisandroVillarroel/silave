@@ -138,7 +138,7 @@ agregaNuevo() {
     this.dialog.open(AgregaDatosEmpresaComponent, dialogConfig)
     .afterClosed().subscribe(
      data => {
-              if (data !== undefined) {
+              if (data === 1) {
                   this.refreshTable();
               }
       }
@@ -161,7 +161,7 @@ actualizaEmpresa(datoEmpresa:IEmpresa): void {
     this.dialog.open(ModificaDatosEmpresaComponent, dialogConfig)
     .afterClosed().subscribe(
      data => {
-              if (data !== undefined) {
+              if (data === 1) {
                   this.refreshTable();
               }
       }
@@ -184,7 +184,7 @@ consultaEmpresa(datoEmpresa:IEmpresa) {
     this.dialog.open(ConsultaDatosEmpresaComponent, dialogConfig)
     .afterClosed().subscribe(
      data => {
-              if (data !== undefined) {
+              if (data === 1) {
                   this.refreshTable();
               }
       }
@@ -206,7 +206,7 @@ eliminaEmpresa(datoEmpresa:IEmpresa) {
     this.dialog.open(EliminaDatosEmpresaComponent, dialogConfig)
     .afterClosed().subscribe(
      data => {
-              if (data !== undefined) {
+              if (data === 1) {
                   this.refreshTable();
               }
       }

@@ -4,6 +4,7 @@ export interface MenuItem {
   iconName: string;
   route?: string;
   tipoPermiso?: string;
+  indeterminate?: boolean;
   selected?: boolean;
   children?: MenuItem[];
 }

@@ -1,0 +1,53 @@
+<h2 mat-dialog-title>Agrega Validador</h2>
+
+    <mat-dialog-content [formGroup]="agregaValidador" name="agregaValidador" class="agrega-container">
+      <ng-template matStepLabel>Datos Usuario Laboratorio</ng-template>
+      <mat-form-field>
+        <input matInput class="input-rut rut" placeholder="Ingrese Run Validador" [formControl]="rutValidador" oninput="this.value = this.value.toUpperCase()" (blur)="onBlurRutUsuario($event)" validaRut  required>
+        <mat-error *ngIf="rutValidador.invalid">{{getErrorMessage('rutValidador')}}</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Ingrese Nombres " [formControl]="nombres" required>
+        <mat-error *ngIf="nombres.invalid">{{getErrorMessage('nombres')}}</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Ingrese Apellido Paterno" [formControl]="apellidoPaterno"  required>
+        <mat-error *ngIf="apellidoPaterno.invalid">{{getErrorMessage('apellidoPaterno')}}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Ingrese Apellido Materno " [formControl]="apellidoMaterno" required>
+        <mat-error *ngIf="apellidoMaterno.invalid">{{getErrorMessage('apellidoMaterno')}}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Ingrese Profesion " [formControl]="profesion" required>
+        <mat-error *ngIf="profesion.invalid">{{getErrorMessage('profesion')}}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Ingrese teléfono " [formControl]="telefono" required>
+        <mat-error *ngIf="telefono.invalid">{{getErrorMessage('telefono')}}</mat-error>
+      </mat-form-field>
+
+      <image-upload class="customClass"
+      (removed)="onRemoved($event)"
+      (uploadFinished)="onUploadFinished($event)"
+      (uploadStateChanged)="onUploadStateChanged($event)"
+      buttonCaption="Presione para Seleccionar Firma"
+      dropBoxMessage="!Suelta tu imágen aquí!"
+      clearButtonCaption="Eliminar Imágen"
+      [extensions]="['jpeg','png','jpg','svg']"
+      [max]="1"
+      >
+      </image-upload>
+
+    </mat-dialog-content>
+      <mat-dialog-actions>
+        <div class="col-md-6">
+          <button mat-raised-button color="warn"  mat-dialog-close  [disabled]=false>Cerrar</button>
+        </div>
+        <div class="col-md-6">
+          <button class="colorFondoBoton" mat-raised-button  (click)="enviar()"  [disabled]="agregaValidador.invalid">GRABAR</button>
+        </div>
+    </mat-dialog-actions>

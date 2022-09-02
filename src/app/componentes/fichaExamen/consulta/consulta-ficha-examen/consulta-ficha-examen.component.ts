@@ -1,18 +1,26 @@
 import { catchError } from 'rxjs/operators';
-  import {Component, OnInit, ViewChild} from '@angular/core';
-  import {HttpClient} from '@angular/common/http';
-  import {MatTableDataSource} from '@angular/material/table';
-  import {MatSort} from '@angular/material/sort';
-  import {MatPaginator} from '@angular/material/paginator';
-  import {MatDialog, MatDialogRef, MatDialogConfig} from '@angular/material/dialog';
+import {Component, Injectable, OnInit, ViewChild} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {MatTableDataSource} from '@angular/material/table';
+import {MatSort} from '@angular/material/sort';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatDialog, MatDialogRef, MatDialogConfig} from '@angular/material/dialog';
 
-  import Swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 import { JwtResponseI } from '@app/autentica/_models';
 import { IFicha } from '@app/modelo/ficha-interface';
 import { FichaService } from '@app/servicios/ficha.service';
 import { AuthenticationService } from '@app/autentica/_services';
 
-  import {saveAs} from 'file-saver';
+import {saveAs} from 'file-saver';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import * as moment from 'moment';
+
+const today = new Date();
+
+const dia = today.getDate();
+const mes = today.getMonth();
+const ano = today.getFullYear();
 
 
 @Component({
@@ -30,11 +38,13 @@ export class ConsultaFichaExamenComponent implements OnInit {
      // id: string;
 
       // tslint:disable-next-line:max-line-length
-      displayedColumns: string[] = ['index', 'fichaC.numeroFicha','fichaC.cliente.nombreFantasia', 'fichaC.nombrePaciente', 'fichaC.examen.nombre',  'fechaHora_crea', 'estadoFicha', 'opciones'];
+      displayedColumns: string[] = ['index', 'fichaC.numeroFicha','fichaC.cliente.nombreFantasia', 'fichaC.nombrePaciente', 'fichaC.examen.nombre',  'fechaHora_crea', 'fechaHora_envia_modifica', 'estadoFicha', 'opciones'];
       dataSource: MatTableDataSource<IFicha>;
 
       @ViewChild(MatPaginator ) paginator!: MatPaginator;
       @ViewChild(MatSort) sort!: MatSort;
+
+
 
 
     constructor(private fichaService: FichaService,
@@ -48,18 +58,36 @@ export class ConsultaFichaExamenComponent implements OnInit {
       }
 
 
+      start = new FormControl(new Date(ano, mes, dia), [Validators.required]);
+      end = new FormControl(new Date(ano, mes, dia), [Validators.required]);
+
+
+
+      range  = new FormGroup({
+        start: this.start,
+        end: this.end,
+      });
+
     ngOnInit() {
         console.log('pasa ficha 1');
         if (this.authenticationService.getCurrentUser() != null) {
           this.currentUsuario.usuarioDato = this.authenticationService.getCurrentUser() ;
         }
-        this.getListFicha();
+        let fechaInicio=ano+'/'+(mes+1)+'/'+dia;
+        let fechaFin=ano+'/'+(mes+1)+'/'+dia;
+
+        console.log('fecha Inicio:', fechaInicio)
+        console.log('fecha hoy:', today.getDate())
+
+        fechaInicio=moment(fechaInicio).format('YYYY-MM-DDT00:00:00.000') + 'Z';
+        fechaFin=moment(fechaFin).format('YYYY-MM-DDT23:59:59.000') + 'Z'
+        this.getListFicha(fechaInicio,fechaFin);
       }
 
-    getListFicha(): void {
+    getListFicha(fechaInicio:string,fechaFin:string): void {
         console.log('pasa ficha 2');
         this.fichaService
-          .getDataFicha(this.currentUsuario.usuarioDato.empresa.empresa_Id,'Enviado',this.currentUsuario.usuarioDato._id,'Administrador')
+          .getDataFichaPorFecha(this.currentUsuario.usuarioDato.empresa.empresa_Id,'Enviado',this.currentUsuario.usuarioDato._id,'Administrador',fechaInicio,fechaFin)
           .subscribe(res => {
             console.log('fichaaaaaa: ', res['data']);
             this.dataSource.data = res['data'] as any[];
@@ -69,7 +97,7 @@ export class ConsultaFichaExamenComponent implements OnInit {
             console.log('error carga:', error);
             Swal.fire(
               'ERROR INESPERADO',
-              error.error.error,
+              error,
              'error'
            );
           }
@@ -90,35 +118,7 @@ export class ConsultaFichaExamenComponent implements OnInit {
           this.dataSource.paginator.firstPage();
         }
       }
- /*
-    agregaNuevo() {
-      //  agregaNuevo(empresaInterface_: EmpresaI) {
-        // Nuevo
-        console.log('usu:', this.currentUsuario.usuarioDato._id);
-        const dialogConfig = new MatDialogConfig();
 
-        dialogConfig.disableClose = true;
-        dialogConfig.autoFocus = true;
-        dialogConfig.width = '80%';
-        dialogConfig.height = '85%';
-        dialogConfig.position = { top : '2%'};
-        dialogConfig.data = {usuario: this.currentUsuario.usuarioDato._id, empresa_Id:this.currentUsuario.usuarioDato.empresa_Id};
-      //  dialogConfig.data = {
-      //    idProducto: idProdP,
-      //    titulo: tituloP
-      //  };
-
-
-        this.dialog.open(AgregaFichaComponent, dialogConfig)
-        .afterClosed().subscribe(
-         data => {console.log('Dialog output3333:', data);
-                  if (data !== undefined) {
-                      this.refreshTable();
-                  }
-          }
-        );
-      }
-  */
 
     descargaExamen(nombre:string,nombreExamen:string,rutEmpresa:string) {
 
@@ -173,49 +173,39 @@ export class ConsultaFichaExamenComponent implements OnInit {
      ); // (this.dataSource.data = res as PerfilI[])
     }
 
-
-
-   /*
-     eliminaCliente(datoFicha) {
-      console.log('dato elimina antes de eliminar:',datoFicha)
-      this.datoFichaPar = datoFicha;
-      console.log('dato elimina antes de eliminar2:',this.datoFichaPar)
-    //  this.datoFichaPar.usuarioModifica_id= this.currentUsuario.usuarioDato._id
-
-        const dialogConfig = new MatDialogConfig();
-
-        dialogConfig.disableClose = true;
-        dialogConfig.autoFocus = true;
-        dialogConfig.width = '50%';
-        dialogConfig.height = '70%';
-        dialogConfig.position = { top : '5%'};
-
-        dialogConfig.data = this.datoFichaPar;
-        this.dialog.open(EliminaFichaComponent, dialogConfig)
-        .afterClosed().subscribe(
-         data => {console.log('Datoas Consulta:', data);
-                  if (data !== undefined) {
-                      this.refreshTable();
-                  }
-          }
+    envioEmail(id: string){
+      this.fichaService
+      .envioCorreo(id)
+      .subscribe((res) => {
+        Swal.fire(
+          'Exámen se envió con Éxito',
+          '',
+          'success'
         );
-
+      },
+      // console.log('yo:', res as PerfilI[]),
+      error => {
+        console.log('error carga:', error);
+        Swal.fire(
+          'ERROR INESPERADO',
+          error.error.error,
+         'error'
+       );
       }
-  */
-
-
-
-      eliminaCliente(row: any){}
-
-        private refreshTable() {
-        // Refreshing table using paginator
-        // Thanks yeager-j for tips
-        // https://github.com/marinantonio/angular-mat-table-crud/issues/12
-       // this.dataSource.paginator._changePageSize(this.paginator.pageSize);
-       // this.noticia=this.servicio.getNoticias();
-
-       this.getListFicha();
-       this.dataSource.paginator!._changePageSize(this.paginator.pageSize);
-      }
+      ); // (this.dataSource.data = res as PerfilI[])
     }
+
+    async buscar(){
+      console.log('dats fecha:',this.range.get('start')!.value)
+      console.log('fin fecha:',this.range.get('end')!.value)
+
+      const fechaInicio=moment(this.range.get('start')!.value).format('YYYY-MM-DDT00:00:00.000') + 'Z';
+      const fechaFin=moment(this.range.value.end).format('YYYY-MM-DDT23:59:59.000') + 'Z'
+
+      console.log('fecha Inicio:',fechaInicio);
+      console.log('fecha fin:',fechaFin);
+      this.getListFicha(fechaInicio,fechaFin);
+    }
+
+}
 

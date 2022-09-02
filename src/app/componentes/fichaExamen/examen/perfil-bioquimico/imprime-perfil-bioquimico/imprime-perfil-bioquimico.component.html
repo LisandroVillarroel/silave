@@ -1,0 +1,75 @@
+<div id="htmlData">
+  <div class="margen-container margen-imprimir m-top-1">
+    <app-header [datoFichaRecibeFicha]="datoFichaRecibe"></app-header>
+
+    <h2 mat-dialog-title>PERFIL BIOQUIMICO</h2>
+
+    <app-imprime-ficha-cabecera [datoFichaRecibeFicha]="datoFichaRecibe"></app-imprime-ficha-cabecera>
+
+    <div id="cuerpoExamen">
+
+          <div class="row anchoTitulo">
+            <div  class="col-md-3 border border-dark alineaVertical border-end-0 destacado">
+              PARÁMETRO
+            </div>
+            <div class="col-md-2 border border-dark border-left-0 border-end-0 alineaVertical destacado">
+              RESULTADO
+            </div>
+            <div class="col-md-2 border border-dark border-left-0 border-end-0 alineaVertical destacado" >
+              UNIDAD
+            </div>
+            <div class="col-md-5 border border-dark border-left-0 " >
+              <div class="row ">
+                <div class="col-md-12  border-dark border-bottom alineaVertical destacado">
+                  VALORES DE REFERENCIA
+                </div>
+              </div>
+              <div class="row ">
+                <div class="col-md-6 border-dark border-top-0 border-left-0 border-bottom-0 alineaVertical destacado">
+                  Caninos
+                </div>
+                <div class="col-md-6 border-dark  border-0 alineaVertical destacado">
+                  Felinos
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="row" *ngFor="let item of this.datoFichaRecibe.formatoResultado?.perfilBioquimico.resultado">
+            <div class="col-md-3 border border-dark border-top-0  border-end-0 alineaV destacado">
+              {{item.parametro}} <!--Hematocrito-->
+            </div>
+            <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical" [ngStyle]="{'font-weight':item.flag==true?'bold':'normal'}">
+            {{item.resultado}}
+            </div>
+            <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+              {{item.unidad}}
+            </div>
+            <div class="col-md-5 " >
+              <div class="row ">
+                <div class="col-md-6 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical " >
+                  {{item.caninos}}
+                </div>
+                <div class="col-md-6 border border-dark border-left-0 border-top-0 alineaVertical" >
+                  {{item.felinos}}
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+        <div class="row">
+          <div class="col-md-3 border border-dark border-top-0 border-end-0 alineaV destacado">Observaciones</div>
+          <div class="col-md-9 border border-dark border-top-0 border-left-0 alineaV">
+             <p class="pservices text-justify">{{this.datoFichaRecibe.formatoResultado?.perfilBioquimico?.observaciones}}</p>
+          </div>
+        </div>
+
+
+    </div>
+    <app-footer [datoFichaRecibeFicha]="datoFichaRecibe"></app-footer>
+
+  </div>
+</div>

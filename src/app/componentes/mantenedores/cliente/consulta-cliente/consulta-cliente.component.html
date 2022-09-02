@@ -3,35 +3,57 @@
 <mat-dialog-content  name="consulta" class="consulta-container">
 
   <mat-form-field color="accent">
-    <input matInput placeholder="Rut"  value="{{datoClientePar.rutCliente}}" disabled='true' >
+    <input matInput placeholder="Rut"  value="{{data.empresa[0].rutCliente}}" disabled='true' >
   </mat-form-field>
 
   <mat-form-field color="accent">
-    <input matInput placeholder="Razón Social"  value="{{datoClientePar.razonSocial}}" disabled='true' >
+    <input matInput placeholder="Razón Social"  value="{{data.empresa[0].razonSocial}}" disabled='true' >
   </mat-form-field>
 
   <mat-form-field color="accent">
-      <input matInput placeholder="Nombre de Fantasía" value="{{datoClientePar.nombreFantasia}}" disabled='true'>
+      <input matInput placeholder="Nombre de Fantasía" value="{{data.empresa[0].nombreFantasia}}" disabled='true'>
   </mat-form-field >
 
   <mat-form-field color="accent">
-    <input matInput placeholder="Dirección" value="{{datoClientePar.direccion}}" disabled='true'>
+    <input matInput placeholder="Dirección" value="{{data.empresa[0].direccion}}" disabled='true'>
   </mat-form-field>
 
   <mat-form-field color="accent">
-    <input matInput placeholder="Teléfono" value="{{datoClientePar.telefono}}" disabled='true'>
+    <input matInput placeholder="Teléfono" value="{{data.empresa[0].telefono}}" disabled='true'>
+  </mat-form-field>
+
+  <mat-list>
+    <mat-list-item>Datos de Envío de Email</mat-list-item>
+    <mat-divider></mat-divider>
+  </mat-list>
+<!--
+  <mat-form-field color="accent">
+    <input matInput placeholder="Envío Email " value="{{this.data.empresa[0]?.envioEmail?.emailEnvio}}" disabled='true'>
   </mat-form-field>
 
   <mat-form-field color="accent">
-    <input matInput placeholder="Email" value="{{datoClientePar.email}}" disabled='true'>
+    <input matInput placeholder="Contraseña " value="{{this.data.empresa[0]?.envioEmail?.password}}" disabled='true'>
+  </mat-form-field>
+-->
+  <mat-form-field color="accent">
+    <input matInput placeholder="Nombre Desde " value="{{this.data.empresa[0]?.envioEmail?.nombreDesde}}" disabled='true'>
   </mat-form-field>
 
   <mat-form-field color="accent">
-    <input matInput placeholder="Nombre Contacto" value="{{datoClientePar.nombreContacto}}" disabled='true'>
+    <input matInput placeholder="Asunto" value="{{this.data.empresa[0]?.envioEmail?.asunto}}" disabled='true'>
   </mat-form-field>
 
   <mat-form-field color="accent">
-    <input matInput placeholder="Email Envío Exámen" value="{{datoClientePar.emailEnvioExamenCliente}}" disabled='true'>
+    <input matInput placeholder="Título Cuerpo" value="{{this.data.empresa[0]?.envioEmail?.tituloCuerpo}}" disabled='true'>
+  </mat-form-field>
+
+  <mat-form-field color="accent">
+    <input matInput placeholder="Título Cuerpo Medio " value="{{this.data.empresa[0]?.envioEmail?.tituloCuerpoMedio}}" disabled='true'>
+  </mat-form-field>
+
+
+  <mat-form-field color="accent">
+    <input matInput placeholder="Título Cuerpo Pie " value="{{this.data.empresa[0]?.envioEmail?.tituloCuerpoPie}}" disabled='true'>
   </mat-form-field>
 
 </mat-dialog-content>

@@ -15,7 +15,7 @@ export class ConsultaExamenComponent implements OnInit {
 
   datoPar: IExamen;
 
-  imagen = './../../../../../assets/imagenes/';
+ // imagen = './../../../../../assets/imagenes/';
   currentUsuario!: JwtResponseI;
 
   constructor(private dialogRef: MatDialogRef<ConsultaExamenComponent>,
@@ -30,11 +30,7 @@ export class ConsultaExamenComponent implements OnInit {
               }
 
   ngOnInit() {
-    this.imagen=this.imagen+ this.currentUsuario.usuarioDato.empresa.rutEmpresa+'/'+this.data.nombreExamen  // agregar a estructura data.nomreArchivo
-  }
-
-  cerrar() {
-    this.dialogRef.close();
+   // this.imagen=this.imagen+ this.currentUsuario.usuarioDato.empresa.rutEmpresa+'/'+this.data.nombreExamen  // agregar a estructura data.nomreArchivo
   }
 
 }

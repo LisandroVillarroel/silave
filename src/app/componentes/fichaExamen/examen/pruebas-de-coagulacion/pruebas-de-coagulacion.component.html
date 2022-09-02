@@ -1,0 +1,131 @@
+<h2 mat-dialog-title>INGRESO EXÁMEN PRUEBAS DE COAGULACIÓN</h2>
+
+
+
+<mat-dialog-content [formGroup]="ingresaPruabasDeCoagulacion" name="agregaPruabasDeCoagulacion" class="agrega-container"  >
+  <mat-accordion class="example-headers-align" multi>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+
+        </mat-panel-title>
+        <mat-panel-description>
+          Ficha Paciente
+          <mat-icon>account_circle</mat-icon>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <app-imprime-ficha-cabecera [datoFichaRecibeFicha]="datoFicha"></app-imprime-ficha-cabecera>
+
+    </mat-expansion-panel>
+
+  </mat-accordion>
+
+  <div>
+    <div id="serieRoja">
+
+        <div class="row anchoTitulo">
+          <div  class="col-md-3 border border-dark alineaVertical border-end-0 destacado">
+            PARÁMETRO
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-end-0 alineaVertical destacado">
+            RESULTADO
+          </div>
+          <div class="col-md-1 border border-dark border-left-0 border-end-0 alineaVertical destacado" >
+            UNIDAD
+          </div>
+          <div class="col-md-6 border border-dark border-left-0 " >
+            <div class="row ">
+              <div class="col-md-12  border-dark border-bottom alineaVertical destacado">
+                VALORES DE REFERENCIA
+              </div>
+            </div>
+            <div class="row ">
+              <div class="col-md-6 border-dark border-top-0 border-left-0 border-bottom-0 alineaVertical destacado">
+                Caninos
+              </div>
+              <div class="col-md-6 border-dark  border-0 alineaVertical destacado">
+                Felinos
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="row" >
+          <div class="col-md-3 border border-dark border-top-0 alineaV border-end-0 destacado">
+            Tiempo protrombina
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0">
+            <mat-form-field class="anchoTituloLinea1">
+              <input matInput placeholder="Ingrese Valor" [formControl]="tiempoProtrombina" [ngStyle]="{'font-weight':tiempoProtrombinaFlag==true?'bold':'normal'}" (blur)="tiempoProtrombinaFormula()">
+              <mat-error *ngIf="tiempoProtrombina.invalid">{{getErrorMessage('tiempoProtrombina')}}</mat-error>
+            </mat-form-field>
+
+          </div>
+          <div class="col-md-1 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            SEG
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical " >
+            9 - 14
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 alineaVertical" >
+            9 - 14
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-3 border border-dark border-top-0 alineaV border-end-0 destacado">
+            Tiempo Tromboplastina Parcial
+          </div>
+          <div class="col-md-2 border border-dark border-left-0 border-top-0 border-end-0">
+            <mat-form-field class="anchoTituloLinea1">
+              <input matInput placeholder="Ingrese Valor" [formControl]="tiempoTromboplastinaParcial" [ngStyle]="{'font-weight':tiempoTromboplastinaParcialFlag==true?'bold':'normal'}" (blur)="tiempoTromboplastinaParcialFormula()">
+              <mat-error *ngIf="tiempoTromboplastinaParcial.invalid">{{getErrorMessage('tiempoTromboplastinaParcial')}}</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-1 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            SEG
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 border-end-0 alineaVertical">
+            14 - 22
+          </div>
+          <div class="col-md-3 border border-dark border-left-0 border-top-0 alineaVertical">
+            14 - 22
+          </div>
+
+        </div>
+
+
+        <div class="row">
+          <div class="col-md-3 border border-dark border-top-0 alineaV border-end-0 destacado">
+            Observaciones
+          </div>
+          <div class="col-md-9 border border-dark border-left-0 border-top-0 border-end-0">
+            <mat-form-field class="anchoTituloLinea1Left">
+              <input matInput placeholder="Observaciones" [formControl]="Observaciones" >
+              <mat-error *ngIf="Observaciones.invalid">{{getErrorMessage('Observaciones')}}</mat-error>
+            </mat-form-field>
+          </div>
+
+        </div>
+    </div>
+
+
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+      <div class="col-md-6">
+        <button mat-raised-button color="warn"  mat-dialog-close  [disabled]=false>Cerrar</button>
+      </div>
+      <div class="col-md-6">
+        <button class="colorFondoBoton" mat-raised-button  (click)="enviar()" [disabled]="ingresaPruabasDeCoagulacion.invalid">GRABAR</button>
+      </div>
+</mat-dialog-actions>
+
+<div *ngIf="!ingresaPruabasDeCoagulacion.invalid">
+
+<app-imprime-pruebas-de-coagulacion *ngIf="imprime" [datoFichaRecibe]="datoFichaRespuesta"></app-imprime-pruebas-de-coagulacion>
+
+</div>

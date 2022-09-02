@@ -1,0 +1,53 @@
+<h2 mat-dialog-title>Modifica Validador</h2>
+
+    <mat-dialog-content [formGroup]="modificaValidador" name="modificaEmpresa" class="modifica-container">
+
+      <mat-form-field>
+        <input matInput placeholder="Ingrese Nombres " [formControl]="nombres" required>
+        <mat-error *ngIf="nombres.invalid">{{getErrorMessage('nombres')}}</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Ingrese Apellido Paterno" [formControl]="apellidoPaterno"  required>
+        <mat-error *ngIf="apellidoPaterno.invalid">{{getErrorMessage('apellidoPaterno')}}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Ingrese Apellido Materno " [formControl]="apellidoMaterno" required>
+        <mat-error *ngIf="apellidoMaterno.invalid">{{getErrorMessage('apellidoMaterno')}}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+          <input matInput placeholder="Ingrese Prefesión" [formControl]="profesion" required>
+          <mat-error *ngIf="profesion.invalid">{{getErrorMessage('profesion')}}</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Ingrese teléfono " [formControl]="telefono" required>
+        <mat-error *ngIf="telefono.invalid">{{getErrorMessage('telefono')}}</mat-error>
+      </mat-form-field>
+
+      <image-upload class="customClass"
+      (removed)="onRemoved($event)"
+      (uploadFinished)="onUploadFinished($event)"
+      (uploadStateChanged)="onUploadStateChanged($event)"
+      buttonCaption="Presione para Seleccionar Firma"
+      dropBoxMessage="!Suelta tu imágen aquí!"
+      clearButtonCaption="Eliminar Imágen"
+      [extensions]="['jpeg','png','jpg','svg']"
+      [max]="1"
+      >
+      </image-upload>
+      <mat-card mat-card style="cursor: pointer"  class="example-card mb-2 mt-4 ml-2  align-content-center align-items-center align-self-center text-center" >
+        <a class="colorAmarillo" >
+          <img class="avatar mat-elevation-z8"   [src]="imagen" >
+        </a>
+      </mat-card>
+
+    </mat-dialog-content>
+      <mat-dialog-actions>
+        <div class="col-md-6">
+          <button mat-raised-button color="warn"  mat-dialog-close  [disabled]=false>Cerrar</button>
+        </div>
+        <div class="col-md-6">
+          <button class="colorFondoBoton" mat-raised-button  (click)="enviar()"  [disabled]="modificaValidador.invalid">GRABAR</button>
+        </div>
+    </mat-dialog-actions>

@@ -26,7 +26,7 @@
       </mat-form-field>
       <mat-form-field>
         <input matInput placeholder="Ingrese teléfono " [formControl]="telefono" required>
-        <mat-error *ngIf="direccion.invalid">{{getErrorMessage('telefono')}}</mat-error>
+        <mat-error *ngIf="telefono.invalid">{{getErrorMessage('telefono')}}</mat-error>
       </mat-form-field>
 
       <mat-form-field>
@@ -43,8 +43,13 @@
         <mat-error *ngIf="email.invalid">{{getErrorMessage('email')}}</mat-error>
       </mat-form-field>
 
+      <mat-form-field>
+        <input matInput placeholder="Ingrese Recepción Email Solicitud" [formControl]="correoRecepcionSolicitud" required>
+        <mat-error *ngIf="correoRecepcionSolicitud.invalid">{{getErrorMessage('correoRecepcionSolicitud')}}</mat-error>
+      </mat-form-field>
+
       <mat-list>
-        <mat-list-item>Datos de Envío de correo</mat-list-item>
+        <mat-list-item>Datos de Envío de Email</mat-list-item>
         <mat-divider></mat-divider>
       </mat-list>
 
@@ -117,6 +122,6 @@
           <button mat-raised-button color="warn"  mat-dialog-close  [disabled]=false>Cerrar</button>
         </div>
         <div class="col-md-6">
-          <button class="colorFondoBoton" mat-raised-button  (click)="enviar()"  [disabled]="agregaEmpresa.invalid">ENVIAR</button>
+          <button class="colorFondoBoton" mat-raised-button  (click)="enviar()"  [disabled]="agregaEmpresa.invalid">GRABAR</button>
         </div>
     </mat-dialog-actions>

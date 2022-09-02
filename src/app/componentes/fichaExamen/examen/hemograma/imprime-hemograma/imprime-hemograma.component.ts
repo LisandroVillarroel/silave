@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { IHemogramaSerieBlanca, IHemogramaSerieRoja } from '@app/modelo/examenHemograma-interface';
 import { IFicha } from '@app/modelo/ficha-interface';
 import jsPDF from 'jspdf';
@@ -16,7 +16,7 @@ import { AuthenticationService } from '@app/autentica/_services';
   templateUrl: './imprime-hemograma.component.html',
   styleUrls: ['./imprime-hemograma.component.css']
 })
-export class ImprimeHemogramaComponent implements OnInit {
+export class ImprimeHemogramaComponent implements OnInit, AfterViewInit {
 
   @Input()
   public datoFichaRecibe!: any;
@@ -61,6 +61,10 @@ export class ImprimeHemogramaComponent implements OnInit {
     console.log('resultado serie roja:',this.datoHemogramaSerieRoja[0]);
     await this.verificaParametrosSerieRoja();
     await this.verificaParametrosSerieBlanca();
+
+  }
+
+  async ngAfterViewInit(){
     await this.openPDF()
   }
 

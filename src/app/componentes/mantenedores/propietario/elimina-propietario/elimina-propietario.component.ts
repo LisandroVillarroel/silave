@@ -63,7 +63,4 @@ export class EliminaPropietarioComponent implements OnInit {
 
   }
 
-  cerrar() {
-    this.dialogRef.close();
-  }
 }

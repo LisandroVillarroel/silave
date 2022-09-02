@@ -59,15 +59,37 @@ export class FichaService {
     );
   }
 
-  getDataFicha(empresaId:string,estadoFicha:string,usuario:string,tipoPermiso:string):Observable<any> {
-    return this.http.get(`${environment.apiUrl}/fichaTodo/${empresaId}/${estadoFicha}/${usuario}/${tipoPermiso}`, { headers: this.headers })
+  getDataFicha(empresaOrigen:string,estadoFicha:string,usuario:string,tipoEmpresa:string):Observable<any> {
+    return this.http.get(`${environment.apiUrl}/fichaTodo/${empresaOrigen}/${estadoFicha}/${usuario}/${tipoEmpresa}`, { headers: this.headers })
     .pipe(
       retry(1),
       catchError(this.errorHandl)
     );
   }
 
+  getDataFichaPorFecha(empresaOrigen:string,estadoFicha:string,usuario:string,tipoEmpresa:string,fechaInicio:string,fechaFin:string):Observable<any> {
+    return this.http.get(`${environment.apiUrl}/fichaTodoPorFecha/${empresaOrigen}/${estadoFicha}/${usuario}/${tipoEmpresa}/${fechaInicio}/${fechaFin}`, { headers: this.headers })
+    .pipe(
+      retry(1),
+      catchError(this.errorHandl)
+    );
+  }
 
+  getDataFichaVet(empresaOrigen:string,estadoFicha:string,usuario:string):Observable<any> {
+    return this.http.get(`${environment.apiUrl}/fichaTodoVet/${empresaOrigen}/${estadoFicha}/${usuario}`, { headers: this.headers })
+    .pipe(
+      retry(1),
+      catchError(this.errorHandl)
+    );
+  }
+
+  getDataFichaPorFechaVet(empresaOrigen:string,estadoFicha:string,usuario:string,fechaInicio:string,fechaFin:string):Observable<any> {
+    return this.http.get(`${environment.apiUrl}/fichaTodoPorFechaVet/${empresaOrigen}/${estadoFicha}/${usuario}/${fechaInicio}/${fechaFin}`, { headers: this.headers })
+    .pipe(
+      retry(1),
+      catchError(this.errorHandl)
+    );
+  }
 
   //upload(file:any,nombreArchivo: string,empresa_Id:string,directorio:string,nombreExamen:string,numFicha:string,ficha_Id:string):Observable<any> {
   upload(file:any,nombreArchivo: string,ficha_Id:string):Observable<any> {
@@ -86,7 +108,29 @@ export class FichaService {
     );
   }
 
+  envioCorreo(ficha_Id:string):Observable<any> {
+    return this.http.post(`${environment.apiUrl}/fichaSubeArchivo/${ficha_Id}`, { headers: this.headers })
+    .pipe(
+      retry(1),
+      catchError(this.errorHandl)
+    );
+  }
 
+  envioCorreoClienteFinal(ficha_Id:string):Observable<any> {
+    return this.http.post(`${environment.apiUrl}/envioExamenCorreoClienteFinal/${ficha_Id}`, { headers: this.headers })
+    .pipe(
+      retry(1),
+      catchError(this.errorHandl)
+    );
+  }
+
+  envioCorreoSolicitudCliente(id:string):Observable<any> {
+    return this.http.post(`${environment.apiUrl}/envioCorreoSolicitudCliente/${id}`, { headers: this.headers })
+    .pipe(
+      retry(1),
+      catchError(this.errorHandl)
+    );
+  }
 
 
   postDownLoadFile(file:string){

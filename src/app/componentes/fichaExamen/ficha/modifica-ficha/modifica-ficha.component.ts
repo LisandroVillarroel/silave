@@ -14,7 +14,7 @@ import { Component, OnInit, Inject } from '@angular/core';
   import { EspecieService } from './../../../../servicios/especie.service';
   import { IEspecie } from './../../../../modelo/especie-interface';
   import { IRaza } from './../../../../modelo/raza-interface';
-  import { IFicha, IFichaCliente, IFichaDoctorSolicitante, IFichaEspecie, IFichaExamen, IFichaRaza, IFichaUsuarioAsignado } from './../../../../modelo/ficha-interface';
+  import { IFicha, IFichaCliente, IFichaDoctorSolicitante, IFichaEspecie, IFichaExamen, IFichaRaza, IFichaUsuarioAsignado, IFichaValidador } from './../../../../modelo/ficha-interface';
   import { FichaService } from './../../../../servicios/ficha.service';
 import { IDoctorSolicitante } from './../../../../modelo/doctorSolicitante-interface';
 import { DoctorSolicitanteService } from './../../../../servicios/doctor-solicitante.service';
@@ -22,6 +22,8 @@ import { DoctorSolicitanteService } from './../../../../servicios/doctor-solicit
 import { AuthenticationService } from './../../../../autentica/_services';
 import { JwtResponseI } from './../../../../autentica/_models';
 import { UsuarioLabService } from '@app/servicios/usuario-lab.service';
+import { ValidadorService } from '@app/servicios/validador.service';
+import { IValidador } from '@app/modelo/validador-interface';
 
 
 @Component({
@@ -52,6 +54,8 @@ export class ModificaFichaComponent implements OnInit {
 
     datoEspecie!: IEspecie[];
     datoRaza!: IRaza[];
+    datoValidador!: IValidador[];
+    validadorAsignado!:IFichaValidador;
 
     fechaActual: Date = new Date();
 
@@ -60,6 +64,7 @@ export class ModificaFichaComponent implements OnInit {
     constructor(private dialogRef: MatDialogRef<ModificaFichaComponent>,
                 @Inject(MAT_DIALOG_DATA) public data:any,
                 private examenService: ExamenService,
+                private validadorService: ValidadorService,
                 private usuarioLabService: UsuarioLabService,
                 private clienteService: ClienteService,
                 private especieService: EspecieService,
@@ -77,7 +82,8 @@ export class ModificaFichaComponent implements OnInit {
                   this.cargaExamen();
                   this.cargaUsuario();
                   this.cargaEspecie();
-                  this.cargaRaza();
+                  this.cargaRaza(data.fichaC.especie.nombre);
+                  this.cargaValidador();
       }
 
 
@@ -90,7 +96,9 @@ export class ModificaFichaComponent implements OnInit {
       edad= new FormControl(this.data.fichaC.edadPaciente, [Validators.required]);
       sexo= new FormControl(this.data.fichaC.sexo, [Validators.required]);
       idDoctorSolicitante= new FormControl(this.data.fichaC.doctorSolicitante, [Validators.required]);
+      correoClienteFinal = new FormControl(this.data.fichaC.correoClienteFinal, [Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]);
       idExamen= new FormControl(this.data.fichaC.examen,[Validators.required]);
+      idValidador= new FormControl(this.data.fichaC.validador,[Validators.required]);
       idUsuario= new FormControl(this.data.usuarioAsignado);
 
 
@@ -104,7 +112,9 @@ export class ModificaFichaComponent implements OnInit {
                     edad: this.edad,
                     sexo: this.sexo,
                     idDoctorSolicitante: this.idDoctorSolicitante,
+                    correoClienteFinal: this.correoClienteFinal,
                     idExamen:this.idExamen,
+                    idValidador:this.idValidador,
                     idUsuario: this.idUsuario
       });
 
@@ -133,6 +143,9 @@ export class ModificaFichaComponent implements OnInit {
                     }
                     if (campo === 'idDoctorSolicitante'){
                       return this.idDoctorSolicitante.hasError('required') ? 'Debes Ingresar Dr. Solicitante' : '';
+                    }
+                    if (campo === 'idValidador'){
+                      return this.idValidador.hasError('required') ? 'Debes Ingresar Validador' : '';
                     }
                     if (campo === 'idExamen'){
                       return this.idExamen.hasError('required') ? 'Debes Ingresar Exámen' : '';
@@ -167,9 +180,31 @@ export class ModificaFichaComponent implements OnInit {
     ); // (this.dataSource.data = res as PerfilI[])
     }
 
+    cargaValidador(){
+      this.validadorService
+      .getDataValidadorTodo(this.data.empresa.empresa_Id)
+      .subscribe(res => {
+        console.log('validador:', res['data'])
+        this.datoValidador = res['data'] as any[];
+      //  for (var x of this.datoExamen) {
+       //   console.log(x)
+       // }
+      },
+      // console.log('yo:', res as PerfilI[]),
+      error => {
+        console.log('error carga:', error);
+        Swal.fire(
+          'ERROR INESPERADO',
+          error,
+         'error'
+       );
+      }
+    ); // (this.dataSource.data = res as PerfilI[])
+    }
+
     cargaUsuario(){
       this.usuarioLabService
-      .getDataUsuario(this.data.empresa.empresa_Id,'Laboratorio')
+      .getDataUsuarioLaboratorio(this.data.empresa.empresa_Id)
       .subscribe(res => {
         console.log('usuario:', res['data']);
         this.datoUsuario = res['data'] as any[];
@@ -258,9 +293,9 @@ export class ModificaFichaComponent implements OnInit {
     ); // (this.dataSource.data = res as PerfilI[])
     }
 
-    cargaRaza(){
+    cargaRaza(nombreEspecie:string){
       this.razaService
-      .getDataRazaTodo(this.data.empresa.empresa_Id)
+      .getDataRazaTodoEspecie(this.data.empresa.empresa_Id,nombreEspecie)
       .subscribe(res => {
         console.log('raza:', res['data'])
         this.datoRaza = res['data'] ;
@@ -304,13 +339,25 @@ export class ModificaFichaComponent implements OnInit {
     }
 
 
+    async seleccionaEspecie(p: any){
+      console.log('dats Especie:',p)
+     await this.cargaRaza(p.nombre)
+      return;
+    }
 
 
   enviar(){
+    let idValidador_: string;
+    let usuarioRecepcionaCrea_id_:string;
+    let estadoFicha_: string;
+    let fechaHora_recepciona_crea_: Date;
 
         // console.log(x)
         console.log('paso-2');
         let examen_:string;
+        let idUsuarioAsignado: string;
+        let nombreUsuario: string;
+
         if (this.modificaFicha.get('idExamen')!.value._id==undefined)
           examen_=this.modificaFicha.get('idExamen')!.value.idExamen;
         else
@@ -319,36 +366,78 @@ export class ModificaFichaComponent implements OnInit {
         this.examen= {
             idExamen: examen_,
             codigoExamen: this.modificaFicha.get('idExamen')!.value.codigoExamen,
+            codigoInterno: this.modificaFicha.get('idExamen')!.value.codigoInterno,
             nombre: this.modificaFicha.get('idExamen')!.value.nombre,
             nombreExamen: this.modificaFicha.get('idExamen')!.value.nombreExamen
       //   }
         }
-        console.log('paso-1');
-        let idUsuario_:string;
-        if (this.modificaFicha.get('idUsuario')!.value._id==undefined)
-          idUsuario_=this.modificaFicha.get('idUsuario')!.value.idUsuario;
-        else
-          idUsuario_=this.modificaFicha.get('idUsuario')!.value._id;
 
-        this.usuarioAsignado={
-          idUsuario: idUsuario_,
-          usuario: this.modificaFicha.get('idUsuario')!.value.usuario,
-          rutUsuario: this.modificaFicha.get('idUsuario')!.value.rutUsuario,
-          nombreCompleto: this.modificaFicha.get('idUsuario')!.value.nombres + ' ' + this.modificaFicha.get('idUsuario')!.value.apellidoPaterno + ' ' + this.modificaFicha.get('idUsuario')!.value.apellidoMaterno
+        console.log('Validador:',this.modificaFicha.get('idValidador')!.value);
+
+
+
+        if (this.modificaFicha.get('idValidador')!.value._id==undefined)
+            idValidador_=  this.modificaFicha.get('idValidador')!.value.idValidador;
+        else
+            idValidador_=  this.modificaFicha.get('idValidador')!.value._id;
+
+        this.validadorAsignado={
+          idValidador:  idValidador_,
+          rutValidador: this.modificaFicha.get('idValidador')!.value.rutValidador,
+          nombres: this.modificaFicha.get('idValidador')!.value.nombres,
+          apellidoPaterno: this.modificaFicha.get('idValidador')!.value.apellidoPaterno,
+          apellidoMaterno: this.modificaFicha.get('idValidador')!.value.apellidoMaterno,
+          telefono: this.modificaFicha.get('idValidador')!.value.telefono,
+          profesion: this.modificaFicha.get('idValidador')!.value.profesion,
+          nombreFirma: this.modificaFicha.get('idValidador')!.value.nombreFirma
         }
+
+        if (this.modificaFicha.get('idUsuario')!.value.usuario!=''){
+          console.log('paso usuario asignado 1:',this.modificaFicha.get('idUsuario')!.value._id)
+          if (this.modificaFicha.get('idUsuario')!.value._id==undefined){
+              idUsuarioAsignado=  this.modificaFicha.get('idUsuario')!.value.idUsuario;
+              nombreUsuario= this.modificaFicha.get('idUsuario')!.value.nombreCompleto;
+          }
+          else{
+              idUsuarioAsignado=  this.modificaFicha.get('idUsuario')!.value._id;
+              nombreUsuario = this.modificaFicha.get('idUsuario')!.value.nombres + ' ' + this.modificaFicha.get('idUsuario')!.value.apellidoPaterno + ' ' + this.modificaFicha.get('idUsuario')!.value.apellidoMaterno
+          }
+
+          this.usuarioAsignado={
+            idUsuario: idUsuarioAsignado,
+            usuario: this.modificaFicha.get('idUsuario')!.value.usuario,
+            rutUsuario: this.modificaFicha.get('idUsuario')!.value.rutUsuario,
+            nombreCompleto: nombreUsuario
+          }
+          console.log('usuario Asignado:',this.usuarioAsignado);
+        }else{
+          console.log('paso usuario asignado 2')
+          this.usuarioAsignado={
+            idUsuario: '',
+            usuario: '',
+            rutUsuario: '',
+            nombreCompleto: ''
+          }
+        }
+
         console.log('paso0');
         let idCliente_:string;
-        if (this.modificaFicha.get('idCliente')!.value._id==undefined)
+        let correoRecepcionCliente: string;
+        if (this.modificaFicha.get('idCliente')!.value._id==undefined){
           idCliente_=this.modificaFicha.get('idCliente')!.value.idCliente;
-        else
+          correoRecepcionCliente= this.data.fichaC.cliente.correoRecepcionCliente;
+        }
+        else{
           idCliente_=this.modificaFicha.get('idCliente')!.value._id;
-
+          correoRecepcionCliente= this.modificaFicha.get('idCliente')!.value.emailRecepcionExamenCliente
+        }
+        console.log('cliente:',this.modificaFicha.get('idCliente')!.value)
         this.cliente= {
           idCliente: idCliente_,
           rutCliente: this.modificaFicha.get('idCliente')!.value.rutCliente,
           razonSocial: this.modificaFicha.get('idCliente')!.value.razonSocial,
           nombreFantasia: this.modificaFicha.get('idCliente')!.value.nombreFantasia,
-          correoEnvioCliente: this.modificaFicha.get('idCliente')!.value.emailEnvioExamenCliente
+          correoRecepcionCliente: correoRecepcionCliente
         }
         console.log('paso1');
         let idEspecie_:string;
@@ -363,6 +452,7 @@ export class ModificaFichaComponent implements OnInit {
         }
         console.log('paso2');
         let idRaza_:string;
+
         if (this.modificaFicha.get('idRaza')!.value._id==undefined)
           idRaza_=this.modificaFicha.get('idRaza')!.value.idRaza;
         else
@@ -374,7 +464,6 @@ export class ModificaFichaComponent implements OnInit {
         }
         console.log('paso3',this.modificaFicha.get('idDoctorSolicitante')!.value);
 
-        ;
 
         let idDoctorSolicitante_:string;
         let nombreDoctorSolicitante_:string;
@@ -392,7 +481,16 @@ export class ModificaFichaComponent implements OnInit {
           nombreDoctorSolicitante: nombreDoctorSolicitante_
         }
 
+        if (this.data.estadoFicha=='Solicitado' || this.data.estadoFicha=='Recepcionado'){
+          usuarioRecepcionaCrea_id_= this.currentUsuario.usuarioDato._id;
+          estadoFicha_='Recepcionado';
+          fechaHora_recepciona_crea_= new Date();
 
+        }else{
+          usuarioRecepcionaCrea_id_='';
+          estadoFicha_=this.data.estadoFicha;
+          fechaHora_recepciona_crea_= new Date('01/01/1900 00:00:00')
+        }
 
         this.datoFicha = {
           _id:this.data._id,
@@ -405,17 +503,22 @@ export class ModificaFichaComponent implements OnInit {
                 raza: this.raza,
                 sexo: this.modificaFicha.get('sexo')!.value,
                 doctorSolicitante: this.doctorSolicitante,
+                correoClienteFinal: this.modificaFicha.get('correoClienteFinal')!.value,
                 examen:this.examen,
+                validador:this.validadorAsignado,
                 numeroFicha:this.data.fichaC.numeroFicha
           },
+          usuarioRecepcionaCrea_id: usuarioRecepcionaCrea_id_,
+          estadoFicha: estadoFicha_,
+
         usuarioAsignado:this.usuarioAsignado,
     //   empresa_Id: this.data.empresa_Id,
         usuarioModifica_id: this.currentUsuario.usuarioDato._id,
-
+        fechaHora_recepciona_crea:fechaHora_recepciona_crea_,
         };
 
 
-      console.log('dato ficha:',this.datoFicha)
+      console.log('dato modifica ficha:',this.datoFicha)
        this.fichaService.putDataFicha(this.datoFicha)
       .subscribe(
         dato => {
@@ -450,12 +553,6 @@ export class ModificaFichaComponent implements OnInit {
         }
       );
   }
-    // Error handling
-
-
-    cerrar() {
-     // this.dialogRef.close();
-    }
 
     comparaSeleccionaCliente(v1: any, v2: any): boolean {
 
@@ -483,10 +580,19 @@ export class ModificaFichaComponent implements OnInit {
     }
 
     comparaSeleccionaUsuarioResponsable(v1: any, v2: any): boolean {
-
+      console.log('v1:',v1);
+      console.log('v2:',v2);
       return v1._id===v2.idUsuario;
     }
 
+    comparaSeleccionaValidador(v1: any, v2: any): boolean {
+      if (v2!=null){
+      console.log('v111:',v1);
+      console.log('v222:',v2);
+      return v1._id===v2.idValidador;
+      }
+      return false;
+    }
 
     comparaSeleccionaSexo(v1: any, v2: any): boolean {
       console.log('v1:',v1.toUpperCase());

@@ -136,8 +136,8 @@ import { JwtResponseI } from '@app/autentica/_models';
         telefono: this.modificaUsuario.get('telefono')!.value,
         email: this.modificaUsuario.get('email')!.value,
         direccion: this.modificaUsuario.get('direccion')!.value,
-        usuarioCrea_id: this.currentUsuario.usuarioDato.usuario,
-        usuarioModifica_id: this.currentUsuario.usuarioDato.usuario
+        usuarioCrea_id: this.currentUsuario.usuarioDato._id,
+        usuarioModifica_id: this.currentUsuario.usuarioDato._id
 
       };
 

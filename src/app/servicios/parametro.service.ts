@@ -52,6 +52,14 @@ export class ParametroService {
     );
   }
 
+  getDataParametroLetra(letra:string): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/parametroLetra/${letra}`, { headers: this.headers })
+    .pipe(
+      retry(1),
+      catchError(this.errorHandl)
+    );
+  }
+
   getDataParametro(empresaId:string): Observable<any> {
     return this.http.get(`${environment.apiUrl}/parametroTodo/${empresaId}`, { headers: this.headers })
     .pipe(

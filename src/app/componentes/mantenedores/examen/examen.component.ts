@@ -71,7 +71,7 @@ getList(): void {
         console.log('error carga:', error);
         Swal.fire(
           'ERROR INESPERADO',
-          error.error.error,
+          error,
          'error'
        );
       }
@@ -113,7 +113,7 @@ agregaNuevo() {
     this.dialog.open(AgregaExamenComponent, dialogConfig)
     .afterClosed().subscribe(
      data => {console.log('Dialog output3333:', data);
-              if (data !== undefined) {
+              if (data === 1) {
                   this.refreshTable();
               }
       }
@@ -146,7 +146,7 @@ actualiza(id: string, codigoExamen: string, nombre: string, sigla: string, preci
     this.dialog.open(ModificaExamenComponent, dialogConfig)
     .afterClosed().subscribe(
      data => {console.log('Dialog output3333:', data);
-              if (data !== undefined) {
+              if (data === 1) {
                   this.refreshTable();
               }
       }
@@ -177,7 +177,7 @@ consulta(id: string, codigoExamen: string, nombre: string, sigla: string, precio
     this.dialog.open(ConsultaExamenComponent, dialogConfig)
     .afterClosed().subscribe(
      data => {console.log('Datoas Consulta:', data);
-              if (data !== undefined) {
+              if (data === 1) {
                   this.refreshTable();
               }
       }
@@ -208,7 +208,7 @@ elimina(id: string,  codigoExamen: string, nombre: string, sigla: string, precio
     this.dialog.open(EliminaExamenComponent, dialogConfig)
     .afterClosed().subscribe(
      data => {console.log('Datoas Consulta:', data);
-              if (data !== undefined) {
+              if (data === 1) {
                   this.refreshTable();
               }
       }

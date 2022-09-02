@@ -37,6 +37,15 @@ export class RazaService {
     );
   }
 
+   // POST
+   postDataRazaMasiva(dato:IRaza[]): Observable<any> {
+    return this.http.post<IRaza[]>(`${environment.apiUrl}/razaMasiva`, JSON.stringify(dato), { headers: this.headers })
+    .pipe(
+      retry(1),
+      catchError(this.errorHandl)
+    );
+  }
+
   // PUT
   putDataRaza(dato:any): Observable<any> {
     console.log('id:', dato._id);
@@ -59,6 +68,14 @@ export class RazaService {
 
   getDataRazaTodo(empresaId:string): Observable<any> {
     return this.http.get(`${environment.apiUrl}/razaTodo/${empresaId}`, { headers: this.headers })
+    .pipe(
+      retry(1),
+      catchError(this.errorHandl)
+    );
+  }
+
+  getDataRazaTodoEspecie(empresaId:string,nombreEspecie:string): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/razaTodo/${empresaId}/${nombreEspecie}`, { headers: this.headers })
     .pipe(
       retry(1),
       catchError(this.errorHandl)

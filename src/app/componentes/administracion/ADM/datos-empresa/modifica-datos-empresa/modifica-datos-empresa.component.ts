@@ -74,6 +74,7 @@ export class ModificaDatosEmpresaComponent implements OnInit {
   telefono = new FormControl(this.data.telefono, [Validators.required]);
   tipoEmpresa = new FormControl(this.data.menu_Id, [Validators.required]);
   email = new FormControl(this.data.email, [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]);
+  correoRecepcionSolicitud = new FormControl(this.data.correoRecepcionSolicitud, [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]);
   emailEnvio = new FormControl(this.data.envioEmail?.emailEnvio, [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]);
   password = new FormControl(this.data.envioEmail?.password, [Validators.required]);
   nombreDesde = new FormControl(this.data.envioEmail?.nombreDesde, [Validators.required]);
@@ -90,6 +91,7 @@ export class ModificaDatosEmpresaComponent implements OnInit {
     telefono: this.telefono,
     tipoEmprsa: this.tipoEmpresa,
     email: this.email,
+    correoRecepcionSolicitud: this.correoRecepcionSolicitud,
     emailEnvio: this.emailEnvio,
     password: this.password,
     nombreDesde: this.nombreDesde,
@@ -121,6 +123,9 @@ export class ModificaDatosEmpresaComponent implements OnInit {
     }
     if (campo === 'email'){
       return this.email.hasError('required') ? 'Debes ingresar Email' : '';
+    }
+    if (campo === 'correoRecepcionSolicitud'){
+      return this.correoRecepcionSolicitud.hasError('required') ? 'Debes ingresar Recepción Email Solicitud' : '';
     }
     if (campo === 'emailEnvio'){
       return this.emailEnvio.hasError('required') ? 'Debes ingresar Email Envio' : '';
@@ -214,10 +219,11 @@ console.log('id menu:',this.menu_IdTipoEmpresa);
       tipoEmpresa: this.nombreTipoEmpresa,
       menu_Id: this.menu_IdTipoEmpresa,
       email: this.modificaEmpresa.get('email')!.value,
+      correoRecepcionSolicitud: this.modificaEmpresa.get('correoRecepcionSolicitud')!.value,
       envioEmail: this.datoEnviaCorreo,
       nombreLogo:this.archivo.nombreArchivo,
-      usuarioCrea_id: this.currentUsuario.usuarioDato.usuario,
-      usuarioModifica_id: this.currentUsuario.usuarioDato.usuario
+      usuarioCrea_id: this.currentUsuario.usuarioDato._id,
+      usuarioModifica_id: this.currentUsuario.usuarioDato._id
     };
 
     this.empresaService.putDataEmpresa(this.datoEnviaEmpresa)

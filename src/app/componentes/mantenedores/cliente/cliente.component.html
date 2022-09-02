@@ -20,46 +20,46 @@
       </ng-container>
 
     <!-- ID Column -->
-    <ng-container matColumnDef="rutCliente">
+    <ng-container matColumnDef="empresa.rutCliente">
       <th id='_rutClienteI' mat-header-cell *matHeaderCellDef mat-sort-header style=' width: 7%;'> RUT</th>
-      <td mat-cell *matCellDef="let row"style=' width: 7%;'> {{row.rutCliente}} </td>
+      <td mat-cell *matCellDef="let row"style=' width: 7%;'> {{row.empresa[0].rutCliente}} </td>
     </ng-container>
 
     <!-- Progress Column -->
-    <ng-container matColumnDef="razonSocial">
+    <ng-container matColumnDef="empresa.razonSocial">
       <th id='razonSocialI' mat-header-cell *matHeaderCellDef mat-sort-header style=' width: 15%;'> RAZON SOCIAL </th>
-      <td mat-cell *matCellDef="let row"  style=' width: 15%;'> {{row.razonSocial}} </td>
+      <td mat-cell *matCellDef="let row"  style=' width: 15%;'> {{row.empresa[0].razonSocial}} </td>
     </ng-container>
 
     <!-- Titulo Column -->
-    <ng-container matColumnDef="nombreFantasia">
+    <ng-container matColumnDef="empresa.nombreFantasia">
       <th id='nombreFantasiaI' mat-header-cell *matHeaderCellDef mat-sort-header style=' width: 15%;'> NOMBRE FANTASÍA </th>
-      <td mat-cell *matCellDef="let row" style=' width: 15%;'> {{row.nombreFantasia}} </td>
+      <td mat-cell *matCellDef="let row" style=' width: 15%;'> {{row.empresa[0].nombreFantasia}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="direccion">
+    <ng-container matColumnDef="empresa.direccion">
       <th id='direccionI' mat-header-cell *matHeaderCellDef mat-sort-header style=' width: 20%;'> DIRECCIÓN </th>
-      <td mat-cell *matCellDef="let row" style=' width: 20%;'> {{row.direccion}} </td>
+      <td mat-cell *matCellDef="let row" style=' width: 20%;'> {{row.empresa[0].direccion}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="telefono">
+    <ng-container matColumnDef="empresa.telefono">
       <th id='telefonoI' mat-header-cell *matHeaderCellDef mat-sort-header style=' width: 5%;'> TELÉFONO </th>
-      <td mat-cell *matCellDef="let row" style=' width: 5%;'> {{row.telefono}} </td>
+      <td mat-cell *matCellDef="let row" style=' width: 5%;'> {{row.empresa[0].telefono}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="email">
+    <ng-container matColumnDef="empresa.email">
       <th id='emailI' mat-header-cell *matHeaderCellDef mat-sort-header style=' width: 10%;'> EMAIL </th>
-      <td mat-cell *matCellDef="let row" style=' width: 10%;'> {{row.email}} </td>
+      <td mat-cell *matCellDef="let row" style=' width: 10%;'> {{row.empresa[0].email}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="nombreContacto">
+    <ng-container matColumnDef="empresa.nombreContacto">
       <th id='nombreContactoI' mat-header-cell *matHeaderCellDef mat-sort-header style=' width: 10%;'> NOMBRE CONTACTO </th>
-      <td mat-cell *matCellDef="let row" style=' width: 10%;'> {{row.nombreContacto}} </td>
+      <td mat-cell *matCellDef="let row" style=' width: 10%;'> {{row.empresa[0].nombreContacto}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="emailEnvioExamenCliente">
-      <th [hidden]="show" id='emailEnvioExamenClienteI' mat-header-cell *matHeaderCellDef mat-sort-header style=' width: 10%;'> EMAIL ENVÍO EXÁMEN </th>
-      <td [hidden]="show" mat-cell *matCellDef="let row" style=' width: 10%;'> {{row.emailEnvioExamenCliente}} </td>
+    <ng-container matColumnDef="emailRecepcionExamenCliente">
+      <th [hidden]="show" id='emailRecepcionExamenClienteI' mat-header-cell *matHeaderCellDef mat-sort-header style=' width: 10%;'> EMAIL ENVÍO EXÁMEN </th>
+      <td [hidden]="show" mat-cell *matCellDef="let row" style=' width: 10%;'> {{row.emailRecepcionExamenCliente}} </td>
     </ng-container>
 
     <ng-container matColumnDef="opciones" >
@@ -71,15 +71,15 @@
 
       <td mat-cell *matCellDef="let row; let i=index;" style=' width: 15%; text-align: center'>
 
-        <button mat-icon-button color="accent" style="size:5px" (click)="actualizaCliente(row._id, row.rutCliente, row.razonSocial, row.nombreFantasia,row.direccion, row.telefono, row.email, row.nombreContacto, row.emailEnvioExamenCliente)">
+        <button mat-icon-button color="accent" style="size:5px" (click)="actualizaCliente(row)">
           <mat-icon>edit</mat-icon>
         </button>
 
-        <button mat-icon-button color="accent" (click)="consultaCliente(row._id, row.rutCliente, row.razonSocial, row.nombreFantasia,row.direccion, row.telefono, row.email, row.nombreContacto, row.emailEnvioExamenCliente)">
+        <button mat-icon-button color="accent" (click)="consultaCliente(row)">
           <mat-icon>search</mat-icon>
         </button>
 
-        <button mat-icon-button color="accent" (click)="eliminaCliente(row._id, row.rutCliente, row.razonSocial, row.nombreFantasia,row.direccion, row.telefono, row.email, row.nombreContacto,row.emailEnvioExamenCliente)">
+        <button mat-icon-button color="accent" (click)="eliminaCliente(row)">
           <mat-icon>delete</mat-icon>
         </button>
 

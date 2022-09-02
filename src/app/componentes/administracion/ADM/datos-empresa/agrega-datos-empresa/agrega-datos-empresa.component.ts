@@ -1,3 +1,4 @@
+import { strings } from '@angular-devkit/core';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -33,11 +34,13 @@ export class AgregaDatosEmpresaComponent implements OnInit {
   datoEnviaCorreo!: IEmail;
   currentUsuario!: JwtResponseI;
   datoExamen!: IExamen[];
-  datoRaza!: IExamen[];
-  datoEspecie!: IExamen[];
+  datoRaza!: IRaza[];
+  datoEspecie!: IEspecie[];
 
   datoExamenRegistro!: IExamen;
-  datoRazaRegistro!: IRaza;
+  datoRazaRegistro!: IRaza[];
+  datoRazaRegistro_2!: IRaza;
+
   datoEspecieRegistro!: IEspecie;
   datoParametroRegistro!:IParametro;
 
@@ -94,6 +97,7 @@ export class AgregaDatosEmpresaComponent implements OnInit {
   telefono = new FormControl('', [Validators.required]);
   tipoEmpresa = new FormControl('', [Validators.required]);
   email = new FormControl('', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]);
+  correoRecepcionSolicitud=new FormControl('', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]);
   emailEnvio = new FormControl('', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]);
   password = new FormControl('', [Validators.required]);
   nombreDesde = new FormControl('', [Validators.required]);
@@ -113,6 +117,7 @@ export class AgregaDatosEmpresaComponent implements OnInit {
     telefono: this.telefono,
     tipoEmpresa: this.tipoEmpresa,
     email: this.email,
+    correoRecepcionSolicitud: this.correoRecepcionSolicitud,
     emailEnvio: this.emailEnvio,
     password: this.password,
     nombreDesde: this.nombreDesde,
@@ -152,6 +157,9 @@ export class AgregaDatosEmpresaComponent implements OnInit {
     }
     if (campo === 'emailEnvio'){
       return this.emailEnvio.hasError('required') ? 'Debes ingresar Email Envio' : '';
+    }
+    if (campo === 'correoRecepcionSolicitud'){
+      return this.correoRecepcionSolicitud.hasError('required') ? 'Debes ingresar Email Recepción Solicitud' : '';
     }
     if (campo === 'password'){
       return this.password.hasError('required') ? 'Debes ingresar Password' : '';
@@ -328,33 +336,48 @@ export class AgregaDatosEmpresaComponent implements OnInit {
       tipoEmpresa: this.nombreTipoEmpresa,
       menu_Id: this.menu_IdTipoEmpresa,
       email: this.agregaEmpresa.get('email')!.value,
+      correoRecepcionSolicitud: this.agregaEmpresa.get('correoRecepcionSolicitud')!.value,
       envioEmail: this.datoEnviaCorreo,
       nombreLogo:this.archivo.nombreArchivo,
-      usuarioCrea_id: this.currentUsuario.usuarioDato.usuario,
-      usuarioModifica_id: this.currentUsuario.usuarioDato.usuario
+      usuarioCrea_id: this.currentUsuario.usuarioDato._id,
+      usuarioModifica_id: this.currentUsuario.usuarioDato._id
     };
 
     this.empresaService.postDataEmpresa(this.datoEnviaEmpresa)
       .subscribe(
         dato => {
           console.log('paso1:',dato);
+          let resultadoEmpresa:any;
+
           if (dato.codigo === 200) {
             console.log('paso2:',dato);
-            this.archivo.ruta=this.agregaEmpresa.get('rutEmpresa')!.value.toUpperCase();
-             this.agregaExamenesPreDefinidos(dato);
-             this.agregaRazaPreDefinidos(dato);
-             this.agregaEspeciePreDefinidos(dato);
-             this.agregaParametrosPreDefinidos(dato);
+            resultadoEmpresa=dato;
 
-             if (this.archivo.nombreArchivo!=='sinLogo.jpg'){
-                this.agregaLogoEmpresa();
-             }
-             Swal.fire(
-              'Se agregó con Éxito',
-              'Click en Boton!',
-              'success'
-            ); // ,
-              this.dialogRef.close(1);
+            this.archivo.ruta=this.agregaEmpresa.get('rutEmpresa')!.value.toUpperCase();
+
+            let letra= this.agregaEmpresa.get('letraFicha')!.value.toUpperCase();
+
+            this.parametroService.getDataParametroLetra(letra)
+              .subscribe(
+                dato => {
+                  console.log('paso1 parametro:',dato);
+                  console.log('largo:',dato.data.length);
+                  if (dato.codigo === 200) {
+                    if(dato.data.length===0){
+                      this.grabaTablas(resultadoEmpresa);
+                    }else{
+                      Swal.fire(
+                        'PARÁMETRO FICHA',
+                        'Letra Ya Existe',
+                        'error'
+                      );
+                    }
+
+                  }
+                }
+              )
+
+
           }else{
             if (dato.codigo!=500){
               Swal.fire(
@@ -375,6 +398,27 @@ export class AgregaDatosEmpresaComponent implements OnInit {
         }
       );
   }
+
+
+  grabaTablas(dato:any){
+    this.agregaExamenesPreDefinidos(dato);
+    this.agregaEspeciePreDefinidos(dato);
+    this.agregaRazaPreDefinidos(dato);
+
+    this.agregaParametros(dato);
+
+    if (this.archivo.nombreArchivo!=='sinLogo.jpg'){
+       this.agregaLogoEmpresa();
+    }
+
+    Swal.fire(
+      'Se agregó con Éxito',
+      'Click en Boton!',
+      'success'
+    ); // ,
+    this.dialogRef.close(1);
+  }
+
 
   async agregaExamenesPreDefinidos(datoEmpresa:any){
     console.log('paso3:',this.datoExamen);
@@ -420,15 +464,22 @@ export class AgregaDatosEmpresaComponent implements OnInit {
 
   async agregaRazaPreDefinidos(datoEmpresa:any){
     console.log('paso3:',this.datoRaza);
+    this.datoRazaRegistro=this.datoRaza;
+   // this.datoRazaRegistro.updateMany({},{$unset:{"especie":""}})
     for(let a=0; a<this.datoRaza.length; a++){
-      console.log('paso4');
-      this.datoRazaRegistro = {
-        nombre: this.datoRaza[a].nombre,
-        usuarioCrea_id: this.currentUsuario.usuarioDato._id,
-        usuarioModifica_id: this.currentUsuario.usuarioDato._id,
-        empresa_Id: datoEmpresa.data._id
-      };
-      await this.razaService.postDataRaza(this.datoRazaRegistro)
+
+        this.datoRazaRegistro[a].usuarioCrea_id= this.currentUsuario.usuarioDato._id;
+        this.datoRazaRegistro[a].usuarioModifica_id= this.currentUsuario.usuarioDato._id;
+        this.datoRazaRegistro[a].empresa_Id= datoEmpresa.data._id;
+
+     console.log('datos raza',this.datoRazaRegistro);
+    }
+    this.grabaRaza(this.datoRazaRegistro)
+  }
+
+
+  grabaRaza(datoRazaRegistro_:IRaza[]){
+     this.razaService.postDataRazaMasiva(datoRazaRegistro_)
       .subscribe(
         dato => {
           console.log('respuesta:', dato);
@@ -452,7 +503,6 @@ export class AgregaDatosEmpresaComponent implements OnInit {
           }
         }
       );
-    }
   }
 
   async agregaEspeciePreDefinidos(datoEmpresa:any){
@@ -492,7 +542,7 @@ export class AgregaDatosEmpresaComponent implements OnInit {
     }
   }
 
-  async agregaParametrosPreDefinidos(datoEmpresa:any){
+  async agregaParametros(datoEmpresa:any){
     console.log('paso3:',this.datoExamen);
 
       this.datoParametroRegistro = {

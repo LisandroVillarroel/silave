@@ -358,8 +358,8 @@ export class AgregaUsuariosEmpresaComponent implements OnInit {
       email: this.agregaUsuario.get('email')!.value,
       direccion: this.agregaUsuario.get('direccion')!.value,
       MenuItem: this.menuItemsResultado,
-      usuarioCrea_id: this.currentUsuario.usuarioDato.usuario,
-      usuarioModifica_id: this.currentUsuario.usuarioDato.usuario
+      usuarioCrea_id: this.currentUsuario.usuarioDato._id,
+      usuarioModifica_id: this.currentUsuario.usuarioDato._id
 
     };
     console.log('dato usu:',this.datoUsuario);

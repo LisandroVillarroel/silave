@@ -164,13 +164,14 @@ export class ModificaUsuariosEmpresaComponent implements OnInit {
   //    node.parent.tipoPermiso = descendants.every(child => child.tipoPermiso);
       node.parent.indeterminate = descendants.some(child => child.selected);
       this.checkAllParents(node.parent);
-    }else{
+    }
+    /*else{
       const descendants = this.treeControl.getDescendants(node);
       node.selected = descendants.every(child => child.selected);
     //  node.tipoPermiso = descendants.every(child => child.tipoPermiso);
       node.indeterminate = descendants.some(child => child.selected);
     }
-
+*/
   }
 
   todoItemSelectionToggle(checked: any, node: { selected: any; children: any[]; }) {
@@ -256,7 +257,7 @@ export class ModificaUsuariosEmpresaComponent implements OnInit {
               flag=0;
               for(let d=0; d<this.data.MenuItem.length; d++){
                 if (this.data.MenuItem[d].children && this.data.MenuItem[d].children!.length) {
-                  for(let e=0; c<this.data.MenuItem[d].children!.length; e++){
+                  for(let e=0; e<this.data.MenuItem[d].children!.length; e++){
                       if (this.data.MenuItem[d].children[e]._id== this.menuItems[b].children![c]._id){
                         // console.log('for children:',this.data.MenuItem[d].children[e]);
                         this.menuItems[b].children![c].selected=this.data.MenuItem[d].children[e].selected
@@ -275,9 +276,10 @@ export class ModificaUsuariosEmpresaComponent implements OnInit {
             }
           }else{
             this.menuItemsResultadoFiltro=this.data.MenuItem!.filter((item: any) => item._id === this.menuItems[b]._id)
-            this.menuItems[b].selected=this.menuItemsResultadoFiltro[0].selected
-            this.menuItems[b].tipoPermiso=this.menuItemsResultadoFiltro[0].tipoPermiso
-
+            if (this.menuItemsResultadoFiltro.length!=0){
+              this.menuItems[b].selected=this.menuItemsResultadoFiltro[0].selected
+              this.menuItems[b].tipoPermiso=this.menuItemsResultadoFiltro[0].tipoPermiso
+            }
             /*if (this.menuItems[a].codigoServicio.toUpperCase() === this.menuItems[b].route.toUpperCase().replace("/0","").replace("/1","")){
               this.fillerNav[b].disabled=false;
             }*/
@@ -409,8 +411,8 @@ export class ModificaUsuariosEmpresaComponent implements OnInit {
       email: this.agregaUsuario.get('email')!.value,
       direccion: this.agregaUsuario.get('direccion')!.value,
       MenuItem: this.menuItemsResultado,
-      usuarioCrea_id: this.currentUsuario.usuarioDato.usuario,
-      usuarioModifica_id: this.currentUsuario.usuarioDato.usuario
+      usuarioCrea_id: this.currentUsuario.usuarioDato._id,
+      usuarioModifica_id: this.currentUsuario.usuarioDato._id
 
     };
     console.log('actualiza usuario:',this.datoUsuario);

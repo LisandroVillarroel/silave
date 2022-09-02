@@ -1,3 +1,4 @@
+import { IEspecie } from './../../../../modelo/especie-interface';
 
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -8,6 +9,7 @@ import { IRaza } from './../../../../modelo/raza-interface';
 import { RazaService } from './../../../../servicios/raza.service';
 
 import Swal from 'sweetalert2';
+import { EspecieService } from '@app/servicios/especie.service';
 
 
 @Component({
@@ -21,22 +23,25 @@ export class AgregaRazaComponent implements OnInit {
   form!: FormGroup;
   usuario: string;
   dato!: IRaza;
-
+  datoEspecie!: IEspecie[];
   currentUsuario!: JwtResponseI;
 
   constructor(private dialogRef: MatDialogRef<AgregaRazaComponent>,
               @Inject(MAT_DIALOG_DATA) data:any,
+              private especieService: EspecieService,
               private razaService: RazaService,
               private authenticationService: AuthenticationService
               ) {
                 this.authenticationService.currentUsuario.subscribe(x => this.currentUsuario = x);
                this.usuario = data.usuario;
+               this.cargaEspecie();
     }
-
+    idEspecie= new FormControl('', [Validators.required]);
     nombre = new FormControl('', [Validators.required]);
 
 
     agregaRaza: FormGroup = new FormGroup({
+      idEspecie: this.idEspecie,
       nombre: this.nombre
     });
 
@@ -46,6 +51,10 @@ export class AgregaRazaComponent implements OnInit {
           return this.nombre.hasError('required') ? 'Debes ingresar Nombre'  : '';
       }
 
+      if (campo === 'idEspecie'){
+        return this.idEspecie.hasError('required') ? 'Debes Seleccionar Especie' : '';
+      }
+
       return '';
     }
 
@@ -53,9 +62,32 @@ export class AgregaRazaComponent implements OnInit {
   ngOnInit() {
   }
 
+
+  cargaEspecie(){
+    this.especieService
+    .getDataEspecieTodo(this.currentUsuario.usuarioDato.empresa.empresa_Id)
+    .subscribe(res => {
+      console.log('especie:', res['data']);
+      this.datoEspecie = res['data'] as any[];
+    },
+    // console.log('yo:', res as PerfilI[]),
+    error => {
+      console.log('error carga:', error);
+     Swal.fire(
+      'ERROR INESPERADO',
+      error,
+     'error'
+    );
+    }
+  ); // (this.dataSource.data = res as PerfilI[])
+  }
+
   enviar() {
+
+
     this.dato = {
       nombre: this.agregaRaza.get('nombre')!.value,
+      especieNombre: this.agregaRaza.get('idEspecie')!.value.nombre,
       usuarioCrea_id: this.usuario,
       usuarioModifica_id: this.usuario,
       empresa_Id: this.currentUsuario.usuarioDato.empresa.empresa_Id
@@ -92,10 +124,6 @@ export class AgregaRazaComponent implements OnInit {
         }
       }
     );
-  }
-  // Error handling
-  cerrar() {
-    this.dialogRef.close();
   }
 }
 

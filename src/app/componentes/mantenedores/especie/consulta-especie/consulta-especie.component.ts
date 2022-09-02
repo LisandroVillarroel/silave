@@ -23,9 +23,4 @@ export class ConsultaEspecieComponent implements OnInit {
 
   ngOnInit() {
   }
-
-  cerrar() {
-    this.dialogRef.close();
-  }
-
 }

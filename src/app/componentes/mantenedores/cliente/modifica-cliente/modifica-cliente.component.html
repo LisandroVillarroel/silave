@@ -33,17 +33,57 @@
   </mat-form-field>
 
   <mat-form-field>
-    <input matInput placeholder="Ingrese Email Envío Exámen " [formControl]="emailEnvioExamenCliente" required>
-    <mat-error *ngIf="emailEnvioExamenCliente.invalid">{{getErrorMessage()}}</mat-error>
+    <input matInput placeholder="Ingrese Email Recepción Exámen " [formControl]="emailRecepcionExamenCliente" required>
+    <mat-error *ngIf="emailRecepcionExamenCliente.invalid">{{getErrorMessage()}}</mat-error>
   </mat-form-field>
 
+  <mat-list>
+    <mat-list-item>Datos de Envío de Email</mat-list-item>
+    <mat-divider></mat-divider>
+  </mat-list>
+<!--
+  <mat-form-field class="mt-3">
+    <input matInput placeholder="Ingrese Envío Email " [formControl]="emailEnvio" required>
+    <mat-error *ngIf="emailEnvio.invalid">{{getErrorMessage()}}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Ingrese Contraseña " [formControl]="password" required>
+    <mat-error *ngIf="password.invalid">{{getErrorMessage()}}</mat-error>
+  </mat-form-field>
+-->
+  <mat-form-field>
+    <input matInput placeholder="Ingrese Nombre Desde " [formControl]="nombreDesde" required>
+    <mat-error *ngIf="nombreDesde.invalid">{{getErrorMessage()}}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Ingrese Asunto" [formControl]="asunto" required>
+    <mat-error *ngIf="asunto.invalid">{{getErrorMessage()}}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Ingrese Título Cuerpo" [formControl]="tituloCuerpo" required>
+    <mat-error *ngIf="tituloCuerpo.invalid">{{getErrorMessage()}}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Ingrese Título Cuerpo Medio " [formControl]="tituloCuerpoMedio" required>
+    <mat-error *ngIf="tituloCuerpoMedio.invalid">{{getErrorMessage()}}</mat-error>
+  </mat-form-field>
+
+
+  <mat-form-field>
+    <input matInput placeholder="Ingrese Título Cuerpo Pie " [formControl]="tituloCuerpoPie" required>
+    <mat-error *ngIf="tituloCuerpoPie.invalid">{{getErrorMessage()}}</mat-error>
+  </mat-form-field>
 </mat-dialog-content>
 
 <mat-dialog-actions>
     <div class="col-md-6">
-      <button mat-raised-button color="warn" (click)="cerrar()" mat-dialog-close  [disabled]=false>Cerrar</button>
+      <button mat-raised-button color="warn"  mat-dialog-close  [disabled]=false>Cerrar</button>
     </div>
     <div class="col-md-6">
-      <button class="colorFondoBoton" mat-raised-button  (click)="enviar()"  mat-dialog-close [disabled]="modificaCliente.invalid">ACEPTAR</button>
+      <button class="colorFondoBoton" mat-raised-button  (click)="enviar()"   [disabled]="modificaCliente.invalid">ACEPTAR</button>
     </div>
 </mat-dialog-actions>

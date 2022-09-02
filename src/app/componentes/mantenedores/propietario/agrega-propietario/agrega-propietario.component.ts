@@ -138,9 +138,5 @@ export class AgregaPropietarioComponent implements OnInit {
       }
     );
   }
-  // Error handling
-  cerrar() {
-    this.dialogRef.close();
-  }
 }
 

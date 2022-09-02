@@ -22,8 +22,4 @@ export class ConsultaDoctorSolicitanteComponent implements OnInit {
   ngOnInit() {
   }
 
-  cerrar() {
-    this.dialogRef.close();
-  }
-
 }

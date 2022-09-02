@@ -13,6 +13,8 @@ import { catchError } from 'rxjs/operators';
   import { IFicha } from './../../../modelo/ficha-interface';
   import { FichaService } from './../../../servicios/ficha.service';
 import { HemogramaComponent } from './hemograma/hemograma.component';
+import { PerfilBioquimicoComponent } from './perfil-bioquimico/perfil-bioquimico.component';
+import { PruebasDeCoagulacionComponent } from './pruebas-de-coagulacion/pruebas-de-coagulacion.component';
 ;
 
 @Component({
@@ -67,7 +69,7 @@ export class ExamenFichaComponent implements OnInit {
             console.log('error carga:', error);
             Swal.fire(
               'ERROR INESPERADO',
-              error.error.error,
+              error,
              'error'
            );
           }
@@ -88,38 +90,10 @@ export class ExamenFichaComponent implements OnInit {
           this.dataSource.paginator.firstPage();
         }
       }
- /*
-    agregaNuevo() {
-      //  agregaNuevo(empresaInterface_: EmpresaI) {
-        // Nuevo
-        console.log('usu:', this.currentUsuario.usuarioDato._id);
-        const dialogConfig = new MatDialogConfig();
-
-        dialogConfig.disableClose = true;
-        dialogConfig.autoFocus = true;
-        dialogConfig.width = '80%';
-        dialogConfig.height = '85%';
-        dialogConfig.position = { top : '2%'};
-        dialogConfig.data = {usuario: this.currentUsuario.usuarioDato._id, empresa_Id:this.currentUsuario.usuarioDato.empresa_Id};
-      //  dialogConfig.data = {
-      //    idProducto: idProdP,
-      //    titulo: tituloP
-      //  };
-
-
-        this.dialog.open(AgregaFichaComponent, dialogConfig)
-        .afterClosed().subscribe(
-         data => {console.log('Dialog output3333:', data);
-                  if (data !== undefined) {
-                      this.refreshTable();
-                  }
-          }
-        );
-      }
-  */
 
     actualizaFicha(datoFicha: any) {
 
+      console.log('examenficghaaaa:',datoFicha);
         const dialogConfig = new MatDialogConfig();
 
         dialogConfig.disableClose = true;
@@ -129,75 +103,43 @@ export class ExamenFichaComponent implements OnInit {
         dialogConfig.position = { top : '5%'};
 
         dialogConfig.data = datoFicha;
-        this.dialog.open(HemogramaComponent, dialogConfig)
-        .afterClosed().subscribe(
-         data => {console.log('Dialog output3333:', data);
-                  if (data !== undefined) {
-                    console.log('paso dato')
-                      this.refreshTable();
-                  }
+        if (datoFicha.fichaC.examen.codigoInterno==1){
+          this.dialog.open(HemogramaComponent, dialogConfig)
+          .afterClosed().subscribe(
+          data => {console.log('Dialog output3333:', data);
+                    if (data === 1) {
+                      console.log('paso dato')
+                        this.refreshTable();
+                    }
+            }
+          );
+        }else{
+          if (datoFicha.fichaC.examen.codigoInterno==2){
+            this.dialog.open(PerfilBioquimicoComponent, dialogConfig)
+            .afterClosed().subscribe(
+            data => {console.log('Dialog output3333:', data);
+                      if (data === 1) {
+                        console.log('paso dato')
+                          this.refreshTable();
+                      }
+              }
+            );
+          }else{
+            if (datoFicha.fichaC.examen.codigoInterno==3){
+              this.dialog.open(PruebasDeCoagulacionComponent, dialogConfig)
+              .afterClosed().subscribe(
+              data => {console.log('Dialog output3333:', data);
+                        if (data === 1) {
+                          console.log('paso dato')
+                            this.refreshTable();
+                        }
+                }
+              );
+            }
           }
-        );
+        }
 
       }
-
- /*
-    consultaFicha(datoFicha) {
-      this.datoFichaPar = datoFicha;
-
-        const dialogConfig = new MatDialogConfig();
-
-        dialogConfig.disableClose = true;
-        dialogConfig.autoFocus = true;
-        dialogConfig.width = '50%';
-        dialogConfig.height = '70%';
-        dialogConfig.position = { top : '5%'};
-
-        dialogConfig.data = this.datoFichaPar;
-        this.dialog.open(ConsultaFichaComponent, dialogConfig)
-        .afterClosed().subscribe(
-         data => {console.log('Datoas Consulta:', data);
-                  if (data !== undefined) {
-                      this.refreshTable();
-                  }
-          }
-        );
-     }
-  */
-   /*
-     eliminaCliente(datoFicha) {
-      console.log('dato elimina antes de eliminar:',datoFicha)
-      this.datoFichaPar = datoFicha;
-      console.log('dato elimina antes de eliminar2:',this.datoFichaPar)
-    //  this.datoFichaPar.usuarioModifica_id= this.currentUsuario.usuarioDato._id
-
-        const dialogConfig = new MatDialogConfig();
-
-        dialogConfig.disableClose = true;
-        dialogConfig.autoFocus = true;
-        dialogConfig.width = '50%';
-        dialogConfig.height = '70%';
-        dialogConfig.position = { top : '5%'};
-
-        dialogConfig.data = this.datoFichaPar;
-        this.dialog.open(EliminaFichaComponent, dialogConfig)
-        .afterClosed().subscribe(
-         data => {console.log('Datoas Consulta:', data);
-                  if (data !== undefined) {
-                      this.refreshTable();
-                  }
-          }
-        );
-
-      }
-  */
-
-
-
-
-      consultaFicha(row: any){}
-
-      eliminaCliente(row: any){}
 
         private refreshTable() {
         // Refreshing table using paginator

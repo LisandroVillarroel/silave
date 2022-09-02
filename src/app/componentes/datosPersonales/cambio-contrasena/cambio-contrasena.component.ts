@@ -86,7 +86,7 @@ export class CambioContrasenaComponent implements OnInit {
       _id:this.currentUsuario.usuarioDato._id,
       contrasenaActual: this.modificaContrasena.get('contrasenaActual')!.value,
       contrasena: this.modificaContrasena.get('contrasena')!.value,
-      usuarioModifica_id: this.currentUsuario.usuarioDato.usuario
+      usuarioModifica_id: this.currentUsuario.usuarioDato._id
 
     };
 

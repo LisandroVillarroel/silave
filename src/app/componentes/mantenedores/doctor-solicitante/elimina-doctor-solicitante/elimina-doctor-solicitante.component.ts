@@ -47,7 +47,4 @@ export class EliminaDoctorSolicitanteComponent implements OnInit {
 
     }
 
-    cerrar() {
-      this.dialogRef.close();
-    }
   }

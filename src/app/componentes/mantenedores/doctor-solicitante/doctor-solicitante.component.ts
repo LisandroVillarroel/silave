@@ -91,11 +91,12 @@ const sortingDataAccessor = (item: any, property: any) => {
   }
 
   getListDoctorSolicitante()  {
-    console.log('pasa solicitante 2');
+    console.log('pasa solicitante 2:',this.currentUsuario.usuarioDato.empresa.empresa_Id);
     this.doctorSolicitanteService
       .getDataDoctorSolicitante(this.currentUsuario.usuarioDato.empresa.empresa_Id)
       .subscribe(res => {
         console.log('Doctor: ', res['data']);
+
         this.dataSource.data = res['data'] as IDoctorSolicitante[];
       },
       // console.log('yo:', res as PerfilI[]),
@@ -147,7 +148,7 @@ agregaNuevo() {
     this.dialog.open(AgregaDoctorSolicitanteComponent, dialogConfig)
     .afterClosed().subscribe(
      data => {console.log('Dialog output3333:', data);
-              if (data !== undefined) {
+              if (data === 1) {
                   this.refreshTable();
               }
       }
@@ -180,7 +181,7 @@ actualizaDoctorSolicitante(id: string, nombre: string, idCliente:string, nombreF
     this.dialog.open(ModificaDoctorSolicitanteComponent, dialogConfig)
     .afterClosed().subscribe(
      data => {console.log('Dialog output3333:', data);
-              if (data !== undefined) {
+              if (data === 1) {
                   this.refreshTable();
               }
       }
@@ -212,7 +213,7 @@ consultaDoctorSolicitante(id: string, nombre: string, idCliente:string, nombreFa
     this.dialog.open(ConsultaDoctorSolicitanteComponent, dialogConfig)
     .afterClosed().subscribe(
      data => {console.log('Datoas Consulta:', data);
-              if (data !== undefined) {
+              if (data === 1)  {
                   this.refreshTable();
               }
       }
@@ -242,7 +243,7 @@ eliminaDoctorSolicitante(id: string, nombre: string,idCliente:string, nombreFant
     this.dialog.open(EliminaDoctorSolicitanteComponent, dialogConfig)
     .afterClosed().subscribe(
      data => {console.log('Datoas Consulta:', data);
-              if (data !== undefined) {
+              if (data === 1) {
                   this.refreshTable();
               }
       }

@@ -9,12 +9,12 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class ConsultaFichaComponent implements OnInit {
 
   constructor(private dialogRef: MatDialogRef<ConsultaFichaComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
+    @Inject(MAT_DIALOG_DATA) public data: any) {
+
+      console.log('consulta ficha:',data);
+    }
 
   ngOnInit(): void {
   }
 
-  cerrar() {
-    this.dialogRef.close();
-  }
 }

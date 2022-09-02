@@ -114,7 +114,7 @@ export class UsuariosEmpresaComponent implements OnInit {
      this.dialog.open(AgregaUsuariosEmpresaComponent, dialogConfig)
      .afterClosed().subscribe(
       data => {console.log('Dialog output3333:', data);
-               if (data !== undefined) {
+              if (data === 1) {
                    this.refreshTable();
                }
        }
@@ -136,7 +136,7 @@ export class UsuariosEmpresaComponent implements OnInit {
      this.dialog.open(ModificaUsuariosEmpresaComponent, dialogConfig)
      .afterClosed().subscribe(
       data => {console.log('Dialog output3333:', data);
-               if (data !== undefined) {
+               if (data === 1) {
                    this.refreshTable();
                }
        }
@@ -158,7 +158,7 @@ export class UsuariosEmpresaComponent implements OnInit {
      this.dialog.open(ConsultaUsuariosEmpresaComponent, dialogConfig)
      .afterClosed().subscribe(
       data => {console.log('Datoas Consulta:', data);
-               if (data !== undefined) {
+               if (data === 1) {
                    this.refreshTable();
                }
        }
@@ -181,7 +181,7 @@ export class UsuariosEmpresaComponent implements OnInit {
      this.dialog.open(EliminaUsuariosEmpresaComponent, dialogConfig)
      .afterClosed().subscribe(
       data => {console.log('Datoas Consulta:', data);
-               if (data !== undefined) {
+               if (data === 1) {
                    this.refreshTable();
                }
        }

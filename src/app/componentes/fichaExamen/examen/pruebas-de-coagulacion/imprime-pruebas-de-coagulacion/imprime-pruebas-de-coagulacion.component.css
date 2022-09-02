@@ -1,0 +1,43 @@
+
+.margen-imprimir{
+  margin:10%;
+}
+
+.agrega-container > * {
+  width: 95%;
+}
+
+
+.destacado{
+  font-weight: bold;
+}
+
+.alineaV{
+  display: flex;
+  align-items: center;
+}
+
+
+.alineaVertical{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.alineaHorizontal{
+  display: flex;
+  align-items: left;
+  justify-content:flex-start;
+}
+
+h4{
+
+  margin:0%;
+  font-weight: bold;
+}
+
+.box {
+
+  min-height: 10px;
+}
+

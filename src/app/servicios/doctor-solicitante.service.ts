@@ -60,6 +60,7 @@ export class DoctorSolicitanteService {
 
 
   getDataClienteDoctorSolicitante(idCliente:string): Observable<any> {
+    console.log('id cliente doctor solicitante',idCliente)
     return this.http.get(`${environment.apiUrl}/doctorSolicitanteCliente/${idCliente}`, { headers: this.headers })
     .pipe(
       retry(1),

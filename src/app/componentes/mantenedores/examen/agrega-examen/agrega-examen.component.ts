@@ -94,13 +94,22 @@ export class AgregaExamenComponent implements OnInit {
   }
 
   enviar() {
+/*
+    let nombreEnamen;
+    if(this.archivo.nombreArchivo==""){
+      nombreEnamen='sinFirma.jpg';
+    }else{
+      nombreEnamen=this.archivo.nombreArchivo;
+    }
+*/
+
     this.dato = {
       codigoExamen: this.agregaExamen.get('codigoExamen')!.value,
       codigoInterno: this.agregaExamen.get('codigoInterno')!.value,
       nombre: this.agregaExamen.get('nombre')!.value,
       sigla: this.agregaExamen.get('sigla')!.value,
       precio: this.agregaExamen.get('precio')!.value,
-      nombreExamen: this.archivo.nombreArchivo,
+  //    nombreExamen: nombreEnamen,
       usuarioCrea_id: this.usuario,
       usuarioModifica_id: this.usuario,
       empresa_Id: this.currentUsuario.usuarioDato.empresa.empresa_Id
@@ -156,11 +165,8 @@ export class AgregaExamenComponent implements OnInit {
       }
     );
   }
-  // Error handling
-  cerrar() {
-    this.dialogRef.close();
-  }
 
+  /*
   onUploadFinished(file: FileHolder) {
     console.log('paso1:', file);
     console.log('muestra base64: ', file.src)
@@ -181,5 +187,6 @@ export class AgregaExamenComponent implements OnInit {
   onUploadStateChanged(state: boolean) {
     console.log('paso3: ', state);
   }
+  */
 }
 

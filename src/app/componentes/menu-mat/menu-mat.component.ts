@@ -70,6 +70,7 @@ export class MenuMatComponent implements OnDestroy,OnInit {
 
 
   getEmpresa(idEmpresa:string): any  {
+    console.log('empresa busca:',idEmpresa);
     this.empresaService
       .getDataEmpresa(idEmpresa)
       .subscribe(res => {

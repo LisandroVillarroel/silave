@@ -22,9 +22,4 @@ export class ConsultaPropietarioComponent implements OnInit {
 
   ngOnInit() {
   }
-
-  cerrar() {
-    this.dialogRef.close();
-  }
-
 }

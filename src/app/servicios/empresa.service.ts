@@ -48,6 +48,16 @@ export class EmpresaService {
     );
   }
 
+  getDataEmpresaTodoListado(listaEmp:string):Observable<any> {
+
+    console.log('dirección:',`${environment.apiUrl}/empresaListado/${listaEmp}`,this.headers )
+    return this.http.get(`${environment.apiUrl}/empresaListado/${listaEmp}`, { headers: this.headers })
+    .pipe(
+      retry(1),
+      catchError(this.errorHandl)
+    );
+  }
+
   getDataEmpresaTodo():Observable<any> {
 
     console.log('dirección:',`${environment.apiUrl}/empresaTodo`,this.headers )

@@ -31,7 +31,7 @@ export class RazaComponent implements OnInit {
   currentUsuario!: JwtResponseI;
 
   // tslint:disable-next-line:max-line-length
-  displayedColumns: string[] = ['index', 'nombre', 'opciones'];
+  displayedColumns: string[] = ['index', 'especieNombre','nombre', 'opciones'];
   dataSource: MatTableDataSource<IRaza>;
 
   @ViewChild(MatPaginator ) paginator!: MatPaginator;
@@ -45,7 +45,6 @@ constructor(private razaService: RazaService,
     ) {
       this.authenticationService.currentUsuario.subscribe(x => this.currentUsuario = x);
       this.dataSource = new MatTableDataSource<IRaza>();
-
   }
 
 
@@ -55,6 +54,7 @@ ngOnInit() {
       this.currentUsuario.usuarioDato = this.authenticationService.getCurrentUser() ;
     }
     this.getListRaza();
+
   }
 
 getListRaza(): void {
@@ -113,17 +113,16 @@ agregaNuevo() {
     this.dialog.open(AgregaRazaComponent, dialogConfig)
     .afterClosed().subscribe(
      data => {console.log('Dialog output3333:', data);
-              if (data !== undefined) {
+              if (data === 1) {
                   this.refreshTable();
               }
       }
     );
   }
 
-actualizaRaza(id: string, nombre: string): void {
-    this.datoRazaPar = {
-      _id: id,
-      nombre,
+actualizaRaza(razaPar:IRaza): void {
+    let datoRazaPar = {
+     razaPar,
       usuarioModifica_id: this.currentUsuario.usuarioDato._id
     };
 
@@ -136,11 +135,11 @@ actualizaRaza(id: string, nombre: string): void {
     dialogConfig.position = { top : '5%'};
     // dialogConfig.data =
     // {id, rutEmpresa, razonSocial, nombreFantasia, direccion, usuarioCrea_id: this.currentUsuario.usuarioDato.usuario};
-    dialogConfig.data = this.datoRazaPar;
+    dialogConfig.data = datoRazaPar;
     this.dialog.open(ModificaRazaComponent, dialogConfig)
     .afterClosed().subscribe(
      data => {console.log('Dialog output3333:', data);
-              if (data !== undefined) {
+              if (data === 1) {
                   this.refreshTable();
               }
       }
@@ -148,13 +147,8 @@ actualizaRaza(id: string, nombre: string): void {
 
   }
 
-consultaRaza(id: string, nombre: string) {
-    this.datoRazaPar = {
-      _id: id,
-      nombre,
-      usuarioCrea_id: this.currentUsuario.usuarioDato._id,
-      usuarioModifica_id: this.currentUsuario.usuarioDato._id
-    };
+consultaRaza(razaPar:IRaza) {
+
 
     const dialogConfig = new MatDialogConfig();
 
@@ -164,23 +158,19 @@ consultaRaza(id: string, nombre: string) {
     dialogConfig.height = '70%';
     dialogConfig.position = { top : '5%'};
 
-    dialogConfig.data = this.datoRazaPar;
+    dialogConfig.data = razaPar;
     this.dialog.open(ConsultaRazaComponent, dialogConfig)
     .afterClosed().subscribe(
      data => {console.log('Datoas Consulta:', data);
-              if (data !== undefined) {
+              if (data === 1) {
                   this.refreshTable();
               }
       }
     );
  }
 
-eliminaRaza(id: string, nombre: string) {
-    this.datoRazaPar = {
-      _id: id,
-      nombre,
-      usuarioModifica_id: this.currentUsuario.usuarioDato._id
-    };
+eliminaRaza(razaPar:IRaza) {
+
 
     const dialogConfig = new MatDialogConfig();
 
@@ -190,11 +180,11 @@ eliminaRaza(id: string, nombre: string) {
     dialogConfig.height = '70%';
     dialogConfig.position = { top : '5%'};
 
-    dialogConfig.data = this.datoRazaPar;
+    dialogConfig.data = razaPar;
     this.dialog.open(EliminaRazaComponent, dialogConfig)
     .afterClosed().subscribe(
      data => {console.log('Datoas Consulta:', data);
-              if (data !== undefined) {
+              if (data === 1) {
                   this.refreshTable();
               }
       }
@@ -202,14 +192,14 @@ eliminaRaza(id: string, nombre: string) {
 
   }
 
-    private refreshTable() {
+    private async refreshTable() {
     // Refreshing table using paginator
     // Thanks yeager-j for tips
     // https://github.com/marinantonio/angular-mat-table-crud/issues/12
    // this.dataSource.paginator._changePageSize(this.paginator.pageSize);
    // this.noticia=this.servicio.getNoticias();
 
-   this.getListRaza();
+   await this.getListRaza();
    this.dataSource.paginator!._changePageSize(this.paginator.pageSize);
   }
 }

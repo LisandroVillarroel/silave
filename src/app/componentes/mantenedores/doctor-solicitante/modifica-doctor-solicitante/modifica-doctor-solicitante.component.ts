@@ -60,6 +60,14 @@ export class ModificaDoctorSolicitanteComponent implements OnInit {
       .subscribe(res => {
         console.log('cliente:', res['data'])
         this.datoCliente = res['data'] ;
+        for(let a=0; a<this.datoCliente.length; a++){
+          // for(let b=0; b<this.datoClienteEmpresa[a].empresa!.length; b++){
+
+            //  if (this.datoClienteEmpresa![a].empresa![a].empresa_Id != this.currentUsuario.usuarioDato.empresa.empresa_Id){
+              this.datoCliente![a].empresa = this.datoCliente![a].empresa!.filter(x=> x.empresa_Id === this.data.empresa_Id)
+            //  }
+           // }
+         }
       },
       // console.log('yo:', res as PerfilI[]),
       error => {
@@ -74,7 +82,7 @@ export class ModificaDoctorSolicitanteComponent implements OnInit {
     }
 
     enviar() {
-
+      console.log('this.modificaDoctorSolicitante.get(idCliente)!.value',this.modificaDoctorSolicitante.get('idCliente')!.value);
       this.cliente= {
         idCliente:this.modificaDoctorSolicitante.get('idCliente')!.value._id,
         nombreFantasia: this.modificaDoctorSolicitante.get('idCliente')!.value.nombreFantasia
@@ -121,13 +129,6 @@ export class ModificaDoctorSolicitanteComponent implements OnInit {
         );
         // this.dialogRef.close(this.form.value);
       // console.log(this.datoCotiza);
-    }
-
-    // Error handling
-
-
-    cerrar() {
-      this.dialogRef.close();
     }
 
     comparaSelecciona(v1: any, v2: any): boolean {

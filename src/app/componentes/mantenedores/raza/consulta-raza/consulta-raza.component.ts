@@ -23,8 +23,4 @@ export class ConsultaRazaComponent implements OnInit {
   ngOnInit() {
   }
 
-  cerrar() {
-    this.dialogRef.close();
-  }
-
 }

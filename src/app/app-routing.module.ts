@@ -1,3 +1,4 @@
+import { ConsultaClienteComponent } from '@app/componentes/mantenedores/cliente/consulta-cliente/consulta-cliente.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './autentica/login';
@@ -16,10 +17,13 @@ import { ClienteComponent } from './componentes/mantenedores/cliente/cliente.com
 import { DoctorSolicitanteComponent } from './componentes/mantenedores/doctor-solicitante/doctor-solicitante.component';
 import { EspecieComponent } from './componentes/mantenedores/especie/especie.component';
 import { ExamenComponent } from './componentes/mantenedores/examen/examen.component';
-import { FormatosComponent } from './componentes/mantenedores/formatos/formatos.component';
 import { RazaComponent } from './componentes/mantenedores/raza/raza.component';
 import { PortadaComponent } from './componentes/portada/portada.component';
+import { FichaVetComponent } from './componentes/veterinaria/ingresoFicha/ficha-vet.component';
 import { HomeComponent } from './home';
+import { ConsultaFichaExamenVetComponent } from './componentes/veterinaria/fichaExamen/consulta-ficha-examen-vet/consulta-ficha-examen-vet.component';
+import { DoctorSolicitanteVetComponent } from './componentes/veterinaria/mantenedores/doctor-solicitante-vet/doctor-solicitante-vet.component';
+import { ValidadoresComponent } from './componentes/mantenedores/validadores/validadores.component';
 
 const routes: Routes = [
   { path: '', component: PortadaComponent, canActivate: [AuthGuard]},
@@ -38,16 +42,18 @@ const routes: Routes = [
   { path: 'ingresoExamenFicha', component: ExamenFichaComponent, canActivate: [AuthGuard]},
   { path: 'consultaExamenFicha', component: ConsultaFichaExamenComponent, canActivate: [AuthGuard]},
 
+  { path: 'ingresoFichaVet', component: FichaVetComponent, canActivate: [AuthGuard]},
+  { path: 'consultaExamenFichaVet', component: ConsultaFichaExamenVetComponent, canActivate: [AuthGuard]},
+  { path: 'mantenedorDoctorSolicitanteVet', component: DoctorSolicitanteVetComponent, canActivate: [AuthGuard]},
+
   { path: 'mantenedorCliente', component: ClienteComponent, canActivate: [AuthGuard]},
   { path: 'mantenedorPaciente', component: HomeComponent , canActivate: [AuthGuard]},
   { path: 'mantenedorExamen', component: ExamenComponent, canActivate: [AuthGuard] },
   { path: 'mantenedorEspecie', component: EspecieComponent, canActivate: [AuthGuard] },
   { path: 'mantenedorRaza', component: RazaComponent, canActivate: [AuthGuard] },
 
-  { path: 'mantenedorFormatos', component: FormatosComponent, canActivate: [AuthGuard] },
-
   {path: 'doctorSolicitante', component: DoctorSolicitanteComponent, canActivate: [AuthGuard]},
-
+  {path: 'mantenedorValidadores', component: ValidadoresComponent, canActivate: [AuthGuard]},
 
   { path: '**', redirectTo: '' }
 ];

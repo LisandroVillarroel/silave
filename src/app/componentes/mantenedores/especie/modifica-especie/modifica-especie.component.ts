@@ -51,7 +51,7 @@ export class ModificaEspecieComponent implements OnInit {
       usuarioModifica_id: this.datoPar.usuarioModifica_id
     };
     console.log('modifica:', this._dato);
-    this.especieService.putDataEspecie(this._dato)
+    this.especieService.putDataEspecie(this._dato,this.datoPar.nombre)
     .subscribe(
       dato => {
         console.log('respuesta:', dato['codigo']);
@@ -68,7 +68,7 @@ export class ModificaEspecieComponent implements OnInit {
             'Click en Botón!',
             'error'
           );
-          this.dialogRef.close(1);
+
 
         }
       }
@@ -76,13 +76,6 @@ export class ModificaEspecieComponent implements OnInit {
       );
       // this.dialogRef.close(this.form.value);
     // console.log(this.datoCotiza);
-  }
-
-  // Error handling
-
-
-  cerrar() {
-    this.dialogRef.close();
   }
 
 }

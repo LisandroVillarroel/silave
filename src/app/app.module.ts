@@ -54,20 +54,8 @@ import { ModificaExamenComponent } from './componentes/mantenedores/examen/modif
 import { ConsultaExamenComponent } from './componentes/mantenedores/examen/consulta-examen/consulta-examen.component';
 import { EliminaExamenComponent } from './componentes/mantenedores/examen/elimina-examen/elimina-examen.component';
 
-import { AgregaExamenesFichasComponent } from './componentes/ingresosExamenFicha/agrega-examen-ficha/agrega-examenes-fichas.component';
-
-import { ExamenesIngresadosComponent } from './componentes/ingresosExamenFicha/examenes-ingresados.component';
 import { MaterialModule } from './material.module';
-import { Formato1Component } from './componentes/mantenedores/formatos/formato1/formato1.component';
-import { AgregaFormato1Component } from './componentes/ingresosExamenFicha/agrega-examen-ficha/examenes/agrega-formato1/agrega-formato1.component';
-import { ConsultaFormato1Component } from './componentes/mantenedores/formatos/formato1/consulta-formato1/consulta-formato1.component';
-import { EliminaFormato1Component } from './componentes/mantenedores/formatos/formato1/elimina-formato1/elimina-formato1.component';
-import { ModificaFormato1Component } from './componentes/mantenedores/formatos/formato1/modifica-formato1/modifica-formato1.component';
-import { FormatosComponent } from './componentes/mantenedores/formatos/formatos.component';
-import { ModificaFormatosComponent } from './componentes/mantenedores/formatos/modifica-formatos/modifica-formatos.component';
-import { EliminaFormatosComponent } from './componentes/mantenedores/formatos/elimina-formatos/elimina-formatos.component';
-import { ConsultaFormatosComponent } from './componentes/mantenedores/formatos/consulta-formatos/consulta-formatos.component';
-import { AgregaFormatosComponent } from './componentes/mantenedores/formatos/agrega-formatos/agrega-formatos.component';
+
 import { AgregaPropietarioComponent } from './componentes/mantenedores/propietario/agrega-propietario/agrega-propietario.component';
 import { EspecieComponent } from './componentes/mantenedores/especie/especie.component';
 import { AgregaEspecieComponent }   from './componentes/mantenedores/especie/agrega-especie/agrega-especie.component';
@@ -117,7 +105,26 @@ import { EliminaUsuariosEmpresaComponent } from './componentes/administracion/AD
 import { PerfilEmpresaComponent } from './componentes/administracion/perfil-empresa/perfil-empresa.component';
 import { HeaderComponent } from './componentes/fichaExamen/examen/header/header.component';
 import { FooterComponent } from './componentes/fichaExamen/examen/footer/footer.component';
+import { PerfilBioquimicoComponent } from './componentes/fichaExamen/examen/perfil-bioquimico/perfil-bioquimico.component';
+import { ImprimePerfilBioquimicoComponent } from './componentes/fichaExamen/examen/perfil-bioquimico/imprime-perfil-bioquimico/imprime-perfil-bioquimico.component';
+import { PruebasDeCoagulacionComponent } from './componentes/fichaExamen/examen/pruebas-de-coagulacion/pruebas-de-coagulacion.component';
+import { ImprimePruebasDeCoagulacionComponent } from './componentes/fichaExamen/examen/pruebas-de-coagulacion/imprime-pruebas-de-coagulacion/imprime-pruebas-de-coagulacion.component';
 
+import { FichaVetComponent } from './componentes/veterinaria/ingresoFicha/ficha-vet.component';
+import { ModificaFichaVetComponent } from './componentes/veterinaria/ingresoFicha/modifica-ficha/modifica-ficha-vet.component';
+import { ConsultaFichaVetComponent } from './componentes/veterinaria/ingresoFicha/consulta-ficha/consulta-ficha-vet.component';
+import { EliminaFichaVetComponent } from './componentes/veterinaria/ingresoFicha/elimina-ficha/elimina-ficha-vet.component';
+import { ConsultaFichaExamenVetComponent } from './componentes/veterinaria/fichaExamen/consulta-ficha-examen-vet/consulta-ficha-examen-vet.component';
+import { DoctorSolicitanteVetComponent } from './componentes/veterinaria/mantenedores/doctor-solicitante-vet/doctor-solicitante-vet.component';
+import { AgregaDoctorSolicitanteVetComponent } from './componentes/veterinaria/mantenedores/doctor-solicitante-vet/agrega-doctor-solicitante-vet/agrega-doctor-solicitante-vet.component';
+import { ConsultaDoctorSolicitanteVetComponent } from './componentes/veterinaria/mantenedores/doctor-solicitante-vet/consulta-doctor-solicitante-vet/consulta-doctor-solicitante-vet.component';
+import { EliminaDoctorSolicitanteVetComponent } from './componentes/veterinaria/mantenedores/doctor-solicitante-vet/elimina-doctor-solicitante-vet/elimina-doctor-solicitante-vet.component';
+import { ModificaDoctorSolicitanteVetComponent } from './componentes/veterinaria/mantenedores/doctor-solicitante-vet/modifica-doctor-solicitante-vet/modifica-doctor-solicitante-vet.component';
+import { ValidadoresComponent } from './componentes/mantenedores/validadores/validadores.component';
+import { ModificaValidadoresComponent } from './componentes/mantenedores/validadores/modifica-validadores/modifica-validadores.component';
+import { AgregaValidadoresComponent } from './componentes/mantenedores/validadores/agrega-validadores/agrega-validadores.component';
+import { ConsultaValidadoresComponent } from './componentes/mantenedores/validadores/consulta-validadores/consulta-validadores.component';
+import { EliminaValidadoresComponent } from './componentes/mantenedores/validadores/elimina-validadores/elimina-validadores.component';
 registerLocaleData(localeFr, 'es', localeFrExtra);
 
 @NgModule({
@@ -149,18 +156,6 @@ registerLocaleData(localeFr, 'es', localeFrExtra);
         ModificaExamenComponent,
         ConsultaExamenComponent,
         EliminaExamenComponent,
-        AgregaExamenesFichasComponent,
-        ExamenesIngresadosComponent,
-        Formato1Component,
-        AgregaFormato1Component,
-        ConsultaFormato1Component,
-        EliminaFormato1Component,
-        ModificaFormato1Component,
-        FormatosComponent,
-        ModificaFormatosComponent,
-        EliminaFormatosComponent,
-        ConsultaFormatosComponent,
-        AgregaFormatosComponent,
         EspecieComponent,
         AgregaEspecieComponent,
         ConsultaEspecieComponent,
@@ -207,7 +202,26 @@ registerLocaleData(localeFr, 'es', localeFrExtra);
         EliminaUsuariosEmpresaComponent,
         PerfilEmpresaComponent,
         HeaderComponent,
-        FooterComponent
+        FooterComponent,
+        PerfilBioquimicoComponent,
+        ImprimePerfilBioquimicoComponent,
+        PruebasDeCoagulacionComponent,
+        ImprimePruebasDeCoagulacionComponent,
+        FichaVetComponent,
+        ModificaFichaVetComponent,
+        ConsultaFichaVetComponent,
+        EliminaFichaVetComponent,
+        ConsultaFichaExamenVetComponent,
+        DoctorSolicitanteVetComponent,
+        AgregaDoctorSolicitanteVetComponent,
+        ConsultaDoctorSolicitanteVetComponent,
+        EliminaDoctorSolicitanteVetComponent,
+        ModificaDoctorSolicitanteVetComponent,
+        ValidadoresComponent,
+        ModificaValidadoresComponent,
+        AgregaValidadoresComponent,
+        ConsultaValidadoresComponent,
+        EliminaValidadoresComponent
     ],
     imports: [
         BrowserModule,

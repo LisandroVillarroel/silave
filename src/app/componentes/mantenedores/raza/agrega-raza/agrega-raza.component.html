@@ -3,6 +3,15 @@
 <mat-dialog-content [formGroup]="agregaRaza" name="agregaRaza" class="agrega-container">
 
   <mat-form-field>
+    <mat-select [formControl]="idEspecie" placeholder="Seleccione Especie" required>
+      <mat-option *ngFor="let _especie of datoEspecie" [value]="_especie">
+        {{_especie.nombre}}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="idEspecie.invalid">{{getErrorMessage('idEspecie')}}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
     <input matInput placeholder="Ingrese Nombre" [formControl]="nombre"  required>
     <mat-error *ngIf="nombre.invalid">{{getErrorMessage('nombre')}}</mat-error>
   </mat-form-field>
@@ -12,9 +21,9 @@
 
 <mat-dialog-actions>
     <div class="col-md-6">
-      <button mat-raised-button color="warn" (click)="cerrar()" mat-dialog-close  [disabled]=false>Cerrar</button>
+      <button mat-raised-button color="warn"  mat-dialog-close  [disabled]=false>Cerrar</button>
     </div>
     <div class="col-md-6">
-      <button class="colorFondoBoton" mat-raised-button  (click)="enviar()"  mat-dialog-close [disabled]="agregaRaza.invalid">ENVIAR</button>
+      <button class="colorFondoBoton" mat-raised-button  (click)="enviar()" [disabled]="agregaRaza.invalid">GRABAR</button>
     </div>
 </mat-dialog-actions>

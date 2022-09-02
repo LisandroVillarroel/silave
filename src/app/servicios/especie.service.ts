@@ -37,9 +37,9 @@ export class EspecieService {
   }
 
   // PUT
-  putDataEspecie(dato:any): Observable<any> {
+  putDataEspecie(dato:any,nombreEspecieAnterior:string): Observable<any> {
     console.log('id:', dato._id);
-    return this.http.put<IEspecie>(`${environment.apiUrl}/especie/${dato._id}`, JSON.stringify(dato), { headers: this.headers })
+    return this.http.put<IEspecie>(`${environment.apiUrl}/especie/${dato._id}/${nombreEspecieAnterior}`, JSON.stringify(dato), { headers: this.headers })
     .pipe(
        retry(1),
       catchError(this.errorHandl)
