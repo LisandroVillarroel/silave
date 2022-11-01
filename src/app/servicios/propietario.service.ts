@@ -64,6 +64,14 @@ export class PropietarioService {
     );
   }
 
+  getDataPropietarioRut(rutPropietario:string):Observable<any> {
+    return this.http.get(`${environment.apiUrl}/propietarioRut/${rutPropietario}`, { headers: this.headers })
+    .pipe(
+      retry(1),
+      catchError(this.errorHandl)
+    );
+  }
+
   errorHandl(error: HttpErrorResponse) {
     console.log('paso error: ', error);
     let errorMessage = '';

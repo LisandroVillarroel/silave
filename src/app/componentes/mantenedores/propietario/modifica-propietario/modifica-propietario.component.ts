@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { PropietarioService } from '../../../../servicios/propietario.service';
@@ -15,7 +15,7 @@ import { formatRut, RutFormat, validateRut } from '@fdograph/rut-utilities';
 })
 export class ModificaPropietarioComponent implements OnInit {
 
-  form!: FormGroup;
+  form!: UntypedFormGroup;
 
   // id: string;
   // rutEmpresa: string;
@@ -40,15 +40,15 @@ export class ModificaPropietarioComponent implements OnInit {
                // direccion: string;
                // usuario: string;
   }
-    rutPropietario = new FormControl(this.data.rutPropietario, [Validators.required]);
-    nombres = new FormControl(this.data.nombres, [Validators.required]);
-    apellidoPaterno = new FormControl(this.data.apellidoPaterno, [Validators.required]);
-    apellidoMaterno = new FormControl(this.data.apellidoMaterno, [Validators.required]);
-    direccion = new FormControl(this.data.direccion, [Validators.required]);
-    telefono = new FormControl(this.data.telefono, [Validators.required]);
-    email = new FormControl(this.data.email, [Validators.required]);
+    rutPropietario = new UntypedFormControl(this.data.rutPropietario, [Validators.required]);
+    nombres = new UntypedFormControl(this.data.nombres, [Validators.required]);
+    apellidoPaterno = new UntypedFormControl(this.data.apellidoPaterno, [Validators.required]);
+    apellidoMaterno = new UntypedFormControl(this.data.apellidoMaterno, [Validators.required]);
+    direccion = new UntypedFormControl(this.data.direccion, [Validators.required]);
+    telefono = new UntypedFormControl(this.data.telefono, [Validators.required]);
+    email = new UntypedFormControl(this.data.email, [Validators.required]);
 
-    modificaPropietario: FormGroup = new FormGroup({
+    modificaPropietario: UntypedFormGroup = new UntypedFormGroup({
       rutPropietario: this.rutPropietario,
       nombres: this.nombres,
       apellidoPaterno: this.apellidoPaterno,
@@ -100,7 +100,7 @@ export class ModificaPropietarioComponent implements OnInit {
               '';
     }
 
-    validaRut(control: FormControl): {[s: string]: boolean} {
+    validaRut(control: UntypedFormControl): {[s: string]: boolean} {
       console.log('uno', control.value);
       // let out1_rut = this.rutService.getRutChile(0, '12514508-6');
       if (validateRut(control.value) === false){

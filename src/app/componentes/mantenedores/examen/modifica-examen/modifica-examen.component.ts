@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { ExamenService } from './../../../../servicios/examen.service';
@@ -19,7 +19,7 @@ import { ImagenesService } from '@app/servicios/imagenes.service';
 })
 export class ModificaExamenComponent implements OnInit {
 
-  form!: FormGroup;
+  form!: UntypedFormGroup;
   currentUsuario!: JwtResponseI;
   // id: string;
   // rutEmpresa: string;
@@ -64,12 +64,12 @@ export class ModificaExamenComponent implements OnInit {
                // direccion: string;
                // usuario: string;
   }
-  codigoExamen = new FormControl(this.data.codigoExamen);
-  nombre = new FormControl(this.data.nombre, [Validators.required]);
-  sigla = new FormControl(this.data.sigla, [Validators.required]);
-  precio = new FormControl(this.data.precio, [Validators.required]);
+  codigoExamen = new UntypedFormControl(this.data.codigoExamen);
+  nombre = new UntypedFormControl(this.data.nombre, [Validators.required]);
+  sigla = new UntypedFormControl(this.data.sigla, [Validators.required]);
+  precio = new UntypedFormControl(this.data.precio, [Validators.required]);
 
-  modifica: FormGroup = new FormGroup({
+  modifica: UntypedFormGroup = new UntypedFormGroup({
     codigoExamen: this.codigoExamen,
     nombre: this.nombre,
     sigla: this.sigla,

@@ -17,13 +17,19 @@
 
 
     <div class="row align-items-center ">
-      <div class="col-md-6 ">
+      <div class="col-md-2 ">
         <mat-form-field>
-          <input matInput placeholder="Ingrese Propietario" [formControl]="nombrePropietario" required>
+          <input matInput class="input-rut rut" placeholder="Ingrese Rut Propietario" [formControl]="rutPropietario" oninput="this.value = this.value.toUpperCase()" (blur)="onBlurRutPropietario($event)" validaRut  >
+          <mat-error *ngIf="rutPropietario.invalid">{{getErrorMessage('rutCliente')}}</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-5 ">
+        <mat-form-field>
+          <input matInput placeholder="Ingrese Propietarioooo" [formControl]="nombrePropietario">
           <mat-error *ngIf="nombrePropietario.invalid">{{getErrorMessage('nombrePropietario')}}</mat-error>
         </mat-form-field>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-5">
         <mat-form-field>
           <input matInput placeholder="Ingrese Paciente" [formControl]="nombrePaciente" required>
           <mat-error *ngIf="nombrePaciente.invalid">{{getErrorMessage('nombrePaciente')}}</mat-error>
@@ -125,10 +131,10 @@
 
 <mat-dialog-actions>
   <div class="col-md-6">
-    <button mat-raised-button color="warn"  mat-dialog-close  [disabled]=false>Cerrar</button>
+    <button mat-raised-button class="colorFondoBotonCancelar"  mat-dialog-close  [disabled]=false>CANCELAR</button>
   </div>
   <div class="col-md-6">
-    <button class="colorFondoBoton" mat-raised-button  (click)="enviar()"  [disabled]="modificaFicha.invalid">Grabar</button>
+    <button class="colorFondoBotonGrabar" mat-raised-button  (click)="enviar()"  [disabled]="modificaFicha.invalid">GRABAR</button>
   </div>
 </mat-dialog-actions>
 

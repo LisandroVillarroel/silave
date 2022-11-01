@@ -1,6 +1,6 @@
 import { strings } from '@angular-devkit/core';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { JwtResponseI } from '@app/autentica/_models';
 import { AuthenticationService } from '@app/autentica/_services';
@@ -89,26 +89,27 @@ export class AgregaDatosEmpresaComponent implements OnInit {
     this.getDataMenu();
   }
 
-  rutEmpresa = new FormControl('', [Validators.required, this.validaRut]);
-  razonSocial = new FormControl('', [Validators.required]);
-  nombreFantasia = new FormControl('', [Validators.required]);
-  direccion = new FormControl('', [Validators.required]);
-  nombreContacto = new FormControl('', [Validators.required]);
-  telefono = new FormControl('', [Validators.required]);
-  tipoEmpresa = new FormControl('', [Validators.required]);
-  email = new FormControl('', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]);
-  correoRecepcionSolicitud=new FormControl('', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]);
-  emailEnvio = new FormControl('', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]);
-  password = new FormControl('', [Validators.required]);
-  nombreDesde = new FormControl('', [Validators.required]);
-  asunto = new FormControl('', [Validators.required]);
-  tituloCuerpo = new FormControl('', [Validators.required]);
-  tituloCuerpoMedio = new FormControl('', [Validators.required]);
-  tituloCuerpoPie = new FormControl('', [Validators.required]);
-  numeroFicha = new FormControl('', [Validators.required]);
-  letraFicha = new FormControl('', [Validators.required]);
+  rutEmpresa = new UntypedFormControl('', [Validators.required, this.validaRut]);
+  razonSocial = new UntypedFormControl('', [Validators.required]);
+  nombreFantasia = new UntypedFormControl('', [Validators.required]);
+  direccion = new UntypedFormControl('', [Validators.required]);
+  nombreContacto = new UntypedFormControl('', [Validators.required]);
+  telefono = new UntypedFormControl('', [Validators.required]);
+  tipoEmpresa = new UntypedFormControl('', [Validators.required]);
+  email = new UntypedFormControl('', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]);
+  examen = new UntypedFormControl('', [Validators.required]);
+  correoRecepcionSolicitud=new UntypedFormControl('', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]);
+  emailEnvio = new UntypedFormControl('', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]);
+  password = new UntypedFormControl('', [Validators.required]);
+  nombreDesde = new UntypedFormControl('', [Validators.required]);
+  asunto = new UntypedFormControl('', [Validators.required]);
+  tituloCuerpo = new UntypedFormControl('', [Validators.required]);
+  tituloCuerpoMedio = new UntypedFormControl('', [Validators.required]);
+  tituloCuerpoPie = new UntypedFormControl('', [Validators.required]);
+  numeroFicha = new UntypedFormControl('', [Validators.required]);
+  letraFicha = new UntypedFormControl('', [Validators.required]);
 
-  agregaEmpresa : FormGroup = new FormGroup({
+  agregaEmpresa : UntypedFormGroup = new UntypedFormGroup({
     rutEmpresa: this.rutEmpresa,
     razonSocial: this.razonSocial,
     nombreFantasia: this.nombreFantasia,
@@ -117,6 +118,7 @@ export class AgregaDatosEmpresaComponent implements OnInit {
     telefono: this.telefono,
     tipoEmpresa: this.tipoEmpresa,
     email: this.email,
+    examen: this.examen,
     correoRecepcionSolicitud: this.correoRecepcionSolicitud,
     emailEnvio: this.emailEnvio,
     password: this.password,
@@ -208,7 +210,8 @@ export class AgregaDatosEmpresaComponent implements OnInit {
         console.log('arreglo:',arreglo);
        /* this.selectTipoEmpresa[a].value=res.data[a]._id;
         this.selectTipoEmpresa[a].nombre=res.data[a].nombreMenu;*/
-        this.selectTipoEmpresa.push({"menu_Id": res.data[a]._id, "nombre":res.data[a].nombreMenu});
+        if (res.data[a].nombreMenu!='Veterinaria')
+          this.selectTipoEmpresa.push({"menu_Id": res.data[a]._id, "nombre":res.data[a].nombreMenu});
         console.log('Tipo empresa:',this.selectTipoEmpresa);
       }
     },
@@ -308,6 +311,7 @@ export class AgregaDatosEmpresaComponent implements OnInit {
       }
     ); // (this.dataSource.data = res as PerfilI[])
     }
+
 
 
   async enviar(){
@@ -421,16 +425,17 @@ export class AgregaDatosEmpresaComponent implements OnInit {
 
 
   async agregaExamenesPreDefinidos(datoEmpresa:any){
-    console.log('paso3:',this.datoExamen);
-    for(let a=0; a<this.datoExamen.length; a++){
-      console.log('paso4');
+
+    console.log('paso3:',this.agregaEmpresa.get('examen')!.value);
+    for(let a=0; a<this.agregaEmpresa.get('examen')!.value.length; a++){
+      console.log('paso4',this.agregaEmpresa.get('examen')!.value[a].nombre);
       this.datoExamenRegistro = {
-        codigoExamen: this.datoExamen[a].codigoExamen,
-        codigoInterno: this.datoExamen[a].codigoInterno,
-        nombre: this.datoExamen[a].nombre,
-        sigla: this.datoExamen[a].sigla,
-        precio: this.datoExamen[a].precio,
-        nombreExamen: this.datoExamen[a].nombreExamen,
+        codigoExamen: this.agregaEmpresa.get('examen')!.value[a].codigoExamen,
+        codigoInterno: this.agregaEmpresa.get('examen')!.value[a].codigoInterno,
+        nombre: this.agregaEmpresa.get('examen')!.value[a].nombre,
+        sigla: this.agregaEmpresa.get('examen')!.value[a].sigla,
+        precio: this.agregaEmpresa.get('examen')!.value[a].precio,
+        nombreExamen: this.agregaEmpresa.get('examen')!.value[a].nombreExamen,
         usuarioCrea_id: this.currentUsuario.usuarioDato._id,
         usuarioModifica_id: this.currentUsuario.usuarioDato._id,
         empresa_Id: datoEmpresa.data._id
@@ -606,7 +611,15 @@ export class AgregaDatosEmpresaComponent implements OnInit {
     return;
   }
 
-  validaRut(control: FormControl): {[s: string]: boolean} {
+  seleccionaExamen(p:any){
+    console.log('p:',p);
+    console.log('p.nombre:',p.nombre)
+  // this.nombreTipoEmpresa=p.nombre;
+  // this.menu_IdTipoEmpresa=p.menu_Id;
+    return;
+  }
+
+  validaRut(control: UntypedFormControl): {[s: string]: boolean} {
     // let out1_rut = this.rutService.getRutChile(0, '12514508-6');
     if (validateRut(control.value) === false){
         return {rutInvalido: true};

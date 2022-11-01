@@ -1,5 +1,5 @@
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatAccordion } from '@angular/material/expansion';
 import { JwtResponseI } from '@app/autentica/_models';
@@ -24,7 +24,7 @@ export class PerfilBioquimicoComponent implements OnInit {
 
     currentUsuario!: JwtResponseI;
 
-    form!: FormGroup;
+    form!: UntypedFormGroup;
     usuario!: string;
     datoFicha!: IFicha;
     datoFichaRespuesta!: IFicha;
@@ -70,26 +70,26 @@ export class PerfilBioquimicoComponent implements OnInit {
                  this.datoFicha=data;
       }
 
-    srAlbumina = new FormControl('',  [Validators.required] );
-    srBilirrubinaTotal = new FormControl('',  [Validators.required] );
-    srBilirrubinaIndirecta = new FormControl('');
-    srBilirrubinaDirecta = new FormControl('');
-    srCalcio = new FormControl('');
-    srColesterol = new FormControl('');
-    srCreatinina = new FormControl('');
-    srFosfatasaAlcalina = new FormControl('');
-    srFosforo = new FormControl('');
-    srGGT = new FormControl('');
-    srGlobulinas = new FormControl('');
-    srGPT = new FormControl('');
-    srGOT = new FormControl('');
-    srGlucosa = new FormControl('');
-    srUrea = new FormControl('');
-    srNitrogenoUreicoS = new FormControl('');
-    srProteinasTotales = new FormControl('');
-    srObservaciones = new FormControl('');
+    srAlbumina = new UntypedFormControl('',  [Validators.required] );
+    srBilirrubinaTotal = new UntypedFormControl('',  [Validators.required] );
+    srBilirrubinaIndirecta = new UntypedFormControl('');
+    srBilirrubinaDirecta = new UntypedFormControl('');
+    srCalcio = new UntypedFormControl('');
+    srColesterol = new UntypedFormControl('');
+    srCreatinina = new UntypedFormControl('');
+    srFosfatasaAlcalina = new UntypedFormControl('');
+    srFosforo = new UntypedFormControl('');
+    srGGT = new UntypedFormControl('');
+    srGlobulinas = new UntypedFormControl('');
+    srGPT = new UntypedFormControl('');
+    srGOT = new UntypedFormControl('');
+    srGlucosa = new UntypedFormControl('');
+    srUrea = new UntypedFormControl('');
+    srNitrogenoUreicoS = new UntypedFormControl('');
+    srProteinasTotales = new UntypedFormControl('');
+    srObservaciones = new UntypedFormControl('');
 
-    ingresaPerfilBioquimico: FormGroup = new FormGroup({
+    ingresaPerfilBioquimico: UntypedFormGroup = new UntypedFormGroup({
        srAlbumina: this.srAlbumina,
        srBilirrubinaTotal: this.srBilirrubinaTotal,
        srBilirrubinaIndirecta: this.srBilirrubinaIndirecta,

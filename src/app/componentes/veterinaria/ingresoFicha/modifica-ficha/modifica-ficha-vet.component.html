@@ -17,13 +17,19 @@
 
 
     <div class="row align-items-center ">
-      <div class="col-md-6 ">
+      <div class="col-md-2 ">
         <mat-form-field>
-          <input matInput placeholder="Ingrese Propietario" [formControl]="nombrePropietario" required>
+          <input matInput class="input-rut rut" placeholder="Ingrese Rut Propietario" [formControl]="rutPropietario" oninput="this.value = this.value.toUpperCase()" (blur)="onBlurRutPropietario($event)" validaRut  >
+          <mat-error *ngIf="rutPropietario.invalid">{{getErrorMessage('rutCliente')}}</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-5 ">
+        <mat-form-field>
+          <input matInput placeholder="Ingrese Propietario" [formControl]="nombrePropietario">
           <mat-error *ngIf="nombrePropietario.invalid">{{getErrorMessage('nombrePropietario')}}</mat-error>
         </mat-form-field>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-5">
         <mat-form-field>
           <input matInput placeholder="Ingrese Paciente" [formControl]="nombrePaciente" required>
           <mat-error *ngIf="nombrePaciente.invalid">{{getErrorMessage('nombrePaciente')}}</mat-error>

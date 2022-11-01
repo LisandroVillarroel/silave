@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ICliente } from '@app/modelo/cliente-interface';
 import { ICliente_, IDoctorSolicitante } from '@app/modelo/doctorSolicitante-interface';
@@ -16,7 +16,7 @@ export class ModificaDoctorSolicitanteVetComponent implements OnInit {
 
 
 
-    form!: FormGroup;
+    form!: UntypedFormGroup;
     dato!: IDoctorSolicitante;
     cliente!:ICliente_
     datoCliente!:ICliente[];
@@ -29,10 +29,10 @@ export class ModificaDoctorSolicitanteVetComponent implements OnInit {
                   this.cargaCliente()
                   console.log('dato update: ', data);
     }
-    nombre = new FormControl(this.data.nombre, [Validators.required]);
+    nombre = new UntypedFormControl(this.data.nombre, [Validators.required]);
   //  idCliente = new FormControl(this.data.cliente.idCliente, [Validators.required]);
 
-    modificaDoctorSolicitante: FormGroup = new FormGroup({
+    modificaDoctorSolicitante: UntypedFormGroup = new UntypedFormGroup({
       nombre: this.nombre
     //  idCliente: this.idCliente
     });

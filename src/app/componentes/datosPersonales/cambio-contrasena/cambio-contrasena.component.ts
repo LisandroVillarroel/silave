@@ -1,6 +1,6 @@
 import { IUsuario, IUsuarioContrasena } from '@app/modelo/usuario-interface';
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { AuthenticationService } from '@app/autentica/_services';
 import { UsuarioLabService } from '@app/servicios/usuario-lab.service';
 import { JwtResponseI } from '@app/autentica/_models';
@@ -13,7 +13,7 @@ import Swal from 'sweetalert2';
 })
 export class CambioContrasenaComponent implements OnInit {
 
-  form!: FormGroup;
+  form!: UntypedFormGroup;
 
   datoUsuario!: IUsuarioContrasena;
   currentUsuario!: JwtResponseI;
@@ -39,11 +39,11 @@ export class CambioContrasenaComponent implements OnInit {
   };
 
 
-  contrasenaActual = new FormControl('', [Validators.required]);
-  contrasena = new FormControl('', [Validators.required]);
-  contrasena2 = new FormControl('', [Validators.required]);
+  contrasenaActual = new UntypedFormControl('', [Validators.required]);
+  contrasena = new UntypedFormControl('', [Validators.required]);
+  contrasena2 = new UntypedFormControl('', [Validators.required]);
 
-  modificaContrasena: FormGroup = new FormGroup({
+  modificaContrasena: UntypedFormGroup = new UntypedFormGroup({
     contrasenaActual: this.contrasenaActual,
     contrasena: this.contrasena,
     contrasena2: this.contrasena2

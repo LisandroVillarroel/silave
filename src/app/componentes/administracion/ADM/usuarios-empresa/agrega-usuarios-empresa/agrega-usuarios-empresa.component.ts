@@ -1,6 +1,6 @@
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { JwtResponseI } from '@app/autentica/_models';
@@ -24,7 +24,7 @@ export class AgregaUsuariosEmpresaComponent implements OnInit {
   selectTipoPermiso = [{ value: 'Administrador', nombre: 'Administrador'}, { value: 'Básico', nombre: 'Básico'}];
 
 
-  tipoPermiso = new FormControl('', Validators.required);
+  tipoPermiso = new UntypedFormControl('', Validators.required);
 
   currentUsuario!: JwtResponseI;
 
@@ -46,14 +46,14 @@ export class AgregaUsuariosEmpresaComponent implements OnInit {
   P_menu_Id!: string;
   P_tipoEmpresa!: string;
 
-  secondFormGroup!: FormGroup;
+  secondFormGroup!: UntypedFormGroup;
 
   constructor(private dialogRef: MatDialogRef<AgregaUsuariosEmpresaComponent>,
     private menuService:MenuService,
     private usuarioLabService: UsuarioLabService,
     private empresaService: EmpresaService,
     private authenticationService:AuthenticationService,
-    private _formBuilder: FormBuilder) {
+    private _formBuilder: UntypedFormBuilder) {
 
 
 
@@ -73,18 +73,18 @@ export class AgregaUsuariosEmpresaComponent implements OnInit {
   };
 
 
-  empresa = new FormControl('', [Validators.required]);
-  usuario = new FormControl('', [Validators.required]);
-  contrasena = new FormControl('', [Validators.required]);
-  contrasena2 = new FormControl('', [Validators.required]);
-  rutUsuario = new FormControl('', [Validators.required, this.validaRut]);
+  empresa = new UntypedFormControl('', [Validators.required]);
+  usuario = new UntypedFormControl('', [Validators.required]);
+  contrasena = new UntypedFormControl('', [Validators.required]);
+  contrasena2 = new UntypedFormControl('', [Validators.required]);
+  rutUsuario = new UntypedFormControl('', [Validators.required, this.validaRut]);
 
-  nombres = new FormControl('', [Validators.required]);
-  apellidoPaterno = new FormControl('', [Validators.required]);
-  apellidoMaterno = new FormControl('', [Validators.required]);
-  email = new FormControl('', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]);
-  telefono = new FormControl('', [Validators.required]);
-  direccion = new FormControl('', [Validators.required]);
+  nombres = new UntypedFormControl('', [Validators.required]);
+  apellidoPaterno = new UntypedFormControl('', [Validators.required]);
+  apellidoMaterno = new UntypedFormControl('', [Validators.required]);
+  email = new UntypedFormControl('', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]);
+  telefono = new UntypedFormControl('', [Validators.required]);
+  direccion = new UntypedFormControl('', [Validators.required]);
 
 
   agregaUsuario = this._formBuilder.group({
@@ -250,7 +250,7 @@ export class AgregaUsuariosEmpresaComponent implements OnInit {
 
 
 
-  validaRut(control: FormControl): {[s: string]: boolean} {
+  validaRut(control: UntypedFormControl): {[s: string]: boolean} {
     // let out1_rut = this.rutService.getRutChile(0, '12514508-6');
     if (validateRut(control.value) === false){
         return {rutInvalido: true};
@@ -265,8 +265,6 @@ export class AgregaUsuariosEmpresaComponent implements OnInit {
       this.agregaUsuario.get('rutUsuario')!.setValue(formatRut(rut, RutFormat.DOTS_DASH));
     }
   }
-
-  cerrar(){}
 
 
   cargaEmpresa(){
@@ -329,6 +327,16 @@ export class AgregaUsuariosEmpresaComponent implements OnInit {
       };
     };
     this.menuItemsResultado=await JSON.parse(JSON.stringify(this.menuItemsResultado, getCircularReplacer())); // Permite pasar estructura al modelo
+
+    //Permite marcar las cabeceras que se modificaron
+    for(let d=0; d<this.menuItemsResultado.length; d++){  // Recorre Usuario
+      for(let e=0; e<this.menuItemsResultado[d].children!.length; e++){//Recorre Usuario Hijo
+          if (this.menuItemsResultado[d].children![e].selected== true){
+              this.menuItemsResultado[d].selected=true;
+              break
+          }
+      }
+    }
 
     console.log('paso agrega 1')
     await this.marcaInicioChildren();

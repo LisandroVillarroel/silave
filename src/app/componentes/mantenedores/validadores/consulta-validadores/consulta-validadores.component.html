@@ -2,25 +2,25 @@
 
     <mat-dialog-content  name="consultaValidador" class="consulta-container">
 
-      <mat-form-field color="accent">
+      <mat-form-field>
         <input matInput class="input-rut rut" placeholder="Run Validador" value="{{this.data.rutValidador}}" disabled='true'>
       </mat-form-field>
 
-      <mat-form-field color="accent">
+      <mat-form-field>
         <input matInput placeholder="Nombres " value="{{this.data.nombres}}" disabled='true'>
       </mat-form-field>
 
 
 
-      <mat-form-field color="accent">
+      <mat-form-field>
         <input matInput placeholder="Apellido Paterno" value="{{this.data.apellidoPaterno}}"  disabled='true'>
       </mat-form-field>
 
-      <mat-form-field color="accent">
+      <mat-form-field>
         <input matInput placeholder="Apellido Materno " value="{{this.data.apellidoMaterno}}" disabled='true'>
       </mat-form-field>
 
-      <mat-form-field color="accent">
+      <mat-form-field>
           <input matInput placeholder="Profesión" value="{{this.data.profesion}}" disabled='true'>
       </mat-form-field>
 
@@ -33,6 +33,6 @@
     </mat-dialog-content>
     <mat-dialog-actions class="justify-content-center">
       <div class="col-md-6">
-        <button mat-raised-button color="warn"  mat-dialog-close  [disabled]=false>Cerrar</button>
+        <button mat-raised-button class="colorFondoBotonCancelar"  mat-dialog-close  [disabled]=false>CERRAR</button>
       </div>
   </mat-dialog-actions>

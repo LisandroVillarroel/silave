@@ -13,12 +13,17 @@
 
 
     <div class="row align-items-center ">
-      <div class="col-md-6 ">
+      <div class="col-md-2 ">
+        <mat-form-field color="accent">
+          <input matInput placeholder="Propietario"  value="{{data.fichaC.rutPropietario}}" disabled='true' >
+        </mat-form-field>
+      </div>
+      <div class="col-md-5 ">
         <mat-form-field color="accent">
           <input matInput placeholder="Propietario"  value="{{data.fichaC.nombrePropietario}}" disabled='true' >
         </mat-form-field>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-5">
         <mat-form-field color="accent">
           <input matInput placeholder="Paciente"  value="{{data.fichaC.nombrePaciente}}" disabled='true' >
         </mat-form-field>

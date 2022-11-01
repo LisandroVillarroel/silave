@@ -1,6 +1,6 @@
 import { strings } from '@angular-devkit/core';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { JwtResponseI } from '@app/autentica/_models';
 import { AuthenticationService } from '@app/autentica/_services';
@@ -60,15 +60,15 @@ export class AgregaValidadoresComponent implements OnInit {
     //Fin Carga Menu
   }
 
-  rutValidador = new FormControl('', [Validators.required, this.validaRut]);
-  nombres = new FormControl('', [Validators.required]);
-  apellidoPaterno = new FormControl('', [Validators.required]);
-  apellidoMaterno = new FormControl('', [Validators.required]);
-  profesion = new FormControl('', [Validators.required]);
-  telefono = new FormControl('', [Validators.required]);
+  rutValidador = new UntypedFormControl('', [Validators.required, this.validaRut]);
+  nombres = new UntypedFormControl('', [Validators.required]);
+  apellidoPaterno = new UntypedFormControl('', [Validators.required]);
+  apellidoMaterno = new UntypedFormControl('', [Validators.required]);
+  profesion = new UntypedFormControl('', [Validators.required]);
+  telefono = new UntypedFormControl('', [Validators.required]);
 
 
-  agregaValidador : FormGroup = new FormGroup({
+  agregaValidador : UntypedFormGroup = new UntypedFormGroup({
     rutValidador: this.rutValidador,
     nombres: this.nombres,
     apellidoPaterno: this.apellidoPaterno,
@@ -189,7 +189,7 @@ export class AgregaValidadoresComponent implements OnInit {
 
 
 
-  validaRut(control: FormControl): {[s: string]: boolean} {
+  validaRut(control: UntypedFormControl): {[s: string]: boolean} {
     // let out1_rut = this.rutService.getRutChile(0, '12514508-6');
     if (validateRut(control.value) === false){
         return {rutInvalido: true};

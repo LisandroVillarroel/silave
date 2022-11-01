@@ -17,11 +17,7 @@ table {
   width: 20%;
 }
 
-.colorFondoBotonBusca {
-  color: white;
-  background-color: black;
-  font-size: 0.7rem;
-}
+
 
 .margenIzquierdo{
   margin-left: 10px;
@@ -29,6 +25,8 @@ table {
 
 .mat-dialog-actions .mat-dialog-content {
   justify-content: flex-end !important;
+  display: none !important;
 }
+
 
 

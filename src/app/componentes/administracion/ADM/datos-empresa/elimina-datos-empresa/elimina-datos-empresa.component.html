@@ -3,41 +3,41 @@
     <mat-dialog-content  name="consultaEmpresa" class="consulta-container">
       <ng-template matStepLabel>Datos Empresa</ng-template>
 
-      <mat-form-field color="accent">
+      <mat-form-field>
         <input matInput class="input-rut rut" placeholder="Ingrese Rut" value="{{this.data.rutEmpresa}}" disabled='true'>
       </mat-form-field>
 
-      <mat-form-field color="accent">
+      <mat-form-field>
         <input matInput placeholder="Razon Social " value="{{this.data.razonSocial}}" disabled='true'>
       </mat-form-field>
 
 
 
-      <mat-form-field color="accent">
+      <mat-form-field>
         <input matInput placeholder="Nombre Fantasia" value="{{this.data.nombreFantasia}}"  disabled='true'>
       </mat-form-field>
 
-      <mat-form-field color="accent">
+      <mat-form-field>
         <input matInput placeholder="Dirección " value="{{this.data.direccion}}" disabled='true'>
       </mat-form-field>
 
-      <mat-form-field color="accent">
+      <mat-form-field>
           <input matInput placeholder="Nombre Contacto" value="{{this.data.nombreContacto}}" disabled='true'>
       </mat-form-field>
-      <mat-form-field color="accent">
+      <mat-form-field>
         <input matInput placeholder="teléfono " value="{{this.data.telefono}}" disabled='true'>
       </mat-form-field>
 
-      <mat-form-field color="accent">
+      <mat-form-field>
         <input matInput placeholder="Tipo Empresa " value="{{this.data.tipoEmpresa}}" disabled='true'>
       </mat-form-field>
 
 
-      <mat-form-field color="accent">
+      <mat-form-field>
         <input matInput placeholder="Email " value="{{this.data.email}}" disabled='true'>
       </mat-form-field>
 
-      <mat-form-field color="accent">
+      <mat-form-field>
         <input matInput placeholder="Email Recepción Solicitud " value="{{this.data.correoRecepcionSolicitud}}" disabled='true'>
       </mat-form-field>
 
@@ -46,29 +46,29 @@
         <mat-divider></mat-divider>
       </mat-list>
 
-      <mat-form-field color="accent">
+      <mat-form-field>
         <input matInput placeholder="Envío Email " value="{{this.data.envioEmail?.emailEnvio}}" disabled='true'>
       </mat-form-field>
 
 
-      <mat-form-field color="accent">
+      <mat-form-field>
         <input matInput placeholder="Nombre Desde " value="{{this.data.envioEmail?.nombreDesde}}" disabled='true'>
       </mat-form-field>
 
-      <mat-form-field color="accent">
+      <mat-form-field>
         <input matInput placeholder="Asunto" value="{{this.data.envioEmail?.asunto}}" disabled='true'>
       </mat-form-field>
 
-      <mat-form-field color="accent">
+      <mat-form-field>
         <input matInput placeholder="Título Cuerpo" value="{{this.data.envioEmail?.tituloCuerpo}}" disabled='true'>
       </mat-form-field>
 
-      <mat-form-field color="accent">
+      <mat-form-field>
         <input matInput placeholder="Título Cuerpo Medio " value="{{this.data.envioEmail?.tituloCuerpoMedio}}" disabled='true'>
       </mat-form-field>
 
 
-      <mat-form-field color="accent">
+      <mat-form-field>
         <input matInput placeholder="Título Cuerpo Pie " value="{{this.data.envioEmail?.tituloCuerpoPie}}" disabled='true'>
       </mat-form-field>
 
@@ -80,11 +80,12 @@
       </mat-card>
     </mat-dialog-content>
     <mat-dialog-actions>
-      <div class="col-md-6">
-        <button mat-raised-button color="warn"  mat-dialog-close  [disabled]=false>Cerrar</button>
+      <div class="col-md-5">
+        <button mat-raised-button class="colorFondoBotonCancelar"  mat-dialog-close  [disabled]=false>CANCELAR</button>
       </div>
-      <div class="col-md-6">
-        <button class="colorFondoBoton" mat-raised-button  (click)="enviar()"  >ELIMINA</button>
+      <div class="col-md-2"></div>
+      <div class="col-md-5">
+        <button class="colorFondoBotonEliminar" mat-raised-button  (click)="enviar()"  >ELIMINA</button>
       </div>
     </mat-dialog-actions>
   </div>

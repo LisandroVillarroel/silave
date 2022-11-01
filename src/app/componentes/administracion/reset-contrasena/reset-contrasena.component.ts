@@ -1,6 +1,6 @@
   import { IUsuario, IUsuarioContrasena } from '@app/modelo/usuario-interface';
   import { Component, OnInit } from '@angular/core';
-  import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+  import { AbstractControl, UntypedFormControl, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
   import { AuthenticationService } from '@app/autentica/_services';
   import { UsuarioLabService } from '@app/servicios/usuario-lab.service';
   import { JwtResponseI } from '@app/autentica/_models';
@@ -15,7 +15,7 @@
   })
   export class ResetContrasenaComponent implements OnInit {
 
-    form!: FormGroup;
+    form!: UntypedFormGroup;
 
     datoUsuario!: IUsuarioContrasena;
     currentUsuario!: JwtResponseI;
@@ -42,10 +42,10 @@
     };
 
 
-    contrasena = new FormControl('', [Validators.required]);
-    contrasena2 = new FormControl('', [Validators.required]);
+    contrasena = new UntypedFormControl('', [Validators.required]);
+    contrasena2 = new UntypedFormControl('', [Validators.required]);
 
-    resetContrasena: FormGroup = new FormGroup({
+    resetContrasena: UntypedFormGroup = new UntypedFormGroup({
       contrasena: this.contrasena,
       contrasena2: this.contrasena2
 

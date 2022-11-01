@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { IEspecie } from './../../../../modelo/especie-interface';
 import { EspecieService } from './../../../../servicios/especie.service';
@@ -14,7 +14,7 @@ import Swal from 'sweetalert2';
 })
 export class ModificaEspecieComponent implements OnInit {
 
-  form!: FormGroup;
+  form!: UntypedFormGroup;
 
   datoPar: IEspecie;
   _dato!: IEspecie;
@@ -26,9 +26,9 @@ export class ModificaEspecieComponent implements OnInit {
                 this.datoPar = data;
                 console.log('dato update: ', data);
   }
-  nombre = new FormControl(this.data.nombre, [Validators.required]);
+  nombre = new UntypedFormControl(this.data.nombre, [Validators.required]);
 
-  modifica: FormGroup = new FormGroup({
+  modifica: UntypedFormGroup = new UntypedFormGroup({
     nombre: this.nombre
     });
 

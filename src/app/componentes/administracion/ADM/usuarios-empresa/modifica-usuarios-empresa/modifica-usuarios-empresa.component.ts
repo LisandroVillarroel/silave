@@ -2,7 +2,7 @@
 
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { Component, Inject, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { JwtResponseI } from '@app/autentica/_models';
@@ -26,7 +26,7 @@ export class ModificaUsuariosEmpresaComponent implements OnInit {
   selectTipoPermiso = [{ value: 'Administrador', nombre: 'Administrador'}, { value: 'Básico', nombre: 'Básico'}];
 
 
-  tipoPermiso = new FormControl('', Validators.required);
+  tipoPermiso = new UntypedFormControl('', Validators.required);
 
   currentUsuario!: JwtResponseI;
 
@@ -50,7 +50,7 @@ export class ModificaUsuariosEmpresaComponent implements OnInit {
   P_menu_Id!: string;
   P_tipoEmpresa!: string;
 
-  secondFormGroup!: FormGroup;
+  secondFormGroup!: UntypedFormGroup;
 
   constructor(private dialogRef: MatDialogRef<ModificaUsuariosEmpresaComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -58,7 +58,7 @@ export class ModificaUsuariosEmpresaComponent implements OnInit {
     private usuarioLabService: UsuarioLabService,
     private empresaService: EmpresaService,
     private authenticationService:AuthenticationService,
-    private _formBuilder: FormBuilder) {
+    private _formBuilder: UntypedFormBuilder) {
 
         console.log('data:',data);
       this.P_empresa_Id=data.empresa.empresa_Id;
@@ -72,21 +72,22 @@ export class ModificaUsuariosEmpresaComponent implements OnInit {
     }
 
     this.cargaEmpresa();
+    console.log('menu usuario origen',data.empresa.menu_Id);
     this.getDataMenu(data.empresa.menu_Id)
   }
 
 
-  empresa = new FormControl(this.data.empresa.empresa_Id, [Validators.required]);
-  usuario = new FormControl(this.data.usuario, [Validators.required]);
+  empresa = new UntypedFormControl(this.data.empresa.empresa_Id, [Validators.required]);
+  usuario = new UntypedFormControl(this.data.usuario, [Validators.required]);
 
-  rutUsuario = new FormControl(this.data.rutUsuario, [Validators.required, this.validaRut]);
+  rutUsuario = new UntypedFormControl(this.data.rutUsuario, [Validators.required, this.validaRut]);
 
-  nombres = new FormControl(this.data.nombres, [Validators.required]);
-  apellidoPaterno = new FormControl(this.data.apellidoPaterno, [Validators.required]);
-  apellidoMaterno = new FormControl(this.data.apellidoMaterno, [Validators.required]);
-  email = new FormControl(this.data.email, [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]);
-  telefono = new FormControl(this.data.telefono, [Validators.required]);
-  direccion = new FormControl(this.data.direccion, [Validators.required]);
+  nombres = new UntypedFormControl(this.data.nombres, [Validators.required]);
+  apellidoPaterno = new UntypedFormControl(this.data.apellidoPaterno, [Validators.required]);
+  apellidoMaterno = new UntypedFormControl(this.data.apellidoMaterno, [Validators.required]);
+  email = new UntypedFormControl(this.data.email, [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]);
+  telefono = new UntypedFormControl(this.data.telefono, [Validators.required]);
+  direccion = new UntypedFormControl(this.data.direccion, [Validators.required]);
 
 
   agregaUsuario = this._formBuilder.group({
@@ -249,19 +250,24 @@ export class ModificaUsuariosEmpresaComponent implements OnInit {
       //this.flag=true;
       console.log('paso data ',this.data.MenuItem);
       console.log('paso rescata',res.data[0].MenuItem);
-      if (this.data.MenuItem.length!=0)
+      if (this.data.MenuItem.length!=0)  //Menu usuario
       {
-        for(let b=0; b<this.menuItems.length; b++){
-          if (this.menuItems[b].children && this.menuItems[b].children!.length) {
-            for(let c=0; c<this.menuItems[b].children!.length; c++){
+        for(let b=0; b<this.menuItems.length; b++){ //Menu Original
+          if (this.menuItems[b].children && this.menuItems[b].children!.length) {  //Pregunta si tiene hijos
+            for(let c=0; c<this.menuItems[b].children!.length; c++){  // Recorre menu originl Hijos
               flag=0;
-              for(let d=0; d<this.data.MenuItem.length; d++){
-                if (this.data.MenuItem[d].children && this.data.MenuItem[d].children!.length) {
-                  for(let e=0; e<this.data.MenuItem[d].children!.length; e++){
+
+              for(let d=0; d<this.data.MenuItem.length; d++){  // Recorre Usuario
+                if (this.data.MenuItem[d].children && this.data.MenuItem[d].children!.length) { //<Pregunta si Menu Usuario tiene Hijos
+
+                  for(let e=0; e<this.data.MenuItem[d].children!.length; e++){//Recorre Usuario Hijo
                       if (this.data.MenuItem[d].children[e]._id== this.menuItems[b].children![c]._id){
-                        // console.log('for children:',this.data.MenuItem[d].children[e]);
                         this.menuItems[b].children![c].selected=this.data.MenuItem[d].children[e].selected
                         this.menuItems[b].children![c].tipoPermiso=this.data.MenuItem[d].children[e].tipoPermiso
+
+                          if (this.data.MenuItem[d].children[e].selected===true){
+                            this.menuItems[b].selected=this.data.MenuItem[d].children[e].selected;
+                          }
                           flag=1
                           break
                       }
@@ -272,7 +278,6 @@ export class ModificaUsuariosEmpresaComponent implements OnInit {
                 }
               }
 
-
             }
           }else{
             this.menuItemsResultadoFiltro=this.data.MenuItem!.filter((item: any) => item._id === this.menuItems[b]._id)
@@ -280,9 +285,6 @@ export class ModificaUsuariosEmpresaComponent implements OnInit {
               this.menuItems[b].selected=this.menuItemsResultadoFiltro[0].selected
               this.menuItems[b].tipoPermiso=this.menuItemsResultadoFiltro[0].tipoPermiso
             }
-            /*if (this.menuItems[a].codigoServicio.toUpperCase() === this.menuItems[b].route.toUpperCase().replace("/0","").replace("/1","")){
-              this.fillerNav[b].disabled=false;
-            }*/
           }
         }
       }
@@ -307,7 +309,7 @@ export class ModificaUsuariosEmpresaComponent implements OnInit {
   }
 
 
-  validaRut(control: FormControl): {[s: string]: boolean} {
+  validaRut(control: UntypedFormControl): {[s: string]: boolean} {
     // let out1_rut = this.rutService.getRutChile(0, '12514508-6');
     if (validateRut(control.value) === false){
         return {rutInvalido: true};
@@ -386,6 +388,17 @@ export class ModificaUsuariosEmpresaComponent implements OnInit {
       };
     };
     this.menuItemsResultado=await JSON.parse(JSON.stringify(this.menuItemsResultado, getCircularReplacer())); // Permite pasar estructura al modelo
+
+
+     //Permite marcar las cabeceras que se modificaron
+     for(let d=0; d<this.menuItemsResultado.length; d++){  // Recorre Usuario
+      for(let e=0; e<this.menuItemsResultado[d].children!.length; e++){//Recorre Usuario Hijo
+          if (this.menuItemsResultado[d].children![e].selected== true){
+              this.menuItemsResultado[d].selected=true;
+              break
+          }
+      }
+    }
 
     console.log('paso agrega 1')
     await this.marcaInicioChildren();

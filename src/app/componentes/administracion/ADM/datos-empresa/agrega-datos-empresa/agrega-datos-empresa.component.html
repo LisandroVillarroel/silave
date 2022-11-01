@@ -48,6 +48,15 @@
         <mat-error *ngIf="correoRecepcionSolicitud.invalid">{{getErrorMessage('correoRecepcionSolicitud')}}</mat-error>
       </mat-form-field>
 
+      <mat-form-field>
+        <mat-select [formControl]="examen" placeholder="Seleccione Exámenes" multiple (selectionChange)="seleccionaExamen($event.value)" required>
+          <mat-option *ngFor="let _examen of datoExamen" [value]="_examen">
+            {{_examen.nombre}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="examen.invalid">{{getErrorMessage('examen')}}</mat-error>
+      </mat-form-field>
+
       <mat-list>
         <mat-list-item>Datos de Envío de Email</mat-list-item>
         <mat-divider></mat-divider>
@@ -119,9 +128,9 @@
     </mat-dialog-content>
       <mat-dialog-actions>
         <div class="col-md-6">
-          <button mat-raised-button color="warn"  mat-dialog-close  [disabled]=false>Cerrar</button>
+          <button mat-raised-button class="colorFondoBotonCancelar"  mat-dialog-close  [disabled]=false>CANCELAR</button>
         </div>
         <div class="col-md-6">
-          <button class="colorFondoBoton" mat-raised-button  (click)="enviar()"  [disabled]="agregaEmpresa.invalid">GRABAR</button>
+          <button class="colorFondoBotonGrabar" mat-raised-button  (click)="enviar()"  [disabled]="agregaEmpresa.invalid">GRABAR</button>
         </div>
     </mat-dialog-actions>

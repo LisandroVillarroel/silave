@@ -1,7 +1,7 @@
 import { IEspecie } from './../../../../modelo/especie-interface';
 
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { JwtResponseI } from './../../../../autentica/_models';
 import { AuthenticationService } from './../../../../autentica/_services';
@@ -20,7 +20,7 @@ import { EspecieService } from '@app/servicios/especie.service';
 export class AgregaRazaComponent implements OnInit {
 
 
-  form!: FormGroup;
+  form!: UntypedFormGroup;
   usuario: string;
   dato!: IRaza;
   datoEspecie!: IEspecie[];
@@ -36,11 +36,11 @@ export class AgregaRazaComponent implements OnInit {
                this.usuario = data.usuario;
                this.cargaEspecie();
     }
-    idEspecie= new FormControl('', [Validators.required]);
-    nombre = new FormControl('', [Validators.required]);
+    idEspecie= new UntypedFormControl('', [Validators.required]);
+    nombre = new UntypedFormControl('', [Validators.required]);
 
 
-    agregaRaza: FormGroup = new FormGroup({
+    agregaRaza: UntypedFormGroup = new UntypedFormGroup({
       idEspecie: this.idEspecie,
       nombre: this.nombre
     });

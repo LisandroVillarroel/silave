@@ -24,6 +24,9 @@ import { HomeComponent } from './home';
 import { ConsultaFichaExamenVetComponent } from './componentes/veterinaria/fichaExamen/consulta-ficha-examen-vet/consulta-ficha-examen-vet.component';
 import { DoctorSolicitanteVetComponent } from './componentes/veterinaria/mantenedores/doctor-solicitante-vet/doctor-solicitante-vet.component';
 import { ValidadoresComponent } from './componentes/mantenedores/validadores/validadores.component';
+import { DashPanelVentasComponent } from './componentes/gestion/dash-panel-ventas/dash-panel-ventas.component';
+import { EstadoVentasComponent } from './componentes/controVentas/estado-ventas/estado-ventas.component';
+
 
 const routes: Routes = [
   { path: '', component: PortadaComponent, canActivate: [AuthGuard]},
@@ -44,6 +47,10 @@ const routes: Routes = [
 
   { path: 'ingresoFichaVet', component: FichaVetComponent, canActivate: [AuthGuard]},
   { path: 'consultaExamenFichaVet', component: ConsultaFichaExamenVetComponent, canActivate: [AuthGuard]},
+
+  { path: 'gestionVentas', component: DashPanelVentasComponent, canActivate: [AuthGuard]},
+  { path: 'controlEstadoVentas', component: EstadoVentasComponent, canActivate: [AuthGuard]},
+
   { path: 'mantenedorDoctorSolicitanteVet', component: DoctorSolicitanteVetComponent, canActivate: [AuthGuard]},
 
   { path: 'mantenedorCliente', component: ClienteComponent, canActivate: [AuthGuard]},

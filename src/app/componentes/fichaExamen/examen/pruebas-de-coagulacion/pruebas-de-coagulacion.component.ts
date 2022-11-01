@@ -1,5 +1,5 @@
   import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
-  import { FormControl, FormGroup, Validators } from '@angular/forms';
+  import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
   import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   import { MatAccordion } from '@angular/material/expansion';
   import { JwtResponseI } from '@app/autentica/_models';
@@ -25,7 +25,7 @@ import { ClienteService } from '@app/servicios/cliente.service';
 
       currentUsuario!: JwtResponseI;
 
-      form!: FormGroup;
+      form!: UntypedFormGroup;
       usuario!: string;
       datoFicha!: IFicha;
       datoFichaRespuesta!: IFicha;
@@ -56,11 +56,11 @@ import { ClienteService } from '@app/servicios/cliente.service';
                    this.datoFicha=data;
         }
 
-        tiempoProtrombina = new FormControl('',  [Validators.required] );
-        tiempoTromboplastinaParcial = new FormControl('',  [Validators.required] );
-        Observaciones = new FormControl('');
+        tiempoProtrombina = new UntypedFormControl('',  [Validators.required] );
+        tiempoTromboplastinaParcial = new UntypedFormControl('',  [Validators.required] );
+        Observaciones = new UntypedFormControl('');
 
-        ingresaPruabasDeCoagulacion: FormGroup = new FormGroup({
+        ingresaPruabasDeCoagulacion: UntypedFormGroup = new UntypedFormGroup({
           tiempoProtrombina: this.tiempoProtrombina,
           tiempoTromboplastinaParcial: this.tiempoTromboplastinaParcial,
           Observaciones: this.Observaciones

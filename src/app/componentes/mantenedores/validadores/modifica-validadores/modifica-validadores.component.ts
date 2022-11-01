@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { JwtResponseI } from '@app/autentica/_models';
 import { AuthenticationService } from '@app/autentica/_services';
@@ -61,14 +61,14 @@ export class ModificaValidadoresComponent implements OnInit {
     console.log('imegen:',this.imagen)
   }
 
-  nombres = new FormControl(this.data.nombres, [Validators.required]);
-  apellidoPaterno = new FormControl(this.data.apellidoPaterno, [Validators.required]);
-  apellidoMaterno = new FormControl(this.data.apellidoMaterno, [Validators.required]);
-  profesion = new FormControl(this.data.profesion, [Validators.required]);
-  telefono = new FormControl(this.data.telefono, [Validators.required]);
+  nombres = new UntypedFormControl(this.data.nombres, [Validators.required]);
+  apellidoPaterno = new UntypedFormControl(this.data.apellidoPaterno, [Validators.required]);
+  apellidoMaterno = new UntypedFormControl(this.data.apellidoMaterno, [Validators.required]);
+  profesion = new UntypedFormControl(this.data.profesion, [Validators.required]);
+  telefono = new UntypedFormControl(this.data.telefono, [Validators.required]);
 
 
-  modificaValidador : FormGroup = new FormGroup({
+  modificaValidador : UntypedFormGroup = new UntypedFormGroup({
     nombres: this.nombres,
     apellidoPaterno: this.apellidoPaterno,
     apellidoMaterno: this.apellidoMaterno,

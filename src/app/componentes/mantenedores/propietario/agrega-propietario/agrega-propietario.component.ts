@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { PropietarioService } from '../../../../servicios/propietario.service';
@@ -20,7 +20,7 @@ import Swal from 'sweetalert2';
 })
 export class AgregaPropietarioComponent implements OnInit {
 
-  form!: FormGroup;
+  form!: UntypedFormGroup;
   usuario: string;
   dato!: IPropietario;
 
@@ -33,15 +33,15 @@ export class AgregaPropietarioComponent implements OnInit {
                this.usuario = data.usuario;
     }
 
-    rutPropietario = new FormControl('', [Validators.required, this.validaRut]);
-    nombres = new FormControl('', [Validators.required]);
-    apellidoPaterno = new FormControl('', [Validators.required]);
-    apellidoMaterno = new FormControl('', [Validators.required]);
-    direccion = new FormControl('', [Validators.required]);
-    telefono = new FormControl('', [Validators.required]);
-    email = new FormControl('', [Validators.required]);
+    rutPropietario = new UntypedFormControl('', [Validators.required, this.validaRut]);
+    nombres = new UntypedFormControl('', [Validators.required]);
+    apellidoPaterno = new UntypedFormControl('', [Validators.required]);
+    apellidoMaterno = new UntypedFormControl('', [Validators.required]);
+    direccion = new UntypedFormControl('', [Validators.required]);
+    telefono = new UntypedFormControl('', [Validators.required]);
+    email = new UntypedFormControl('', [Validators.required]);
 
-    agrega: FormGroup = new FormGroup({
+    agrega: UntypedFormGroup = new UntypedFormGroup({
       rutPropietario: this.rutPropietario,
       nombres: this.nombres,
       apellidoPaterno: this.apellidoPaterno,
@@ -81,7 +81,7 @@ export class AgregaPropietarioComponent implements OnInit {
       return '';
     }
 
-  validaRut(control: FormControl): {[s: string]: boolean} {
+  validaRut(control: UntypedFormControl): {[s: string]: boolean} {
     console.log('uno', control.value);
     // let out1_rut = this.rutService.getRutChile(0, '12514508-6');
     if (validateRut(control.value) === false){

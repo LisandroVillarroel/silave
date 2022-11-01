@@ -1,6 +1,6 @@
 import { IClienteEmpresa, IEmailCliente } from './../../../../modelo/cliente-interface';
 import { Component, OnInit, Inject, ViewChild, Renderer2 } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { ClienteService } from '../../../../servicios/cliente.service';
@@ -23,7 +23,7 @@ import { MenuService } from '@app/servicios/menu.service';
 })
 export class AgregaClienteComponent implements OnInit {
 
-  form: FormGroup | undefined;
+  form: UntypedFormGroup | undefined;
   usuario: string;
   datoCliente: ICliente | undefined;
   clienteEmpresa!: IClienteEmpresa[];
@@ -54,25 +54,25 @@ export class AgregaClienteComponent implements OnInit {
 
   }
 
-    rutCliente = new FormControl('', [Validators.required, this.validaRut]);
-    razonSocial = new FormControl('', [Validators.required]);
-    nombreFantasia = new FormControl('', [Validators.required]);
-    direccion = new FormControl('', [Validators.required]);
-    telefono = new FormControl('', [Validators.required]);
-    email = new FormControl('', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]);
-    nombreContacto = new FormControl('', [Validators.required]);
-    emailRecepcionExamenCliente = new FormControl('', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]);
+    rutCliente = new UntypedFormControl('', [Validators.required, this.validaRut]);
+    razonSocial = new UntypedFormControl('', [Validators.required]);
+    nombreFantasia = new UntypedFormControl('', [Validators.required]);
+    direccion = new UntypedFormControl('', [Validators.required]);
+    telefono = new UntypedFormControl('', [Validators.required]);
+    email = new UntypedFormControl('', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]);
+    nombreContacto = new UntypedFormControl('', [Validators.required]);
+    emailRecepcionExamenCliente = new UntypedFormControl('', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]);
 
-    emailEnvio = new FormControl('', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]);
-    password = new FormControl('', [Validators.required]);
-    nombreDesde = new FormControl('', [Validators.required]);
-    asunto = new FormControl('', [Validators.required]);
-    tituloCuerpo = new FormControl('', [Validators.required]);
-    tituloCuerpoMedio = new FormControl('', [Validators.required]);
-    tituloCuerpoPie = new FormControl('', [Validators.required]);
+    /*emailEnvio = new UntypedFormControl('', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]);
+    password = new UntypedFormControl('', [Validators.required]);*/
+    nombreDesde = new UntypedFormControl('', [Validators.required]);
+    asunto = new UntypedFormControl('', [Validators.required]);
+    tituloCuerpo = new UntypedFormControl('', [Validators.required]);
+    tituloCuerpoMedio = new UntypedFormControl('', [Validators.required]);
+    tituloCuerpoPie = new UntypedFormControl('', [Validators.required]);
 
 
-    agregaCliente: FormGroup = new FormGroup({
+    agregaCliente: UntypedFormGroup = new UntypedFormGroup({
       rutCliente: this.rutCliente,
       razonSocial: this.razonSocial,
       nombreFantasia: this.nombreFantasia,
@@ -82,8 +82,8 @@ export class AgregaClienteComponent implements OnInit {
       nombreContacto: this.nombreContacto,
       emailRecepcionExamenCliente: this.emailRecepcionExamenCliente,
 
-      emailEnvio: this.emailEnvio,
-      password: this.password,
+     /* emailEnvio: this.emailEnvio,
+      password: this.password,*/
       nombreDesde: this.nombreDesde,
       asunto: this.asunto,
       tituloCuerpo: this.tituloCuerpo,
@@ -120,13 +120,14 @@ export class AgregaClienteComponent implements OnInit {
         return this.emailRecepcionExamenCliente.hasError('required') ? 'Debes ingresar Email Envío Exámen' : '';
       }
 
-
+/*
       if (campo === 'emailEnvio'){
         return this.emailEnvio.hasError('required') ? 'Debes ingresar Email Envio' : '';
       }
       if (campo === 'password'){
         return this.password.hasError('required') ? 'Debes ingresar Password' : '';
       }
+      */
       if (campo === 'nombreDesde'){
         return this.nombreDesde.hasError('required') ? 'Debes ingresar Nombre Desde' : '';
       }
@@ -153,7 +154,7 @@ export class AgregaClienteComponent implements OnInit {
     }
 
 
-  validaRut(control: FormControl): {[s: string]: boolean} {
+  validaRut(control: UntypedFormControl): {[s: string]: boolean} {
     console.log('uno', control.value);
     // let out1_rut = this.rutService.getRutChile(0, '12514508-6');
     if (validateRut(control.value) === false){

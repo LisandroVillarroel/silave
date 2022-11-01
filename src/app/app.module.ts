@@ -7,6 +7,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 // used to create fake backend
 import { fakeBackendProvider } from './autentica/_helpers';
@@ -125,6 +126,20 @@ import { ModificaValidadoresComponent } from './componentes/mantenedores/validad
 import { AgregaValidadoresComponent } from './componentes/mantenedores/validadores/agrega-validadores/agrega-validadores.component';
 import { ConsultaValidadoresComponent } from './componentes/mantenedores/validadores/consulta-validadores/consulta-validadores.component';
 import { EliminaValidadoresComponent } from './componentes/mantenedores/validadores/elimina-validadores/elimina-validadores.component';
+
+import { BarraComparaComponent } from './componentes/gestion/dash-panel-ventas/barra-compara/barra-compara.component';
+import { DashPanelVentasComponent } from './componentes/gestion/dash-panel-ventas/dash-panel-ventas.component';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatCardModule } from '@angular/material/card';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { LayoutModule } from '@angular/cdk/layout';
+import { BarraExamenesComponent } from './componentes/gestion/dash-panel-ventas/barra-examenes/barra-examenes.component';
+import { BarraDiasComponent } from './componentes/gestion/dash-panel-ventas/barra-dias/barra-dias.component';
+import { BarraGeneralComponent } from './componentes/gestion/dash-panel-ventas/barra-general/barra-general.component';
+import { BarraVeterinariaComponent } from './componentes/gestion/dash-panel-ventas/barra-veterinaria/barra-veterinaria.component';
+import { EstadoVentasComponent } from './componentes/controVentas/estado-ventas/estado-ventas.component';
 registerLocaleData(localeFr, 'es', localeFrExtra);
 
 @NgModule({
@@ -221,7 +236,14 @@ registerLocaleData(localeFr, 'es', localeFrExtra);
         ModificaValidadoresComponent,
         AgregaValidadoresComponent,
         ConsultaValidadoresComponent,
-        EliminaValidadoresComponent
+        EliminaValidadoresComponent,
+        BarraComparaComponent,
+        DashPanelVentasComponent,
+        BarraExamenesComponent,
+        BarraDiasComponent,
+        BarraGeneralComponent,
+        BarraVeterinariaComponent,
+        EstadoVentasComponent
     ],
     imports: [
         BrowserModule,
@@ -229,13 +251,20 @@ registerLocaleData(localeFr, 'es', localeFrExtra);
         ReactiveFormsModule,
         HttpClientModule,
         BrowserAnimationsModule,
+        NgxChartsModule,
         FormsModule,
     //    RutModule,
         Ng2Rut,
    //     routing,
         //
         ImageUploadModule.forRoot(),
-        MaterialModule
+        MaterialModule,
+        MatGridListModule,
+        MatCardModule,
+        MatMenuModule,
+        MatIconModule,
+        MatButtonModule,
+        LayoutModule
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     providers: [

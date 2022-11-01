@@ -2,11 +2,11 @@
 
 <mat-dialog-content name="emina" class="elimina-container">
 
-  <mat-form-field color="accent">
+  <mat-form-field>
     <input matInput placeholder="Rut"  value="{{data.datoClientePar.empresa[0]?.rutCliente}}" disabled='true' >
   </mat-form-field>
 
-  <mat-form-field color="accent">
+  <mat-form-field>
     <input matInput placeholder="Razón Social"  value="{{data.datoClientePar.empresa[0]?.razonSocial}}" disabled='true' >
   </mat-form-field>
 
@@ -35,33 +35,35 @@
     <input matInput placeholder="Contraseña " value="{{this.data.empresa[0]?.envioEmail?.password}}" disabled='true'>
   </mat-form-field>
 -->
-  <mat-form-field color="accent">
+  <mat-form-field>
     <input matInput placeholder="Nombre Desde " value="{{data.datoClientePar.empresa[0]?.envioEmail?.nombreDesde}}" disabled='true'>
   </mat-form-field>
 
-  <mat-form-field color="accent">
+  <mat-form-field>
     <input matInput placeholder="Asunto" value="{{data.datoClientePar.empresa[0]?.envioEmail?.asunto}}" disabled='true'>
   </mat-form-field>
 
-  <mat-form-field color="accent">
+  <mat-form-field>
     <input matInput placeholder="Título Cuerpo" value="{{data.datoClientePar.empresa[0]?.envioEmail?.tituloCuerpo}}" disabled='true'>
   </mat-form-field>
 
-  <mat-form-field color="accent">
+  <mat-form-field>
     <input matInput placeholder="Título Cuerpo Medio " value="{{data.datoClientePar.empresa[0]?.envioEmail?.tituloCuerpoMedio}}" disabled='true'>
   </mat-form-field>
 
 
-  <mat-form-field color="accent">
+  <mat-form-field>
     <input matInput placeholder="Título Cuerpo Pie " value="{{data.datoClientePar.empresa[0]?.envioEmail?.tituloCuerpoPie}}" disabled='true'>
   </mat-form-field>
 </mat-dialog-content>
 
 <mat-dialog-actions>
-    <div class="col-md-6">
-      <button mat-raised-button color="warn"  mat-dialog-close  [disabled]=false>Cerrar</button>
+    <div class="col-md-5">
+      <button mat-raised-button class="colorFondoBotonCancelar"  mat-dialog-close  [disabled]=false>Cancelar</button>
     </div>
-    <div class="col-md-6">
-      <button class="colorFondoBoton" mat-raised-button  (click)="enviar()"  >ELIMINA</button>
+    <div class="col-md-2">
+    </div>
+    <div class="col-md-5">
+      <button class="colorFondoBotonEliminar" mat-raised-button  (click)="enviar()"  >ELIMINA</button>
     </div>
 </mat-dialog-actions>

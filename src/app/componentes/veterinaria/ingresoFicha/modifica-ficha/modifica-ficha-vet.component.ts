@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
-  import { FormGroup, FormControl, Validators } from '@angular/forms';
+  import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
   import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+  import { formatRut, RutFormat, validateRut } from "@fdograph/rut-utilities";
 
   import { ICliente } from './../../../../modelo/cliente-interface';
   import { IExamen } from './../../../../modelo/examen-interface';
@@ -22,6 +23,7 @@ import { DoctorSolicitanteService } from './../../../../servicios/doctor-solicit
 import { AuthenticationService } from './../../../../autentica/_services';
 import { JwtResponseI } from './../../../../autentica/_models';
 import { UsuarioLabService } from '@app/servicios/usuario-lab.service';
+import { PropietarioService } from '@app/servicios/propietario.service';
 
 
 @Component({
@@ -43,7 +45,7 @@ export class ModificaFichaVetComponent implements OnInit {
     usuarioAsignado!:IFichaUsuarioAsignado;
 
     usuario: string;
-    form!: FormGroup;
+    form!: UntypedFormGroup;
     datoExamen!: IExamen[];
     datoUsuario!: IUsuario[];
     datoCliente!: ICliente[];
@@ -65,6 +67,7 @@ export class ModificaFichaVetComponent implements OnInit {
                 private especieService: EspecieService,
                 private razaService: RazaService,
                 private doctorSolicitanteService: DoctorSolicitanteService,
+                private propietarioService: PropietarioService,
                 private fichaService: FichaService,
                 private authenticationService: AuthenticationService
                 ) {
@@ -82,21 +85,23 @@ export class ModificaFichaVetComponent implements OnInit {
 
 
 
-      idCliente= new FormControl(this.data.fichaC.cliente, [Validators.required]);
-      nombrePropietario= new FormControl(this.data.fichaC.nombrePropietario, [Validators.required]);
-      nombrePaciente= new FormControl(this.data.fichaC.nombrePaciente, [Validators.required]);
-      idEspecie= new FormControl(this.data.fichaC.especie, [Validators.required]);
-      idRaza= new FormControl(this.data.fichaC.raza, [Validators.required]);
-      edad= new FormControl(this.data.fichaC.edadPaciente, [Validators.required]);
-      sexo= new FormControl(this.data.fichaC.sexo, [Validators.required]);
-      idDoctorSolicitante= new FormControl(this.data.fichaC.doctorSolicitante, [Validators.required]);
-      idExamen= new FormControl(this.data.fichaC.examen,[Validators.required]);
-      idUsuario= new FormControl(this.data.usuarioAsignado);
+      idCliente= new UntypedFormControl(this.data.fichaC.cliente, [Validators.required]);
+      rutPropietario = new UntypedFormControl(this.data.fichaC.rutPropietario);
+      nombrePropietario= new UntypedFormControl(this.data.fichaC.nombrePropietario);
+      nombrePaciente= new UntypedFormControl(this.data.fichaC.nombrePaciente, [Validators.required]);
+      idEspecie= new UntypedFormControl(this.data.fichaC.especie, [Validators.required]);
+      idRaza= new UntypedFormControl(this.data.fichaC.raza, [Validators.required]);
+      edad= new UntypedFormControl(this.data.fichaC.edadPaciente, [Validators.required]);
+      sexo= new UntypedFormControl(this.data.fichaC.sexo, [Validators.required]);
+      idDoctorSolicitante= new UntypedFormControl(this.data.fichaC.doctorSolicitante, [Validators.required]);
+      idExamen= new UntypedFormControl(this.data.fichaC.examen,[Validators.required]);
+      idUsuario= new UntypedFormControl(this.data.usuarioAsignado);
 
 
 
-      modificaFicha: FormGroup = new FormGroup({
+      modificaFicha: UntypedFormGroup = new UntypedFormGroup({
                     idCliente: this.idCliente,
+                    rutPropietario: this.rutPropietario,
                     nombrePropietario: this.nombrePropietario,
                     nombrePaciente: this.nombrePaciente,
                     idEspecie: this.idEspecie,
@@ -141,7 +146,7 @@ export class ModificaFichaVetComponent implements OnInit {
                   }
 
     ngOnInit() {
-
+      this.modificaFicha.controls['nombrePropietario'].disable()
 
     }
 
@@ -303,6 +308,43 @@ export class ModificaFichaVetComponent implements OnInit {
       return;
     }
 
+    cargaPropietarioRut(rutPropietario:string){
+      let nombrePropietario:string;
+
+      this.propietarioService
+      .getDataPropietarioRut(rutPropietario)
+      .subscribe(res => {
+
+        if (res['data'].length!=0){
+          console.log('encontro propietario:', res['data']);
+          nombrePropietario=res['data'][0].nombres
+          console.log('nombre:',nombrePropietario);
+          if(res['data'][0].apellidoPaterno!='.')
+            nombrePropietario=nombrePropietario + " " + res['data'][0].nombrePropietario
+
+          if(res['data'][0].apellidoMaterno!='.')
+            nombrePropietario=nombrePropietario + " " + res['data'][0].nombreMropietario
+
+          this.modificaFicha.get('nombrePropietario')!.setValue(nombrePropietario);
+          this.modificaFicha.controls['nombrePropietario'].disable()
+        }
+        else{
+          this.modificaFicha.controls['nombrePropietario'].enable()
+          this.modificaFicha.get('nombrePropietario')!.setValue("");
+        }
+      //  this.datoRaza = res['data'] as any[];
+      },
+      // console.log('yo:', res as PerfilI[]),
+      error => {
+        console.log('error carga:', error);
+       Swal.fire(
+        'ERROR INESPERADO',
+        error,
+       'error'
+      );
+      }
+    ); // (this.dataSource.data = res as PerfilI[])
+    }
 
 
 
@@ -399,6 +441,7 @@ export class ModificaFichaVetComponent implements OnInit {
           _id:this.data._id,
           fichaC: {
                 cliente: this.cliente,
+                rutPropietario: this.modificaFicha.get('rutPropietario')!.value,
                 nombrePropietario: this.modificaFicha.get('nombrePropietario')!.value,
                 nombrePaciente: this.modificaFicha.get('nombrePaciente')!.value,
                 edadPaciente: this.modificaFicha.get('edad')!.value,
@@ -488,6 +531,15 @@ export class ModificaFichaVetComponent implements OnInit {
       console.log('v1:',v1.toUpperCase());
       console.log('v2:',v2.toUpperCase());
       return  v1.toUpperCase()===v2.toUpperCase();
+    }
+
+    onBlurRutPropietario(event: any){
+      const rut = event.target.value;
+
+      if (validateRut(rut) === true){
+        this.modificaFicha.get('rutPropietario')!.setValue(formatRut(rut, RutFormat.DOTS_DASH));
+         this.cargaPropietarioRut(this.modificaFicha.get('rutPropietario')!.value)
+      }
     }
 
   }

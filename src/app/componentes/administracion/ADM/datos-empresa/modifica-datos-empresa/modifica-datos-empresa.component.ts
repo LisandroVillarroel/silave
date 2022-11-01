@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { JwtResponseI } from '@app/autentica/_models';
 import { AuthenticationService } from '@app/autentica/_services';
@@ -67,23 +67,23 @@ export class ModificaDatosEmpresaComponent implements OnInit {
     console.log('imegen:',this.imagen)
   }
 
-  razonSocial = new FormControl(this.data.razonSocial, [Validators.required]);
-  nombreFantasia = new FormControl(this.data.nombreFantasia, [Validators.required]);
-  direccion = new FormControl(this.data.direccion, [Validators.required]);
-  nombreContacto = new FormControl(this.data.nombreContacto, [Validators.required]);
-  telefono = new FormControl(this.data.telefono, [Validators.required]);
-  tipoEmpresa = new FormControl(this.data.menu_Id, [Validators.required]);
-  email = new FormControl(this.data.email, [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]);
-  correoRecepcionSolicitud = new FormControl(this.data.correoRecepcionSolicitud, [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]);
-  emailEnvio = new FormControl(this.data.envioEmail?.emailEnvio, [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]);
-  password = new FormControl(this.data.envioEmail?.password, [Validators.required]);
-  nombreDesde = new FormControl(this.data.envioEmail?.nombreDesde, [Validators.required]);
-  asunto = new FormControl(this.data.envioEmail?.asunto, [Validators.required]);
-  tituloCuerpo = new FormControl(this.data.envioEmail?.tituloCuerpo, [Validators.required]);
-  tituloCuerpoMedio = new FormControl(this.data.envioEmail?.tituloCuerpoMedio, [Validators.required]);
-  tituloCuerpoPie = new FormControl(this.data.envioEmail?.tituloCuerpoPie, [Validators.required]);
+  razonSocial = new UntypedFormControl(this.data.razonSocial, [Validators.required]);
+  nombreFantasia = new UntypedFormControl(this.data.nombreFantasia, [Validators.required]);
+  direccion = new UntypedFormControl(this.data.direccion, [Validators.required]);
+  nombreContacto = new UntypedFormControl(this.data.nombreContacto, [Validators.required]);
+  telefono = new UntypedFormControl(this.data.telefono, [Validators.required]);
+  tipoEmpresa = new UntypedFormControl(this.data.menu_Id, [Validators.required]);
+  email = new UntypedFormControl(this.data.email, [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]);
+  correoRecepcionSolicitud = new UntypedFormControl(this.data.correoRecepcionSolicitud, [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]);
+  emailEnvio = new UntypedFormControl(this.data.envioEmail?.emailEnvio, [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]);
+  password = new UntypedFormControl(this.data.envioEmail?.password, [Validators.required]);
+  nombreDesde = new UntypedFormControl(this.data.envioEmail?.nombreDesde, [Validators.required]);
+  asunto = new UntypedFormControl(this.data.envioEmail?.asunto, [Validators.required]);
+  tituloCuerpo = new UntypedFormControl(this.data.envioEmail?.tituloCuerpo, [Validators.required]);
+  tituloCuerpoMedio = new UntypedFormControl(this.data.envioEmail?.tituloCuerpoMedio, [Validators.required]);
+  tituloCuerpoPie = new UntypedFormControl(this.data.envioEmail?.tituloCuerpoPie, [Validators.required]);
 
-  modificaEmpresa : FormGroup = new FormGroup({
+  modificaEmpresa : UntypedFormGroup = new UntypedFormGroup({
     razonSocial: this.razonSocial,
     nombreFantasia: this.nombreFantasia,
     direccion: this.direccion,

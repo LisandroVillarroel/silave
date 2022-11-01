@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, Input, ViewChild, ElementRef } from '@angular/core';
-  import { FormGroup, FormControl, Validators } from '@angular/forms';
+  import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
   import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
   //import { RutService } from 'rut-chileno';
@@ -30,7 +30,7 @@ export class HemogramaComponent implements OnInit {
 
     currentUsuario!: JwtResponseI;
 
-    form!: FormGroup;
+    form!: UntypedFormGroup;
     usuario!: string;
     datoFicha!: IFicha;
     datoFichaRespuesta!: IFicha;
@@ -84,30 +84,30 @@ export class HemogramaComponent implements OnInit {
                  this.datoFicha=data;
       }
     //  examen = new FormControl('', [Validators.required] );
-      srHematocrito = new FormControl('',  [Validators.required] );
-      srEritrocitos = new FormControl('',  [Validators.required] );
-      srHemoglobina = new FormControl('');
-      srVcm = new FormControl('');
-      srChcm = new FormControl('');
-      srHcm = new FormControl('');
-      srReticulocitos = new FormControl('');
-      srPlaquetas = new FormControl('');
+      srHematocrito = new UntypedFormControl('',  [Validators.required] );
+      srEritrocitos = new UntypedFormControl('',  [Validators.required] );
+      srHemoglobina = new UntypedFormControl('');
+      srVcm = new UntypedFormControl('');
+      srChcm = new UntypedFormControl('');
+      srHcm = new UntypedFormControl('');
+      srReticulocitos = new UntypedFormControl('');
+      srPlaquetas = new UntypedFormControl('');
 
 
-      sbLeucocitos2 = new FormControl('');
-      sbNeutrofilos = new FormControl('');
-      sbLinfocitos = new FormControl('');
-      sbMonocitos = new FormControl('');
-      sbEosinofilos = new FormControl('');
-      sbBasofilos = new FormControl('');
-      sbBaciliformes = new FormControl('');
-      sbTotalP= new FormControl('', [Validators.required]);
+      sbLeucocitos2 = new UntypedFormControl('');
+      sbNeutrofilos = new UntypedFormControl('');
+      sbLinfocitos = new UntypedFormControl('');
+      sbMonocitos = new UntypedFormControl('');
+      sbEosinofilos = new UntypedFormControl('');
+      sbBasofilos = new UntypedFormControl('');
+      sbBaciliformes = new UntypedFormControl('');
+      sbTotalP= new UntypedFormControl('', [Validators.required]);
 
-      obsEritrocitos = new FormControl('');
-      obsLeucocitos = new FormControl('');
-      obsPlaquetas = new FormControl('');
+      obsEritrocitos = new UntypedFormControl('');
+      obsLeucocitos = new UntypedFormControl('');
+      obsPlaquetas = new UntypedFormControl('');
 
-      ingresaHemograma: FormGroup = new FormGroup({
+      ingresaHemograma: UntypedFormGroup = new UntypedFormGroup({
        // examen: this.examen,
        srHematocrito: this.srHematocrito,
        srEritrocitos: this.srEritrocitos,

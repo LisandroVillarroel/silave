@@ -1,5 +1,5 @@
   import { Component, OnInit, Inject } from '@angular/core';
-  import { FormGroup, FormControl, Validators } from '@angular/forms';
+  import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
   import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { JwtResponseI } from '@app/autentica/_models';
 import { AuthenticationService } from '@app/autentica/_services';
@@ -18,7 +18,7 @@ import { ClienteService } from '@app/servicios/cliente.service';
 })
 export class AgregaDoctorSolicitanteComponent implements OnInit {
 
-    form!: FormGroup;
+    form!: UntypedFormGroup;
     usuario: string;
     dato!: IDoctorSolicitante;
     cliente!:ICliente_
@@ -37,10 +37,10 @@ export class AgregaDoctorSolicitanteComponent implements OnInit {
                  this.cargaCliente();
       }
 
-      nombre = new FormControl('', [Validators.required]);
-      idCliente = new FormControl('', [Validators.required]);
+      nombre = new UntypedFormControl('', [Validators.required]);
+      idCliente = new UntypedFormControl('', [Validators.required]);
 
-      agregaDoctorSolicitante: FormGroup = new FormGroup({
+      agregaDoctorSolicitante: UntypedFormGroup = new UntypedFormGroup({
         nombre: this.nombre,
         idCliente: this.idCliente
       });

@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import Swal from 'sweetalert2';
@@ -16,7 +16,7 @@ import { AuthenticationService } from './../../../../autentica/_services';
 })
 export class AgregaEspecieComponent implements OnInit {
 
-  form!: FormGroup;
+  form!: UntypedFormGroup;
   usuario: string;
   dato!: IEspecie;
 
@@ -31,10 +31,10 @@ export class AgregaEspecieComponent implements OnInit {
                this.usuario = data.usuario;
     }
 
-    nombre = new FormControl('', [Validators.required]);
+    nombre = new UntypedFormControl('', [Validators.required]);
 
 
-    agregaEspecie: FormGroup = new FormGroup({
+    agregaEspecie: UntypedFormGroup = new UntypedFormGroup({
       nombre: this.nombre
     });
 

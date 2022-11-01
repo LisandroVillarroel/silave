@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { environment } from './../../../environments/environment';
 
@@ -15,7 +15,7 @@ import { JwtResponseI } from '../_models';
 })
 export class LoginComponent implements OnInit {
  // loginForm: FormGroup;
- form!: FormGroup;
+ form!: UntypedFormGroup;
   loading = false;
   submitted = false;
   returnUrl!: string;
@@ -36,10 +36,10 @@ export class LoginComponent implements OnInit {
       }
   }
 
-  usuario = new FormControl('', [Validators.required]);
-  contrasena = new FormControl('', [Validators.required]);
+  usuario = new UntypedFormControl('', [Validators.required]);
+  contrasena = new UntypedFormControl('', [Validators.required]);
 
-  loginForm: FormGroup = new FormGroup({
+  loginForm: UntypedFormGroup = new UntypedFormGroup({
       usuario: this.usuario,
       contrasena: this.contrasena
   });
@@ -94,7 +94,7 @@ export class LoginComponent implements OnInit {
       confirmButtonText: 'Aceptar',
       showLoaderOnConfirm: true,
       preConfirm: (login) => {
-        return fetch(`${environment.apiUrl}/resetContrasena/${login}` )
+        return fetch(`${environment.apiUrl}/resetContrasena/${login}/${environment.urlFront}` )
           .then(response => {
             console.log('response:',response)
             if (!response.ok) {

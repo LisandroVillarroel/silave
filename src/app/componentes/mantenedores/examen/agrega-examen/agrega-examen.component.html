@@ -43,9 +43,9 @@
 
 <mat-dialog-actions>
     <div class="col-md-6">
-      <button mat-raised-button color="warn"  mat-dialog-close  [disabled]=false>Cerrar</button>
+      <button mat-raised-button class="colorFondoBotonCancelar"  mat-dialog-close  [disabled]=false>CANCELAR</button>
     </div>
     <div class="col-md-6">
-      <button class="colorFondoBoton" mat-raised-button  (click)="enviar()" [disabled]="agregaExamen.invalid">GRABAR</button>
+      <button class="colorFondoBotonGrabar" mat-raised-button  (click)="enviar()" [disabled]="agregaExamen.invalid">GRABAR</button>
     </div>
 </mat-dialog-actions>

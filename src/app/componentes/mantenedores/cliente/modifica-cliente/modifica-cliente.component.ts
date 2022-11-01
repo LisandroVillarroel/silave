@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { ClienteService } from './../../../../servicios/cliente.service';
@@ -14,7 +14,7 @@ import Swal from 'sweetalert2';
 })
 export class ModificaClienteComponent implements OnInit {
 
-  form!: FormGroup;
+  form!: UntypedFormGroup;
 
   // id: string;
   // rutEmpresa: string;
@@ -47,23 +47,23 @@ export class ModificaClienteComponent implements OnInit {
                // usuario: string;
   }
 
-    razonSocial = new FormControl(this.data.datoClientePar.empresa[0].razonSocial, [Validators.required]);
-    nombreFantasia = new FormControl(this.data.datoClientePar.empresa[0].nombreFantasia, [Validators.required]);
-    direccion = new FormControl(this.data.datoClientePar.empresa[0].direccion, [Validators.required]);
-    telefono = new FormControl(this.data.datoClientePar.empresa[0].telefono, [Validators.required]);
-    email = new FormControl(this.data.datoClientePar.empresa[0].email, [Validators.required]);
-    nombreContacto = new FormControl(this.data.datoClientePar.empresa[0].nombreContacto, [Validators.required]);
-    emailRecepcionExamenCliente = new FormControl(this.data.datoClientePar.emailRecepcionExamenCliente, [Validators.required]);
+    razonSocial = new UntypedFormControl(this.data.datoClientePar.empresa[0].razonSocial, [Validators.required]);
+    nombreFantasia = new UntypedFormControl(this.data.datoClientePar.empresa[0].nombreFantasia, [Validators.required]);
+    direccion = new UntypedFormControl(this.data.datoClientePar.empresa[0].direccion, [Validators.required]);
+    telefono = new UntypedFormControl(this.data.datoClientePar.empresa[0].telefono, [Validators.required]);
+    email = new UntypedFormControl(this.data.datoClientePar.empresa[0].email, [Validators.required]);
+    nombreContacto = new UntypedFormControl(this.data.datoClientePar.empresa[0].nombreContacto, [Validators.required]);
+    emailRecepcionExamenCliente = new UntypedFormControl(this.data.datoClientePar.emailRecepcionExamenCliente, [Validators.required]);
 
     //emailEnvio = new FormControl(this.data.datoClientePar.empresa[0]?.envioEmail?.emailEnvio, [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]);
   //password = new FormControl(this.data.datoClientePar.empresa[0]?.envioEmail?.password, [Validators.required]);
-    nombreDesde = new FormControl(this.data.datoClientePar.empresa[0]?.envioEmail?.nombreDesde, [Validators.required]);
-    asunto = new FormControl(this.data.datoClientePar.empresa[0]?.envioEmail?.asunto, [Validators.required]);
-    tituloCuerpo = new FormControl(this.data.datoClientePar.empresa[0]?.envioEmail?.tituloCuerpo, [Validators.required]);
-    tituloCuerpoMedio = new FormControl(this.data.datoClientePar.empresa[0]?.envioEmail?.tituloCuerpoMedio, [Validators.required]);
-    tituloCuerpoPie = new FormControl(this.data.datoClientePar.empresa[0]?.envioEmail?.tituloCuerpoPie, [Validators.required]);
+    nombreDesde = new UntypedFormControl(this.data.datoClientePar.empresa[0]?.envioEmail?.nombreDesde, [Validators.required]);
+    asunto = new UntypedFormControl(this.data.datoClientePar.empresa[0]?.envioEmail?.asunto, [Validators.required]);
+    tituloCuerpo = new UntypedFormControl(this.data.datoClientePar.empresa[0]?.envioEmail?.tituloCuerpo, [Validators.required]);
+    tituloCuerpoMedio = new UntypedFormControl(this.data.datoClientePar.empresa[0]?.envioEmail?.tituloCuerpoMedio, [Validators.required]);
+    tituloCuerpoPie = new UntypedFormControl(this.data.datoClientePar.empresa[0]?.envioEmail?.tituloCuerpoPie, [Validators.required]);
 
-    modificaCliente: FormGroup = new FormGroup({
+    modificaCliente: UntypedFormGroup = new UntypedFormGroup({
       // rutEmpresa: this.datoEmpresaPar.rutEmpresa,
       razonSocial: this.razonSocial,
       nombreFantasia: this.nombreFantasia,

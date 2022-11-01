@@ -11,7 +11,7 @@
 
 
     </div>
-    <button class="padingLateral" mat-button [matMenuTriggerFor]="menu"><mat-icon>keyboard_arrow_down</mat-icon></button>
+    <button class="padingLateral v-align-middle " mat-button [matMenuTriggerFor]="menu"><mat-icon>keyboard_arrow_down</mat-icon></button>
 <mat-menu #menu="matMenu">
   <button *ngIf="accesoDatosEmpresa" mat-menu-item routerLink="/actualizaDatosEmpresa">Datos Empresa</button>
   <button mat-menu-item routerLink="/actualizaDatos">Datos Personales</button>

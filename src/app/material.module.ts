@@ -60,7 +60,7 @@ A11yModule, ClipboardModule, DragDropModule, PortalModule, ScrollingModule, CdkS
 MatAutocompleteModule, MatBadgeModule, MatBottomSheetModule, MatButtonToggleModule, MatCheckboxModule, MatChipsModule,
 MatStepperModule, MatGridListModule, MatNativeDateModule, MatRippleModule, MatProgressBarModule, MatProgressSpinnerModule,
 MatRadioModule, MatSliderModule, MatSlideToggleModule, MatSnackBarModule, MatSortModule, MatTabsModule , MatTreeModule,
-OverlayModule, CdkAccordionModule ];
+OverlayModule, CdkAccordionModule  ];
 @NgModule({
   declarations: [],
   imports: [miModelo, CommonModule],

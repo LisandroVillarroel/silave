@@ -2,23 +2,23 @@
 
 <mat-dialog-content  name="consulta" class="consulta-container">
 
-  <mat-form-field color="accent">
+  <mat-form-field >
     <input matInput placeholder="Rut"  value="{{data.empresa[0].rutCliente}}" disabled='true' >
   </mat-form-field>
 
-  <mat-form-field color="accent">
+  <mat-form-field >
     <input matInput placeholder="Razón Social"  value="{{data.empresa[0].razonSocial}}" disabled='true' >
   </mat-form-field>
 
-  <mat-form-field color="accent">
+  <mat-form-field>
       <input matInput placeholder="Nombre de Fantasía" value="{{data.empresa[0].nombreFantasia}}" disabled='true'>
-  </mat-form-field >
+  </mat-form-field>
 
-  <mat-form-field color="accent">
+  <mat-form-field>
     <input matInput placeholder="Dirección" value="{{data.empresa[0].direccion}}" disabled='true'>
   </mat-form-field>
 
-  <mat-form-field color="accent">
+  <mat-form-field>
     <input matInput placeholder="Teléfono" value="{{data.empresa[0].telefono}}" disabled='true'>
   </mat-form-field>
 
@@ -35,24 +35,24 @@
     <input matInput placeholder="Contraseña " value="{{this.data.empresa[0]?.envioEmail?.password}}" disabled='true'>
   </mat-form-field>
 -->
-  <mat-form-field color="accent">
+  <mat-form-field>
     <input matInput placeholder="Nombre Desde " value="{{this.data.empresa[0]?.envioEmail?.nombreDesde}}" disabled='true'>
   </mat-form-field>
 
-  <mat-form-field color="accent">
+  <mat-form-field>
     <input matInput placeholder="Asunto" value="{{this.data.empresa[0]?.envioEmail?.asunto}}" disabled='true'>
   </mat-form-field>
 
-  <mat-form-field color="accent">
+  <mat-form-field>
     <input matInput placeholder="Título Cuerpo" value="{{this.data.empresa[0]?.envioEmail?.tituloCuerpo}}" disabled='true'>
   </mat-form-field>
 
-  <mat-form-field color="accent">
+  <mat-form-field>
     <input matInput placeholder="Título Cuerpo Medio " value="{{this.data.empresa[0]?.envioEmail?.tituloCuerpoMedio}}" disabled='true'>
   </mat-form-field>
 
 
-  <mat-form-field color="accent">
+  <mat-form-field>
     <input matInput placeholder="Título Cuerpo Pie " value="{{this.data.empresa[0]?.envioEmail?.tituloCuerpoPie}}" disabled='true'>
   </mat-form-field>
 
@@ -60,6 +60,6 @@
 
 <mat-dialog-actions class="justify-content-center">
     <div class="col-md-6">
-      <button mat-raised-button color="warn"  mat-dialog-close  [disabled]=false>Cerrar</button>
+      <button mat-raised-button class="colorFondoBotonCancelar"   mat-dialog-close  [disabled]=false>Cerrar</button>
     </div>
 </mat-dialog-actions>

@@ -1,46 +1,4 @@
-/*.mat-menu-item {
-    text-align: center !important;
-}
 
-.color-boton-menu{
-    color: rgb(255, 102, 0) !important;
-  }
-
-a{
-    color: #000000 !important;
-}
-button .mat-icon-button mat-icon{
-    color: rgb(255, 102, 0) !important;
-}
-
-.mat-menu-item-highlighted:not([disabled]), .mat-menu-item.cdk-keyboard-focused:not([disabled]), .mat-menu-item.cdk-program-focused:not([disabled]), .mat-menu-item:hover:not([disabled]) {
-
-    background-color:hsla(24, 98%, 51%, 0.199) !important;
-    color: rgb(255, 102, 0) !important;
-}
-
-.active-link {
-    color:rgb(255, 102, 0) !important;
-  }
-
-  .nav-link {
-     padding: 0 0 0 0;
-}
-
-.mat-menu-item {
-
-line-height: 0 !important;
-height: 30px !important;
-padding: 0 5px !important;
-
-
-}
-*/
-.bodebotom{
-  border-bottom-color:rgb(255, 102, 0) !important;
-   border-bottom-style:solid;
-   border-bottom-width:2px;
-}
 
 .tamañoLetra{
   font-size: 12px;
@@ -99,35 +57,30 @@ h1.example-app-name {
 
 /*Menu*/
 
-mat-toolbar {
-  background: #004a9f;
-  color: white;
-}
-
 mat-sidenav {
   margin: 16px;
-  width: 15%;
+  width: 18%;
   border-right: none;
-  background: #118383;
+  background: #118383;  /*Colof de Fondo menu*/
   color: white;
   border-radius: 10px;
   padding: 1px;
   text-align: center;
 }
 
-.content {
-  min-height: calc(100vh - 98px); /* largo de pantalla*/
-
-  border-radius: 10px;
-  margin: 16px;
-  margin-left: 32px;
-  /*display: flex;*/
-  justify-content: center;
-  align-items: center;
-  font-size: 2rem;
-  color: rgb(61, 61, 61);
-  padding: 0 1px !important;
+@media only screen and (max-width: 400px) {
+  mat-sidenav {
+    margin: 16px;
+    width: 45%;
+    border-right: none;
+    background: #118383;  /*Colof de Fondo menu*/
+    color: white;
+    border-radius: 10px;
+    padding: 1px;
+    text-align: center;
+  }
 }
+
 
 mat-sidenav-container {
   height: calc(100vh - 65px);
@@ -175,4 +128,13 @@ mat-divider {
 .padingLateral{
   padding:0 !important;
   min-width:0 !important;
+}
+
+
+.mat-icon {
+  vertical-align: middle;
+}
+
+.v-align-middle {
+    vertical-align: middle;
 }

@@ -8,11 +8,6 @@
   width: 95%;
 }
 
-.colorFondoBoton {
-  color: white;
-  background-color: black;
-}
-
 .mat-raised-button {
   min-width: 100%;
 }
@@ -89,11 +84,6 @@ h4{
 * {
   box-sizing: border-box;
 }
-
-/*body {
-  background: black;
-}
-*/
 
 
 .mat-form-field-appearance-outline .mat-form-field-outline {

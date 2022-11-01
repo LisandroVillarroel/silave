@@ -9,10 +9,11 @@
 </mat-dialog-content>
 
 <mat-dialog-actions>
-    <div class="col-md-6">
-      <button mat-raised-button color="warn"  mat-dialog-close  [disabled]=false>Cerrar</button>
+    <div class="col-md-5">
+      <button mat-raised-button class="colorFondoBotonCancelar"  mat-dialog-close  [disabled]=false>CANCELAR</button>
     </div>
-    <div class="col-md-6">
-      <button class="colorFondoBoton" mat-raised-button  (click)="enviar()"  >ELIMINA</button>
+    <div class="col-md-2"></div>
+    <div class="col-md-5">
+      <button class="colorFondoBotonEliminar" mat-raised-button  (click)="enviar()"  >ELIMINA</button>
     </div>
 </mat-dialog-actions>

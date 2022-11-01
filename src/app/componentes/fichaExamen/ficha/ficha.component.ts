@@ -54,17 +54,32 @@ export class FichaComponent implements OnInit {
         this.authenticationService.currentUsuario.subscribe(x => this.currentUsuario = x);
         this.dataSource = new MatTableDataSource<IFicha>();
 
+        this.dataSource.filterPredicate = (data: any, filter) => {
+          const dataStr =JSON.stringify(data).toLowerCase();
+          return dataStr.indexOf(filter) != -1;
+        }
+
     }
 
 
-  ngOnInit() {
+  async ngOnInit() {
       console.log('pasa ficha 1');
       if (this.authenticationService.getCurrentUser() != null) {
         this.currentUsuario.usuarioDato = this.authenticationService.getCurrentUser() ;
       }
-      this.getListFicha();
-      this.getEmpresa();
-      this.listaVeterinarias();
+      await this.getListFicha();
+      await this.getEmpresa();
+      await this.listaVeterinarias();
+
+      this.dataSource.sortingDataAccessor = (item:any, property:any) => {
+        switch(property) {
+          case 'fichaC.numeroFicha': return item.fichaC.numeroFicha;
+          case 'fichaC.cliente.nombreFantasia':return item.fichaC.cliente.nombreFantasia;
+          case 'fichaC.nombrePaciente': return item.fichaC.nombrePaciente;
+          case 'fichaC.examen.nombre': return item.fichaC.examen.nombre;
+          default: return item[property];
+        }
+      };
     }
 
   listaVeterinarias(){

@@ -52,16 +52,31 @@ export class FichaVetComponent implements OnInit {
         this.authenticationService.currentUsuario.subscribe(x => this.currentUsuario = x);
         this.dataSource = new MatTableDataSource<IFicha>();
 
+        this.dataSource.filterPredicate = (data: any, filter) => {
+          const dataStr =JSON.stringify(data).toLowerCase();
+          return dataStr.indexOf(filter) != -1;
+        }
+
     }
 
 
-  ngOnInit() {
+  async ngOnInit() {
       console.log('pasa ficha 1');
       if (this.authenticationService.getCurrentUser() != null) {
         this.currentUsuario.usuarioDato = this.authenticationService.getCurrentUser() ;
       }
-      this.getListFicha();
-      this.getCliente();
+      await this.getListFicha();
+      await this.getCliente();
+
+      this.dataSource.sortingDataAccessor = (item:any, property:any) => {
+        switch(property) {
+          case 'fichaC.numeroFicha': return item.fichaC.numeroFicha;
+          case 'fichaC.cliente.nombreFantasia':return item.fichaC.cliente.nombreFantasia;
+          case 'fichaC.nombrePaciente': return item.fichaC.nombrePaciente;
+          case 'fichaC.examen.nombre': return item.fichaC.examen.nombre;
+          default: return item[property];
+        }
+      };
     }
 
   getListFicha(): void {
@@ -177,7 +192,7 @@ export class FichaVetComponent implements OnInit {
 
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
-      dialogConfig.width = '50%';
+      dialogConfig.width = '70%';
       dialogConfig.height = '70%';
       dialogConfig.position = { top : '5%'};
 
@@ -202,7 +217,7 @@ export class FichaVetComponent implements OnInit {
 
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
-      dialogConfig.width = '50%';
+      dialogConfig.width = '70%';
       dialogConfig.height = '70%';
       dialogConfig.position = { top : '5%'};
 

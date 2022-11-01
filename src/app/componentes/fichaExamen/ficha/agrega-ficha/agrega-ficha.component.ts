@@ -1,6 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
-  import { FormGroup, FormControl, Validators } from '@angular/forms';
+  import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
   import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+  import { formatRut, RutFormat, validateRut } from "@fdograph/rut-utilities";
+
   import { ICliente } from './../../../../modelo/cliente-interface';
   import { IExamen } from './../../../../modelo/examen-interface';
   import { IUsuario } from './../../../../modelo/usuario-interface';
@@ -23,6 +25,7 @@ import { EmpresaService } from '@app/servicios/empresa.service';
 import { IEmpresa } from '@app/modelo/empresa-interface';
 import { ValidadorService } from '@app/servicios/validador.service';
 import { IValidador } from '@app/modelo/validador-interface';
+import { PropietarioService } from '@app/servicios/propietario.service';
 
 /*Ese modulo es llamado por Laboratorio y veterinario por lo que tiene varias restricciones dependiendo de quien lo llame*/
 @Component({
@@ -45,7 +48,7 @@ export class AgregaFichaComponent implements OnInit {
     validador!: IValidador;
 
     usuario: string;
-    form!: FormGroup;
+    form!: UntypedFormGroup;
     datoExamen!: IExamen[];
     datoUsuario!: IUsuario[];
     datoCliente!: ICliente[];
@@ -90,6 +93,7 @@ export class AgregaFichaComponent implements OnInit {
                 private examenService: ExamenService,
                 private validadorService: ValidadorService,
                 private usuarioLabService: UsuarioLabService,
+                private propietarioService: PropietarioService,
                 private clienteService: ClienteService,
                 private especieService: EspecieService,
                 private razaService: RazaService,
@@ -115,31 +119,33 @@ export class AgregaFichaComponent implements OnInit {
                  // this.cargaRaza();
       }
 
-      idCliente= new FormControl('', [Validators.required]);
-      idEmpresa= new FormControl('', [Validators.required]);
-      nombrePropietario= new FormControl('', [Validators.required]);
-      nombrePaciente= new FormControl('', [Validators.required]);
-      idEspecie= new FormControl('', [Validators.required]);
-      idRaza= new FormControl('', [Validators.required]);
-      edad= new FormControl('', [Validators.required]);
-      sexo= new FormControl('', [Validators.required]);
-      idDoctorSolicitante= new FormControl('', [Validators.required]);
-      correoClienteFinal = new FormControl('', [Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]);
-      flagExamen= new FormControl('',[Validators.required]);
-      hemograma= new FormControl('');
-      perfilBioquimico= new FormControl('');
-      pruebasDeCoagulacion= new FormControl('');
-      idUsuarioHemograma= new FormControl('');
-      idUsuarioPerfilBioquimico= new FormControl('');
-      idUsuarioPruebasDeCoagulacion= new FormControl('');
+      idCliente= new UntypedFormControl('', [Validators.required]);
+      idEmpresa= new UntypedFormControl('', [Validators.required]);
+      rutPropietario = new UntypedFormControl('');
+      nombrePropietario= new UntypedFormControl('');
+      nombrePaciente= new UntypedFormControl('', [Validators.required]);
+      idEspecie= new UntypedFormControl('', [Validators.required]);
+      idRaza= new UntypedFormControl('', [Validators.required]);
+      edad= new UntypedFormControl('', [Validators.required]);
+      sexo= new UntypedFormControl('', [Validators.required]);
+      idDoctorSolicitante= new UntypedFormControl('', [Validators.required]);
+      correoClienteFinal = new UntypedFormControl('', [Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]);
+      flagExamen= new UntypedFormControl('',[Validators.required]);
+      hemograma= new UntypedFormControl('');
+      perfilBioquimico= new UntypedFormControl('');
+      pruebasDeCoagulacion= new UntypedFormControl('');
+      idUsuarioHemograma= new UntypedFormControl('');
+      idUsuarioPerfilBioquimico= new UntypedFormControl('');
+      idUsuarioPruebasDeCoagulacion= new UntypedFormControl('');
 
-      idValidadorHemograma= new FormControl('');
-      idValidadorPerfilBioquimico=new FormControl('');
-      idValidadorPruebasDeCoagulacion= new FormControl('');
+      idValidadorHemograma= new UntypedFormControl('');
+      idValidadorPerfilBioquimico=new UntypedFormControl('');
+      idValidadorPruebasDeCoagulacion= new UntypedFormControl('');
 
-      agregaFicha: FormGroup = new FormGroup({
+      agregaFicha: UntypedFormGroup = new UntypedFormGroup({
                     idCliente: this.idCliente,
                     idEmpresa: this.idEmpresa,
+                    rutPropietario: this.rutPropietario,
                     nombrePropietario: this.nombrePropietario,
                     nombrePaciente: this.nombrePaciente,
                     idEspecie: this.idEspecie,
@@ -169,9 +175,9 @@ export class AgregaFichaComponent implements OnInit {
                     if (campo === 'idEmpresa'){
                       return this.idEmpresa.hasError('required') ? 'Debes Seleccionar Laboratorio' : '';
                     }
-                    if (campo === 'nombrePropietario'){
+                  /*  if (campo === 'nombrePropietario'){
                       return this.nombrePropietario.hasError('required') ? 'Debes ingresar Nombre Propietario' : '';
-                    }
+                    }*/
                     if (campo === 'nombrePaciente'){
                       return this.nombrePaciente.hasError('required') ? 'Debes ingresar Nombre Paciente' : '';
                     }
@@ -449,6 +455,43 @@ export class AgregaFichaComponent implements OnInit {
       return;
     }
 
+    cargaPropietarioRut(rutPropietario:string){
+      let nombrePropietario:string;
+      this.propietarioService
+      .getDataPropietarioRut(rutPropietario)
+      .subscribe(res => {
+
+        if (res['data'].length!=0){
+          console.log('encontro propietario:', res['data']);
+          nombrePropietario=res['data'][0].nombres
+          console.log('nombre:',nombrePropietario);
+          if(res['data'][0].apellidoPaterno!='.')
+            nombrePropietario=nombrePropietario + " " + res['data'][0].nombrePropietario
+
+          if(res['data'][0].apellidoMaterno!='.')
+            nombrePropietario=nombrePropietario + " " + res['data'][0].nombreMropietario
+
+          this.agregaFicha.get('nombrePropietario')!.setValue(nombrePropietario);
+          this.agregaFicha.controls['nombrePropietario'].disable()
+        }
+        else{
+          this.agregaFicha.controls['nombrePropietario'].enable()
+          this.agregaFicha.get('nombrePropietario')!.setValue("");
+        }
+      //  this.datoRaza = res['data'] as any[];
+      },
+      // console.log('yo:', res as PerfilI[]),
+      error => {
+        console.log('error carga:', error);
+       Swal.fire(
+        'ERROR INESPERADO',
+        error,
+       'error'
+      );
+      }
+    ); // (this.dataSource.data = res as PerfilI[])
+    }
+
     async chkHemograma(event:boolean){
       console.log('valor chk:',event);
       this.flagHemograma=event;
@@ -567,7 +610,9 @@ export class AgregaFichaComponent implements OnInit {
             codigoExamen: examenEncontrado.codigoExamen,
             codigoInterno: examenEncontrado.codigoInterno,
             nombre: examenEncontrado.nombre,
-            nombreExamen: examenEncontrado.nombreExamen
+            nombreExamen: examenEncontrado.nombreExamen,
+            precioValor: examenEncontrado.precio,
+            precioValorFinal: examenEncontrado.precio
           }
 
           if( UsuarioIngresado._id!=undefined){
@@ -673,6 +718,7 @@ export class AgregaFichaComponent implements OnInit {
         this.datoFicha = {
           fichaC: {
                 cliente: this.cliente,
+                rutPropietario: this.agregaFicha.get('rutPropietario')!.value,
                 nombrePropietario: this.agregaFicha.get('nombrePropietario')!.value,
                 nombrePaciente: this.agregaFicha.get('nombrePaciente')!.value,
                 edadPaciente: this.agregaFicha.get('edad')!.value,
@@ -688,6 +734,10 @@ export class AgregaFichaComponent implements OnInit {
 
         empresa: empresa_,
         ingresadoPor:this.IIngresadoPor,
+        facturacion:{
+          fechaFacturacion:new Date('01/01/1900 00:00:00'),
+          fechaPagoFacturacion:new Date('01/01/1900 00:00:00'),
+        },
         estadoFicha: this.estadoFicha_,
         usuarioCrea_id: this.usuario,
         usuarioModifica_id: this.usuario,
@@ -781,5 +831,14 @@ export class AgregaFichaComponent implements OnInit {
       );
   }
     // Error handling
+
+    onBlurRutPropietario(event: any){
+      const rut = event.target.value;
+
+      if (validateRut(rut) === true){
+        this.agregaFicha.get('rutPropietario')!.setValue(formatRut(rut, RutFormat.DOTS_DASH));
+         this.cargaPropietarioRut(this.agregaFicha.get('rutPropietario')!.value)
+      }
+    }
 
 }

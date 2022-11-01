@@ -12,6 +12,7 @@ export class ConsultaFichaVetComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit(): void {
+    console.log('dato vet ficha:',this.data)
   }
 
 }

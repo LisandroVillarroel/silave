@@ -1,6 +1,6 @@
 import { IEspecie } from './../../../../modelo/especie-interface';
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { IRaza } from './../../../../modelo/raza-interface';
 import { RazaService } from './../../../../servicios/raza.service';
@@ -14,7 +14,7 @@ import { EspecieService } from '@app/servicios/especie.service';
 })
 export class ModificaRazaComponent implements OnInit {
 
-    form!: FormGroup;
+    form!: UntypedFormGroup;
 
 
     _dato!: IRaza;
@@ -30,10 +30,10 @@ export class ModificaRazaComponent implements OnInit {
                   this.cargaEspecie(data);
     }
 
-    idEspecie= new FormControl(this.data.razaPar.especieNombre, [Validators.required]);
-    nombre = new FormControl(this.data.razaPar.nombre, [Validators.required]);
+    idEspecie= new UntypedFormControl(this.data.razaPar.especieNombre, [Validators.required]);
+    nombre = new UntypedFormControl(this.data.razaPar.nombre, [Validators.required]);
 
-    modifica: FormGroup = new FormGroup({
+    modifica: UntypedFormGroup = new UntypedFormGroup({
       idEspecie: this.idEspecie,
       nombre: this.nombre
       });

@@ -4,8 +4,9 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:3000'
- // apiUrl: 'https://mcvet.herokuapp.com'
+  apiUrl: 'http://localhost:3000',
+  urlFront:'localhost:4200'
+ //apiUrl: 'https://silave.herokuapp.com'
 };
 
 /*

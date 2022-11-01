@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 //import { RutService } from 'rut-chileno';
@@ -21,7 +21,7 @@ import { ImagenesService } from '@app/servicios/imagenes.service';
 })
 export class AgregaExamenComponent implements OnInit {
 
-  form!: FormGroup;
+  form!: UntypedFormGroup;
   usuario: string;
   dato!: IExamen;
   resultado!:IResultado;
@@ -51,13 +51,13 @@ export class AgregaExamenComponent implements OnInit {
                this.usuario = data.usuario;
     }
 
-    codigoExamen = new FormControl('', [Validators.required]);
-    nombre = new FormControl('', [Validators.required]);
-    sigla = new FormControl('', [Validators.required]);
-    precio = new FormControl('', [Validators.required]);
-    codigoInterno = new FormControl('', [Validators.required]);
+    codigoExamen = new UntypedFormControl('', [Validators.required]);
+    nombre = new UntypedFormControl('', [Validators.required]);
+    sigla = new UntypedFormControl('', [Validators.required]);
+    precio = new UntypedFormControl('', [Validators.required]);
+    codigoInterno = new UntypedFormControl('', [Validators.required]);
 
-    agregaExamen: FormGroup = new FormGroup({
+    agregaExamen: UntypedFormGroup = new UntypedFormGroup({
       codigoExamen: this.codigoExamen,
       nombre: this.nombre,
       sigla: this.sigla,

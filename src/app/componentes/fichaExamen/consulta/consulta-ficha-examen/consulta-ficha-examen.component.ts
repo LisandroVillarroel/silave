@@ -13,7 +13,7 @@ import { FichaService } from '@app/servicios/ficha.service';
 import { AuthenticationService } from '@app/autentica/_services';
 
 import {saveAs} from 'file-saver';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
 
 const today = new Date();
@@ -55,20 +55,24 @@ export class ConsultaFichaExamenComponent implements OnInit {
           this.authenticationService.currentUsuario.subscribe(x => this.currentUsuario = x);
           this.dataSource = new MatTableDataSource<IFicha>();
 
+          this.dataSource.filterPredicate = (data: any, filter) => {
+            const dataStr =JSON.stringify(data).toLowerCase();
+            return dataStr.indexOf(filter) != -1;
+          }
       }
 
 
-      start = new FormControl(new Date(ano, mes, dia), [Validators.required]);
-      end = new FormControl(new Date(ano, mes, dia), [Validators.required]);
+      start = new UntypedFormControl(new Date(ano, mes, dia), [Validators.required]);
+      end = new UntypedFormControl(new Date(ano, mes, dia), [Validators.required]);
 
 
 
-      range  = new FormGroup({
+      range  = new UntypedFormGroup({
         start: this.start,
         end: this.end,
       });
 
-    ngOnInit() {
+    async ngOnInit() {
         console.log('pasa ficha 1');
         if (this.authenticationService.getCurrentUser() != null) {
           this.currentUsuario.usuarioDato = this.authenticationService.getCurrentUser() ;
@@ -81,7 +85,17 @@ export class ConsultaFichaExamenComponent implements OnInit {
 
         fechaInicio=moment(fechaInicio).format('YYYY-MM-DDT00:00:00.000') + 'Z';
         fechaFin=moment(fechaFin).format('YYYY-MM-DDT23:59:59.000') + 'Z'
-        this.getListFicha(fechaInicio,fechaFin);
+        await this.getListFicha(fechaInicio,fechaFin);
+
+        this.dataSource.sortingDataAccessor = (item:any, property:any) => {
+          switch(property) {
+            case 'fichaC.numeroFicha': return item.fichaC.numeroFicha;
+            case 'fichaC.cliente.nombreFantasia':return item.fichaC.cliente.nombreFantasia;
+            case 'fichaC.nombrePaciente': return item.fichaC.nombrePaciente;
+            case 'fichaC.examen.nombre': return item.fichaC.examen.nombre;
+            default: return item[property];
+          }
+        };
       }
 
     getListFicha(fechaInicio:string,fechaFin:string): void {

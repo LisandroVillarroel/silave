@@ -8,6 +8,7 @@ export interface IFicha {
     id_Ficha?: string;
     numeroFicha?: string;
     cliente?:IFichaCliente;
+    rutPropietario?: string;
     nombrePropietario?: string;
     nombrePaciente?: string;
     edadPaciente?: string;
@@ -26,11 +27,14 @@ export interface IFicha {
     perfilBioquimico?:IPerfilBioquimico;
     pruebasDeCoagulacion?: IPruebasDeCoagulacion;
   };
+
+
   datoArchivo?:IdatoArchivo;
 
   usuarioAsignado?:IFichaUsuarioAsignado;
   empresa?: IFichaEmpresa;
   ingresadoPor?:IIngresadoPor;
+  facturacion?:IFacturacion;
   estadoFicha?:string;
   usuarioCrea_id?: string;
   usuarioModifica_id?: string;
@@ -41,6 +45,7 @@ export interface IFicha {
   fechaHora_envia_modifica?:Date;
   fechaHora_recepciona_crea?: Date;
   estado?: string;
+
 }
 export interface IFichaCliente {
   idCliente?:string;
@@ -56,6 +61,8 @@ export interface IFichaExamen {
   codigoInterno: string;
   nombre: string;
   nombreExamen?: string;
+  precioValor?: string;
+  precioValorFinal?: string;
 }
 
 
@@ -112,4 +119,10 @@ export interface IFichaValidador{
   telefono:string;
   profesion:string;
   nombreFirma?:string;
+}
+
+export interface IFacturacion{
+estadoFacturacion?:string;
+fechaFacturacion?:Date;
+fechaPagoFacturacion?:Date;
 }

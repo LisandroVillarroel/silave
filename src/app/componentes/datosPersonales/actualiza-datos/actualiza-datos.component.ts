@@ -1,5 +1,5 @@
   import { Component, OnInit, Inject } from '@angular/core';
-  import { FormGroup, FormControl, Validators } from '@angular/forms';
+  import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
   import { formatRut, RutFormat, validateRut } from "@fdograph/rut-utilities";
 
   import { IUsuario } from '@app/modelo/usuario-interface';
@@ -17,7 +17,7 @@ import { JwtResponseI } from '@app/autentica/_models';
   })
   export class ActualizaDatosComponent implements OnInit {
 
-    form!: FormGroup;
+    form!: UntypedFormGroup;
 
     currentUsuario!: JwtResponseI;
 
@@ -47,16 +47,16 @@ import { JwtResponseI } from '@app/autentica/_models';
                   this.getListUsuario();
     }
 
-    rutUsuario = new FormControl('', [Validators.required, this.validaRut]);
+    rutUsuario = new UntypedFormControl('', [Validators.required, this.validaRut]);
 
-    nombres = new FormControl('', [Validators.required]);
-    apellidoPaterno = new FormControl('', [Validators.required]);
-    apellidoMaterno = new FormControl('', [Validators.required]);
-    email = new FormControl('', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]);
-    telefono = new FormControl('', [Validators.required]);
-    direccion = new FormControl('', [Validators.required]);
+    nombres = new UntypedFormControl('', [Validators.required]);
+    apellidoPaterno = new UntypedFormControl('', [Validators.required]);
+    apellidoMaterno = new UntypedFormControl('', [Validators.required]);
+    email = new UntypedFormControl('', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]);
+    telefono = new UntypedFormControl('', [Validators.required]);
+    direccion = new UntypedFormControl('', [Validators.required]);
 
-    modificaUsuario: FormGroup = new FormGroup({
+    modificaUsuario: UntypedFormGroup = new UntypedFormGroup({
 
       rutUsuario: this.rutUsuario,
       nombres: this.nombres,
@@ -176,7 +176,7 @@ import { JwtResponseI } from '@app/autentica/_models';
     // Error handling
 
 
-    validaRut(control: FormControl): {[s: string]: boolean} {
+    validaRut(control: UntypedFormControl): {[s: string]: boolean} {
       // let out1_rut = this.rutService.getRutChile(0, '12514508-6');
       if (validateRut(control.value) === false){
           return {rutInvalido: true};

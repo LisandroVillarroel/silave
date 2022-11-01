@@ -2,7 +2,7 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { ChangeDetectorRef, Component, OnDestroy,Input, OnInit } from '@angular/core';
 //import { IConsultaLoginPerfil, IInicio, IMenuLateral } from '@app/interface/inicio';
 import { Location } from '@angular/common';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { TooltipPosition } from '@angular/material/tooltip';
 
 import {MenuItem} from './../../modelo/menu-interface';
@@ -24,7 +24,7 @@ export class MenuMatComponent implements OnDestroy,OnInit {
 
   positionOptions: TooltipPosition[] = ['below', 'above', 'left', 'right'];
 
-  position = new FormControl(this.positionOptions[0]);
+  position = new UntypedFormControl(this.positionOptions[0]);
 
   currentUsuario!: JwtResponseI;
 

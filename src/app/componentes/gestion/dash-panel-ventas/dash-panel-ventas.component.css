@@ -1,0 +1,53 @@
+.grid-container {
+  margin: 20px;
+}
+
+.dashboard-card {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  right: 15px;
+  bottom: 15px;
+}
+
+.dashboard-card_1 {
+  position: absolute;
+  top: 0px;
+  left: 15px;
+  right: 15px;
+  bottom: 15px;
+  height: 550px;
+  margin-bottom: 10px;
+}
+
+.more-button {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+}
+
+.dashboard-card-content_1 {
+  text-align: center;
+    width: 100%;
+    height:  550px;
+
+}
+
+.dashboard-card-content {
+  text-align: center;
+    width: 100%;
+    height: calc(100% - 30px);
+
+}
+
+.myGridList {
+  height: 100%;
+}
+
+.example-month-picker .mat-calendar-period-button {
+  pointer-events: none;
+}
+
+.example-month-picker .mat-calendar-arrow {
+  display: none;
+}

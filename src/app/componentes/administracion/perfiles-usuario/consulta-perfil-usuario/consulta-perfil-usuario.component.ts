@@ -10,7 +10,7 @@ import { MenuService } from "@app/servicios/menu.service";
 import { AuthenticationService } from "@app/autentica/_services";
 import Swal from "sweetalert2";
 
-import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
+import {AbstractControl, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
 import { formatRut, RutFormat, validateRut } from "@fdograph/rut-utilities";
 import { UsuarioLabService } from '@app/servicios/usuario-lab.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -33,7 +33,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class ConsultaPerfilUsuarioComponent implements  OnInit  {
 
 
-  tipoPermiso = new FormControl('', Validators.required);
+  tipoPermiso = new UntypedFormControl('', Validators.required);
 
   currentUsuario!: JwtResponseI;
 
@@ -51,14 +51,14 @@ export class ConsultaPerfilUsuarioComponent implements  OnInit  {
   /*fin tree*/
 
 
-  secondFormGroup!: FormGroup;
+  secondFormGroup!: UntypedFormGroup;
 
   constructor(private dialogRef: MatDialogRef<ConsultaPerfilUsuarioComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private menuService:MenuService,
     private usuarioLabService: UsuarioLabService,
     private authenticationService:AuthenticationService,
-    private _formBuilder: FormBuilder) {
+    private _formBuilder: UntypedFormBuilder) {
 
       this.datoUsuarioPar = data;
       console.log('data:',this.datoUsuarioPar);
