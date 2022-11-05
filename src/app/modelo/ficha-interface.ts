@@ -35,7 +35,7 @@ export interface IFicha {
   empresa?: IFichaEmpresa;
   ingresadoPor?:IIngresadoPor;
   facturacion?:IFacturacion;
-  estadoFicha?:string;
+  estadoFicha?:string;   // Laboratorio: Ingresado-Enviado  - Recepcionado(Después que lo Solicita Veterinario)  Veterinario: Solicitado
   usuarioCrea_id?: string;
   usuarioModifica_id?: string;
   usuarioEnviaCrea_id?: string;
@@ -123,6 +123,7 @@ export interface IFichaValidador{
 
 export interface IFacturacion{
 estadoFacturacion?:string;
+numFactura?:number;
 fechaFacturacion?:Date;
 fechaPagoFacturacion?:Date;
 }

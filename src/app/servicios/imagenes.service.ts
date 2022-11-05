@@ -7,7 +7,7 @@ import { IResultado } from '@app/modelo/examen-interface';
 })
 export class ImagenesService {
 
-  public url_servidor =  "http://localhost/silavePhp/";
+  public url_servidor =  "http://localhost/";
 	public url_servidor2 =  "./../../../";
 
 
@@ -16,7 +16,7 @@ export class ImagenesService {
 	uploadFile(archivo:any) {
     console.log('foto arch:',archivo);
     console.log('ruta:',this.url_servidor);
-		return this.http.post<IResultado>('/src/silavePhp/subeArchivo.php', JSON.stringify(archivo));
+		return this.http.post<IResultado>(`${this.url_servidor}src/silavePhp/subeArchivo.php`, JSON.stringify(archivo));
 
   }
 

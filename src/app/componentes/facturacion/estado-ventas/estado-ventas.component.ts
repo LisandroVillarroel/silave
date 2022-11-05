@@ -11,14 +11,16 @@ import {MatDialog, MatDialogRef, MatDialogConfig} from '@angular/material/dialog
 
 import Swal from 'sweetalert2';
 
-import { AuthenticationService } from '../../..//autentica/_services';
-import { JwtResponseI } from './../../../autentica/_models';
-import { IFicha } from './../../../modelo/ficha-interface';
-import { FichaService } from './../../../servicios/ficha.service';
+
 
 import { EmpresaService } from '@app/servicios/empresa.service';
 import { ClienteService } from '@app/servicios/cliente.service';
 import { ICliente } from '@app/modelo/cliente-interface';
+import { FacturacionService } from '@app/servicios/facturacion.service';
+import { IFicha } from '@app/modelo/ficha-interface';
+import { JwtResponseI } from '@app/autentica/_models';
+import { AuthenticationService } from '@app/autentica/_services';
+import { AsignaFacturacionComponent } from './asigna-facturacion/asigna-facturacion.component';
 
 
 @Component({
@@ -36,14 +38,14 @@ export class EstadoVentasComponent implements OnInit {
    // id: string;
 
     // tslint:disable-next-line:max-line-length
-    displayedColumns: string[] = ['index', 'fichaC.numeroFicha','fichaC.cliente.nombreFantasia', 'fichaC.nombrePaciente', 'fichaC.examen.nombre', 'fechaHora_crea', 'facturacion.estadoFacturacion', 'fichaC.examen.precioValor','fichaC.examen.precioValorFinal','opciones'];
+    displayedColumns: string[] = ['index', 'fichaC.numeroFicha','fichaC.cliente.nombreFantasia', 'fichaC.examen.nombre', 'fechaHora_crea', 'facturacion.estadoFacturacion', 'fichaC.examen.precioValor','fichaC.examen.precioValorFinal','opciones'];
     dataSource: MatTableDataSource<IFicha>;
 
     @ViewChild(MatPaginator ) paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;
 
 
-  constructor(private fichaService: FichaService,
+  constructor(private facturacionService: FacturacionService,
               private empresaService: EmpresaService,
               private clienteService: ClienteService,
               public httpClient: HttpClient,
@@ -66,51 +68,24 @@ export class EstadoVentasComponent implements OnInit {
       if (this.authenticationService.getCurrentUser() != null) {
         this.currentUsuario.usuarioDato = this.authenticationService.getCurrentUser() ;
       }
-      await this.getListFicha();
-      await this.getEmpresa();
-      await this.listaVeterinarias();
+      await this.getListFacturaFicha();
 
       this.dataSource.sortingDataAccessor = (item:any, property:any) => {
         switch(property) {
           case 'fichaC.numeroFicha': return item.fichaC.numeroFicha;
           case 'fichaC.cliente.nombreFantasia':return item.fichaC.cliente.nombreFantasia;
-          case 'fichaC.nombrePaciente': return item.fichaC.nombrePaciente;
           case 'fichaC.examen.nombre': return item.fichaC.examen.nombre;
           default: return item[property];
         }
       };
     }
 
-  listaVeterinarias(){
-    this.clienteService
-    .getDataCliente(this.currentUsuario.usuarioDato.empresa.empresa_Id)
-    .subscribe((res) => {
-      console.log('cliente2: ', res['data'] as ICliente[]);
-/*
-      for(let a=0; a<this.datoClienteEmpresa.length; a++){
 
-           this.datoClienteEmpresa![a].empresa = this.datoClienteEmpresa![a].empresa!.filter(x=> x.empresa_Id === this.currentUsuario.usuarioDato.empresa.empresa_Id)
 
-      }
-*/
-
-    },
-    // console.log('yo:', res as PerfilI[]),
-    error => {
-      console.log('error carga:', error);
-      Swal.fire(
-        'ERROR INESPERADO',
-        error.error.error,
-       'error'
-     );
-    }
-  );
-  }
-
-  getListFicha(): void {
+  getListFacturaFicha(): void {
       console.log('pasa ficha 2');
-      this.fichaService
-        .getDataFicha(this.currentUsuario.usuarioDato.empresa.empresa_Id,'Enviado,Pendiente',this.currentUsuario.usuarioDato._id,'Laboratorio')
+      this.facturacionService
+        .getDataFichaFactura(this.currentUsuario.usuarioDato.empresa.empresa_Id,'Pendiente',this.currentUsuario.usuarioDato._id,'Laboratorio')
         .subscribe(res => {
           console.log('fichaaaaaa: ', res);
           this.dataSource.data = res['data'] as any[];
@@ -127,25 +102,6 @@ export class EstadoVentasComponent implements OnInit {
       ); // (this.dataSource.data = res as PerfilI[])
     }
 
-    getEmpresa(): void {
-      console.log('pasa ficha 2');
-      this.empresaService
-        .getDataEmpresa(this.currentUsuario.usuarioDato.empresa!.empresa_Id)
-        .subscribe(res => {
-          this.datoEmpresa = res['data'][0] as IEmpresa;
-          console.log('empresaaaa:',this.datoEmpresa)
-        },
-        // console.log('yo:', res as PerfilI[]),
-        error => {
-          console.log('error carga:', error);
-          Swal.fire(
-            'ERROR INESPERADO',
-            error,
-           'error'
-         );
-        }
-      ); // (this.dataSource.data = res as PerfilI[])
-    }
 
     // tslint:disable-next-line: use-lifecycle-interface
     ngAfterViewInit(): void {
@@ -172,7 +128,7 @@ export class EstadoVentasComponent implements OnInit {
      // this.dataSource.paginator._changePageSize(this.paginator.pageSize);
      // this.noticia=this.servicio.getNoticias();
 
-     this.getListFicha();
+     this.getListFacturaFicha();
      this.dataSource.paginator!._changePageSize(this.paginator.pageSize);
     }
 
@@ -180,9 +136,33 @@ export class EstadoVentasComponent implements OnInit {
 
     }
 
+    asignaFacturacion(){
+      const dialogConfig = new MatDialogConfig();
+
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      dialogConfig.width = '95%';
+      dialogConfig.height = '90%';
+      dialogConfig.position = { top : '2%'};
+      dialogConfig.data = {usuario: this.currentUsuario.usuarioDato._id};
+    //  dialogConfig.data = {
+    //    idProducto: idProdP,
+    //    titulo: tituloP
+    //  };
+
+
+      this.dialog.open(AsignaFacturacionComponent, dialogConfig)
+      .afterClosed().subscribe(
+       data => {console.log('Dialog output3333:', data);
+                if (data === 1) {
+                    this.refreshTable();
+                }
+        }
+      );
+    }
+
     actualizaFicha(){}
 
     consultaFicha(){}
 
-    eliminaCliente(){}
   }

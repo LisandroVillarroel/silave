@@ -1,0 +1,127 @@
+<h2 mat-dialog-title>ASIGNA FACTURACIÓN</h2>
+
+<div class="row justify-content-end">
+  <div class="col-md-2 ">
+    <button mat-raised-button  class="colorFondoBotonCancelar" mat-dialog-close>CANCELAR</button>
+  </div>
+</div>
+
+  <div class="row">
+    <div class="col-md-5">
+        <h4 class="text-center">Pendiente</h4>
+
+
+      <div class="content ml-2 mr-2">
+        <mat-form-field>
+          <input matInput (keyup)="applyFilter($event)" placeholder="Buscar">
+        </mat-form-field>
+
+        <div class="mat-elevation-z8">
+
+          <table #sort="matSort" mat-table [dataSource]="dataSource" multiTemplateDataRows matSort>
+
+            <!-- ID Index -->
+            <ng-container matColumnDef="index">
+                <th id='indexI' mat-header-cell *matHeaderCellDef mat-sort-header style=' width: 3%;'> N° </th>
+                <td mat-cell *matCellDef="let row; let i = dataIndex;"style=' width: 3%;'> {{(i+1) + (paginator.pageIndex * paginator.pageSize)}} </td>
+              </ng-container>
+
+            <!-- ID Column -->
+            <ng-container matColumnDef="fichaC.numeroFicha">
+              <th id='numeroFichaI' mat-header-cell *matHeaderCellDef mat-sort-header style=' width: 15%;'>N° FICHA</th>
+              <td mat-cell *matCellDef="let row"style=' width: 15%;'> {{row.fichaC.numeroFicha}} </td>
+            </ng-container>
+
+
+            <ng-container matColumnDef="fichaC.examen.nombre">
+              <th id='examen.nombreI' mat-header-cell *matHeaderCellDef mat-sort-header style=' width: 25%;'> EXÁMEN </th>
+              <td mat-cell *matCellDef="let row" style=' width: 25%;'> {{row.fichaC.examen.nombre}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="fechaHora_crea">
+              <th id='fechaHora_creaI' mat-header-cell *matHeaderCellDef mat-sort-header style=' width: 17%;'> FECHA INGRESO </th>
+              <td mat-cell *matCellDef="let row" style=' width: 17%;'> {{row.fechaHora_crea | date:'dd-MM-yyyy'}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="fichaC.examen.precioValor">
+              <th id='precioValorI' mat-header-cell *matHeaderCellDef mat-sort-header style=' width: 20%;'> VALOR </th>
+              <td mat-cell *matCellDef="let row" style=' width: 20%;'> ${{row.fichaC.examen.precioValor | number}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="fichaC.examen.precioValorFinal">
+              <th id='precioValorFinalI' mat-header-cell *matHeaderCellDef mat-sort-header style=' width: 20%;'> VALOR FINAL</th>
+              <td mat-cell *matCellDef="let row" style=' width: 20%;'> ${{row.fichaC.examen.precioValorFinal | number}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row (click)="agregaFacturado(row)" *matRowDef="let row; columns: displayedColumns;" class="example-element-row"></tr>
+
+          </table>
+
+          <mat-paginator #paginator="matPaginator" [pageSizeOptions]="[10, 20, 30, 100]"></mat-paginator>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-2">
+
+    </div>
+
+
+    <div class="col-md-5">
+      <h4 class="text-center">Facturado</h4>
+
+
+    <div class="content ml-2 mr-2">
+      <mat-form-field>
+        <input matInput (keyup)="applyFilterFacturado($event)" placeholder="Buscar">
+      </mat-form-field>
+
+      <div class="mat-elevation-z8">
+
+        <table #sortFacturado="matSort" mat-table [dataSource]="dataSourceFacturado" multiTemplateDataRows matSort>
+
+          <!-- ID Index -->
+          <ng-container matColumnDef="index">
+              <th id='indexI' mat-header-cell *matHeaderCellDef mat-sort-header style=' width: 3%;'> N° </th>
+              <td mat-cell *matCellDef="let row; let i = dataIndex;"style=' width: 3%;'> {{(i+1) + (paginatorFacturado.pageIndex * paginatorFacturado.pageSize)}} </td>
+            </ng-container>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="fichaC.numeroFicha">
+            <th id='numeroFichaI' mat-header-cell *matHeaderCellDef mat-sort-header style=' width: 15%;'>N° FICHA</th>
+            <td mat-cell *matCellDef="let row"style=' width: 15%;'> {{row.fichaC.numeroFicha}} </td>
+          </ng-container>
+
+
+          <ng-container matColumnDef="fichaC.examen.nombre">
+            <th id='examen.nombreI' mat-header-cell *matHeaderCellDef mat-sort-header style=' width: 25%;'> EXÁMEN </th>
+            <td mat-cell *matCellDef="let row" style=' width: 25%;'> {{row.fichaC.examen.nombre}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="fechaHora_crea">
+            <th id='fechaHora_creaI' mat-header-cell *matHeaderCellDef mat-sort-header style=' width: 17%;'> FECHA INGRESO </th>
+            <td mat-cell *matCellDef="let row" style=' width: 17%;'> {{row.fechaHora_crea | date:'dd-MM-yyyy'}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="fichaC.examen.precioValor">
+            <th id='precioValorI' mat-header-cell *matHeaderCellDef mat-sort-header style=' width: 20%;'> VALOR </th>
+            <td mat-cell *matCellDef="let row" style=' width: 20%;'> ${{row.fichaC.examen.precioValor | number}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="fichaC.examen.precioValorFinal">
+            <th id='precioValorFinalI' mat-header-cell *matHeaderCellDef mat-sort-header style=' width: 20%;'> VALOR FINAL</th>
+            <td mat-cell *matCellDef="let row" style=' width: 20%;'> ${{row.fichaC.examen.precioValorFinal | number}} </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsFacturado"></tr>
+          <tr mat-row (click)="eliminaFacturado(row)" *matRowDef="let row; columns: displayedColumnsFacturado;" class="example-element-row"></tr>
+        </table>
+
+        <mat-paginator #paginatorFacturado="matPaginator" [pageSizeOptions]="[10, 20, 30, 100]"></mat-paginator>
+
+      </div>
+    </div>
+  </div>
+</div>

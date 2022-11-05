@@ -1,7 +1,7 @@
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID, DEFAULT_CURRENCY_CODE } from '@angular/core';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -139,7 +139,8 @@ import { BarraExamenesComponent } from './componentes/gestion/dash-panel-ventas/
 import { BarraDiasComponent } from './componentes/gestion/dash-panel-ventas/barra-dias/barra-dias.component';
 import { BarraGeneralComponent } from './componentes/gestion/dash-panel-ventas/barra-general/barra-general.component';
 import { BarraVeterinariaComponent } from './componentes/gestion/dash-panel-ventas/barra-veterinaria/barra-veterinaria.component';
-import { EstadoVentasComponent } from './componentes/controVentas/estado-ventas/estado-ventas.component';
+import { EstadoVentasComponent } from './componentes/facturacion/estado-ventas/estado-ventas.component';
+import { AsignaFacturacionComponent } from './componentes/facturacion/estado-ventas/asigna-facturacion/asigna-facturacion.component';
 registerLocaleData(localeFr, 'es', localeFrExtra);
 
 @NgModule({
@@ -243,7 +244,8 @@ registerLocaleData(localeFr, 'es', localeFrExtra);
         BarraDiasComponent,
         BarraGeneralComponent,
         BarraVeterinariaComponent,
-        EstadoVentasComponent
+        EstadoVentasComponent,
+        AsignaFacturacionComponent
     ],
     imports: [
         BrowserModule,
@@ -274,6 +276,8 @@ registerLocaleData(localeFr, 'es', localeFrExtra);
         fakeBackendProvider,
         RutValidator
     ],
+
+
     bootstrap: [AppComponent]
 })
 export class AppModule { }

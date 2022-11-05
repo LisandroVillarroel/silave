@@ -25,7 +25,7 @@ import { ConsultaFichaExamenVetComponent } from './componentes/veterinaria/ficha
 import { DoctorSolicitanteVetComponent } from './componentes/veterinaria/mantenedores/doctor-solicitante-vet/doctor-solicitante-vet.component';
 import { ValidadoresComponent } from './componentes/mantenedores/validadores/validadores.component';
 import { DashPanelVentasComponent } from './componentes/gestion/dash-panel-ventas/dash-panel-ventas.component';
-import { EstadoVentasComponent } from './componentes/controVentas/estado-ventas/estado-ventas.component';
+import { EstadoVentasComponent } from './componentes/facturacion/estado-ventas/estado-ventas.component';
 
 
 const routes: Routes = [

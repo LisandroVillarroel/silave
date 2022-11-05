@@ -22,7 +22,7 @@ mat-dialog-container {
   /*Fin Ventanad modal AngularMaterial*/
 
   /* Mantenedores Material*/
-  /*Titulo Mantenedores principales*/
+  /*Titulo Mantenedores Tablas principales*/
   .content {
     min-height: calc(100vh - 98px); /* largo de pantalla*/
 
@@ -36,15 +36,15 @@ mat-dialog-container {
     color: #323131;
     padding: 0 1px !important;
   }
-  /*Fin Titulo Mantenedores principales*/
-    /* Titulos Mantenedores*/
+  /*Fin Titulo Mantenedores Tablas principales*/
+    /* Titulos Mantenedores secundarios */
   .mat-dialog-title{
     color: black !important;
     background-color: #118383 !important;
     font-size: 14px!important;
     text-align: center;
   }
-  /* Fin Titulos Mantenedores*/
+  /* Fin Titulos Mantenedores Secundarios*/
 
   td.mat-cell:last-of-type{
     padding-right: 0px;
@@ -87,6 +87,7 @@ mat-dialog-container {
     font-size: 18px !important;
 
   }
+
 /*iconos de tabla*/
   button.mat-accent{
     color:#dced4f !important;;
@@ -97,7 +98,27 @@ mat-dialog-container {
   button.mat-accent.nuevo:hover{
     color:white !important;
   }
+    /*Botones Cabecera*/
+    button.mat-accent.cabecera{
+      color:#056841 !important;;
+    }
+    button.mat-accent.cabecera:hover{
+      color:#4d9951 !important;
+    }
+    /*Botones Cabecera*/
+
   /* Fin Mantenedores Material*/
+    /*Icono Cabecera*/
+    .porteIconoCabecera {
+      font-size: 50px !important;
+    }
+
+    /*Color info*/
+    .tooltip-color {
+      background: #414040;
+    }
+    /*Fin Color info*/
+  /*Fin Icono Cabecera*/
 
   /*Agregar Material*/
   .mat-toolbar-row, .mat-toolbar-single-row {

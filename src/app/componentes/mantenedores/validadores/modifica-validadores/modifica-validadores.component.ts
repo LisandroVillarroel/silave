@@ -57,7 +57,7 @@ export class ModificaValidadoresComponent implements OnInit {
       this.imagen=this.imagen+ this.currentUsuario.usuarioDato.empresa.rutEmpresa+'/'+data?.nombreFirma  // agregar a estructura data.nomreArchivo
     }
 
-
+    console.log('firma:',data?.nombreFirma);
     console.log('imegen:',this.imagen)
   }
 
